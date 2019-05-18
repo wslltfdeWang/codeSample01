@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsSettletransportChargeSVMapper">
+    <select id="selectPmsSendcarLineStatistics"
+            parameterType="com.foreveross.vds.dto.fms.FmsSettletransportChargeLVRequest"
+            resultType="com.foreveross.vds.vo.fms.FmsSettletransportChargeSV">
+        select
+          *
+        from
+        FMS_SETTLETRANSPORT_CHARGE_S_V
+        <where>
+            <!-- 送车交接单头ID -->
+            <if test="sendcarHeaderId != null">
+                and SENDCAR_HEADER_ID = #{sendcarHeaderId}
+            </if>
+            <!-- 车型大类 -->
+            <if test="carCategoryId != null">
+                and CAR_CATEGORY_ID = #{carCategoryId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getFmsSettletransportChargeSTotalFee" resultType="string">
+        select
+            sum(total_fee)
+        from
+          FMS_SETTLETRANSPORT_CHARGE_S_V
+        <where>
+            <!-- 送车交接单头ID -->
+            <if test="sendcarHeaderIds != null">
+                and SENDCAR_HEADER_ID IN
+                <foreach collection="sendcarHeaderIds" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsTransportSettledLineMapper" >
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsTransportSettledLine" >
+        <id column="TRANSPORT_SETTLED_LINE_ID" property="transportSettledLineId" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_SETTLED_HEADER_ID" property="transportSettledHeaderId" jdbcType="DECIMAL" />
+        <result column="SENDCAR_HEADER_ID" property="sendcarHeaderId" jdbcType="DECIMAL" />
+        <result column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
+        <result column="DISTANCE_LINE_ID" property="distanceLineId" jdbcType="DECIMAL" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="REJECT_REASON" property="rejectReason" jdbcType="VARCHAR" />
+        <result column="REJECT_FLAG" property="rejectFlag" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR" />
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        TRANSPORT_SETTLED_LINE_ID, TRANSPORT_SETTLED_HEADER_ID, SENDCAR_HEADER_ID, ORDER_NUMBER, 
+        DISTANCE_LINE_ID, AMOUNT, REJECT_REASON, REJECT_FLAG, CREATED_BY, 
+        CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, ATTRIBUTE1, 
+        ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, ATTRIBUTE8, 
+        ATTRIBUTE9, ATTRIBUTE10, ENABLE_FLAG
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from FMS.FMS_TRANSPORT_SETTLED_LINE
+        where TRANSPORT_SETTLED_LINE_ID = #{transportSettledLineId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from FMS.FMS_TRANSPORT_SETTLED_LINE
+        where TRANSPORT_SETTLED_LINE_ID = #{transportSettledLineId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledLine" >
+        insert into FMS.FMS_TRANSPORT_SETTLED_LINE (TRANSPORT_SETTLED_LINE_ID, TRANSPORT_SETTLED_HEADER_ID, 
+            SENDCAR_HEADER_ID, ORDER_NUMBER, 
+            DISTANCE_LINE_ID, AMOUNT, REJECT_REASON, 
+            REJECT_FLAG, CREATED_BY, CREATION_DATE, 
+            LAST_UPDATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, 
+            ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, 
+            ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, 
+            ATTRIBUTE7, ATTRIBUTE8, ATTRIBUTE9, 
+            ATTRIBUTE10)
+        values (#{transportSettledLineId,jdbcType=DECIMAL}, #{transportSettledHeaderId,jdbcType=DECIMAL}, 
+            #{sendcarHeaderId,jdbcType=DECIMAL}, #{orderNumber,jdbcType=DECIMAL},  
+            #{distanceLineId,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{rejectReason,jdbcType=VARCHAR}, 
+            #{rejectFlag,jdbcType=VARCHAR}, #{createdBy,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP}, 
+            #{lastUpdatedBy,jdbcType=DECIMAL}, #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdateLogin,jdbcType=VARCHAR}, 
+            #{attribute1,jdbcType=VARCHAR}, #{attribute2,jdbcType=VARCHAR}, #{attribute3,jdbcType=VARCHAR}, 
+            #{attribute4,jdbcType=VARCHAR}, #{attribute5,jdbcType=VARCHAR}, #{attribute6,jdbcType=VARCHAR}, 
+            #{attribute7,jdbcType=VARCHAR}, #{attribute8,jdbcType=VARCHAR}, #{attribute9,jdbcType=VARCHAR}, 
+            #{attribute10,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledLine" >
+    
+    	<selectKey keyProperty="transportSettledLineId" order="BEFORE" resultType="java.lang.Long">
+    		SELECT FMS.FMS_TRANSPORT_SETTLED_LINE.NEXTVAL FROM DUAL
+    	</selectKey>
+    
+        insert into FMS.FMS_TRANSPORT_SETTLED_LINE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="transportSettledLineId != null" >
+                TRANSPORT_SETTLED_LINE_ID,
+            </if>
+            <if test="transportSettledHeaderId != null" >
+                TRANSPORT_SETTLED_HEADER_ID,
+            </if>
+            <if test="sendcarHeaderId != null" >
+                SENDCAR_HEADER_ID,
+            </if>
+            <if test="orderNumber != null" >
+                ORDER_NUMBER,
+            </if>
+            <if test="distanceLineId != null" >
+                DISTANCE_LINE_ID,
+            </if>
+            <if test="amount != null" >
+                AMOUNT,
+            </if>
+            <if test="rejectReason != null" >
+                REJECT_REASON,
+            </if>
+            <if test="rejectFlag != null" >
+                REJECT_FLAG,
+            </if>
+            <if test="createdBy != null" >
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null" >
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null" >
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdateDate != null" >
+                LAST_UPDATE_DATE,
+            </if>
+            <if test="lastUpdateLogin != null" >
+                LAST_UPDATE_LOGIN,
+            </if>
+            <if test="attribute1 != null" >
+                ATTRIBUTE1,
+            </if>
+            <if test="attribute2 != null" >
+                ATTRIBUTE2,
+            </if>
+            <if test="attribute3 != null" >
+                ATTRIBUTE3,
+            </if>
+            <if test="attribute4 != null" >
+                ATTRIBUTE4,
+            </if>
+            <if test="attribute5 != null" >
+                ATTRIBUTE5,
+            </if>
+            <if test="attribute6 != null" >
+                ATTRIBUTE6,
+            </if>
+            <if test="attribute7 != null" >
+                ATTRIBUTE7,
+            </if>
+            <if test="attribute8 != null" >
+                ATTRIBUTE8,
+            </if>
+            <if test="attribute9 != null" >
+                ATTRIBUTE9,
+            </if>
+            <if test="attribute10 != null" >
+                ATTRIBUTE10,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="transportSettledLineId != null" >
+                #{transportSettledLineId,jdbcType=DECIMAL},
+            </if>
+            <if test="transportSettledHeaderId != null" >
+                #{transportSettledHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcarHeaderId != null" >
+                #{sendcarHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderNumber != null" >
+                #{orderNumber,jdbcType=DECIMAL},
+            </if>
+            <if test="distanceLineId != null" >
+                #{distanceLineId,jdbcType=DECIMAL},
+            </if>
+            <if test="amount != null" >
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectReason != null" >
+                #{rejectReason,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectFlag != null" >
+                #{rejectFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null" >
+                #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null" >
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null" >
+                #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null" >
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null" >
+                #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null" >
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null" >
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null" >
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null" >
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null" >
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null" >
+                #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null" >
+                #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null" >
+                #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null" >
+                #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null" >
+                #{attribute10,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledLine" >
+        update FMS.FMS_TRANSPORT_SETTLED_LINE
+        <set >
+            <if test="transportSettledHeaderId != null" >
+                TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcarHeaderId != null" >
+                SENDCAR_HEADER_ID = #{sendcarHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderNumber != null" >
+                ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+            </if>
+            <if test="distanceLineId != null" >
+                DISTANCE_LINE_ID = #{distanceLineId,jdbcType=DECIMAL},
+            </if>
+            <if test="amount != null" >
+                AMOUNT = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectReason != null" >
+                REJECT_REASON = #{rejectReason,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectFlag != null" >
+                REJECT_FLAG = #{rejectFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null" >
+                CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null" >
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null" >
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null" >
+                LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null" >
+                LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null" >
+                ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null" >
+                ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null" >
+                ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null" >
+                ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null" >
+                ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null" >
+                ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null" >
+                ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null" >
+                ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null" >
+                ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null" >
+                ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="enableFlag != null" >
+                ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where TRANSPORT_SETTLED_LINE_ID = #{transportSettledLineId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledLine" >
+        update FMS.FMS_TRANSPORT_SETTLED_LINE
+        set TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId,jdbcType=DECIMAL},
+            SENDCAR_HEADER_ID = #{sendcarHeaderId,jdbcType=DECIMAL},
+            ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+            DISTANCE_LINE_ID = #{distanceLineId,jdbcType=DECIMAL},
+            AMOUNT = #{amount,jdbcType=DECIMAL},
+            REJECT_REASON = #{rejectReason,jdbcType=VARCHAR},
+            REJECT_FLAG = #{rejectFlag,jdbcType=VARCHAR},
+            CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            ENABLE_FLAG = #{enableFlag,jdbcType=VARCHAR}
+        where TRANSPORT_SETTLED_LINE_ID = #{transportSettledLineId,jdbcType=DECIMAL}
+    </update>
+    
+    <select id="queryList" resultMap="BaseResultMap" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledLine">
+    	SELECT 
+    	<include refid="Base_Column_List"/>
+    	FROM FMS.FMS_TRANSPORT_SETTLED_LINE
+    </select>
+</mapper>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsSendcarFeeRelateMapper">
+  <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsSendcarFeeRelate">
+    <id column="SENDCAR_LINE_ID" jdbcType="DECIMAL" property="sendcarLineId" />
+    <result column="SENDCAR_FEE_RELATE_ID" jdbcType="DECIMAL" property="sendcarFeeRelateId" />
+    <result column="TRANSPORT_CONTRACT_LINE_ID" jdbcType="DECIMAL" property="transportContractLineId" />
+    <result column="DISTANCE_LINE_ID" jdbcType="DECIMAL" property="distanceLineId" />
+    <result column="RAILWAY_PREPARE_FEE" jdbcType="CHAR" property="railwayPrepareFee" />
+    <result column="BUDGET_FLAG" jdbcType="VARCHAR" property="budgetFlag" />
+    <result column="CREATED_BY" jdbcType="DECIMAL" property="createdBy" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="LAST_UPDATED_BY" jdbcType="DECIMAL" property="lastUpdatedBy" />
+    <result column="LAST_UPDATE_DATE" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <result column="LAST_UPDATE_LOGIN" jdbcType="VARCHAR" property="lastUpdateLogin" />
+    <result column="ATTRIBUTE1" jdbcType="VARCHAR" property="attribute1" />
+    <result column="ATTRIBUTE2" jdbcType="VARCHAR" property="attribute2" />
+    <result column="ATTRIBUTE3" jdbcType="VARCHAR" property="attribute3" />
+    <result column="ATTRIBUTE4" jdbcType="VARCHAR" property="attribute4" />
+    <result column="ATTRIBUTE5" jdbcType="VARCHAR" property="attribute5" />
+    <result column="ATTRIBUTE6" jdbcType="VARCHAR" property="attribute6" />
+    <result column="ATTRIBUTE7" jdbcType="VARCHAR" property="attribute7" />
+    <result column="ATTRIBUTE8" jdbcType="VARCHAR" property="attribute8" />
+    <result column="ATTRIBUTE9" jdbcType="VARCHAR" property="attribute9" />
+    <result column="ATTRIBUTE10" jdbcType="VARCHAR" property="attribute10" />
+    <result column="ATTRIBUTE11" jdbcType="VARCHAR" property="attribute11" />
+    <result column="ATTRIBUTE12" jdbcType="VARCHAR" property="attribute12" />
+    <result column="ATTRIBUTE13" jdbcType="VARCHAR" property="attribute13" />
+    <result column="ATTRIBUTE14" jdbcType="VARCHAR" property="attribute14" />
+    <result column="ATTRIBUTE15" jdbcType="VARCHAR" property="attribute15" />
+    <result column="ATTRIBUTE16" jdbcType="VARCHAR" property="attribute16" />
+    <result column="ATTRIBUTE17" jdbcType="VARCHAR" property="attribute17" />
+    <result column="ATTRIBUTE18" jdbcType="VARCHAR" property="attribute18" />
+    <result column="ATTRIBUTE19" jdbcType="VARCHAR" property="attribute19" />
+    <result column="ATTRIBUTE20" jdbcType="VARCHAR" property="attribute20" />
+    <result column="TRANSPORT_CONTRACT_HEADER_ID" jdbcType="DECIMAL" property="transportContractHeaderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SENDCAR_LINE_ID, SENDCAR_FEE_RELATE_ID, TRANSPORT_CONTRACT_LINE_ID, DISTANCE_LINE_ID, 
+    RAILWAY_PREPARE_FEE, BUDGET_FLAG, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, 
+    LAST_UPDATE_LOGIN, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, 
+    ATTRIBUTE7, ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10, ATTRIBUTE11, ATTRIBUTE12, ATTRIBUTE13, 
+    ATTRIBUTE14, ATTRIBUTE15, ATTRIBUTE16, ATTRIBUTE17, ATTRIBUTE18, ATTRIBUTE19, ATTRIBUTE20, 
+    TRANSPORT_CONTRACT_HEADER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from FMS.FMS_SENDCAR_FEE_RELATE
+    where SENDCAR_LINE_ID = #{sendcarLineId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from FMS.FMS_SENDCAR_FEE_RELATE
+    where SENDCAR_LINE_ID = #{sendcarLineId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsSendcarFeeRelate">
+    <selectKey resultType="java.lang.Long" keyProperty="sendcarFeeRelateId" order="BEFORE">
+      SELECT FMS_SENDCAR_FEE_RELATE_S.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into FMS.FMS_SENDCAR_FEE_RELATE (SENDCAR_LINE_ID, SENDCAR_FEE_RELATE_ID, 
+      TRANSPORT_CONTRACT_LINE_ID, DISTANCE_LINE_ID, 
+      RAILWAY_PREPARE_FEE, BUDGET_FLAG, CREATED_BY, 
+      CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, 
+      LAST_UPDATE_LOGIN, ATTRIBUTE1, ATTRIBUTE2, 
+      ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, 
+      ATTRIBUTE6, ATTRIBUTE7, ATTRIBUTE8, 
+      ATTRIBUTE9, ATTRIBUTE10, ATTRIBUTE11, 
+      ATTRIBUTE12, ATTRIBUTE13, ATTRIBUTE14, 
+      ATTRIBUTE15, ATTRIBUTE16, ATTRIBUTE17, 
+      ATTRIBUTE18, ATTRIBUTE19, ATTRIBUTE20, 
+      TRANSPORT_CONTRACT_HEADER_ID)
+    values (#{sendcarLineId,jdbcType=DECIMAL}, #{sendcarFeeRelateId,jdbcType=DECIMAL}, 
+      #{transportContractLineId,jdbcType=DECIMAL}, #{distanceLineId,jdbcType=DECIMAL}, 
+      #{railwayPrepareFee,jdbcType=CHAR}, #{budgetFlag,jdbcType=VARCHAR}, #{createdBy,jdbcType=DECIMAL}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=DECIMAL}, #{lastUpdateDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdateLogin,jdbcType=VARCHAR}, #{attribute1,jdbcType=VARCHAR}, #{attribute2,jdbcType=VARCHAR}, 
+      #{attribute3,jdbcType=VARCHAR}, #{attribute4,jdbcType=VARCHAR}, #{attribute5,jdbcType=VARCHAR}, 
+      #{attribute6,jdbcType=VARCHAR}, #{attribute7,jdbcType=VARCHAR}, #{attribute8,jdbcType=VARCHAR}, 
+      #{attribute9,jdbcType=VARCHAR}, #{attribute10,jdbcType=VARCHAR}, #{attribute11,jdbcType=VARCHAR}, 
+      #{attribute12,jdbcType=VARCHAR}, #{attribute13,jdbcType=VARCHAR}, #{attribute14,jdbcType=VARCHAR}, 
+      #{attribute15,jdbcType=VARCHAR}, #{attribute16,jdbcType=VARCHAR}, #{attribute17,jdbcType=VARCHAR}, 
+      #{attribute18,jdbcType=VARCHAR}, #{attribute19,jdbcType=VARCHAR}, #{attribute20,jdbcType=VARCHAR}, 
+      #{transportContractHeaderId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsSendcarFeeRelate">
+    <selectKey resultType="java.lang.Long" keyProperty="sendcarFeeRelateId" order="BEFORE">
+      SELECT FMS_SENDCAR_FEE_RELATE_S.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into FMS.FMS_SENDCAR_FEE_RELATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sendcarLineId != null">
+        SENDCAR_LINE_ID,
+      </if>
+      <if test="sendcarFeeRelateId != null">
+        SENDCAR_FEE_RELATE_ID,
+      </if>
+      <if test="transportContractLineId != null">
+        TRANSPORT_CONTRACT_LINE_ID,
+      </if>
+      <if test="distanceLineId != null">
+        DISTANCE_LINE_ID,
+      </if>
+      <if test="railwayPrepareFee != null">
+        RAILWAY_PREPARE_FEE,
+      </if>
+      <if test="budgetFlag != null">
+        BUDGET_FLAG,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+      <if test="lastUpdatedBy != null">
+        LAST_UPDATED_BY,
+      </if>
+      <if test="lastUpdateDate != null">
+        LAST_UPDATE_DATE,
+      </if>
+      <if test="lastUpdateLogin != null">
+        LAST_UPDATE_LOGIN,
+      </if>
+      <if test="attribute1 != null">
+        ATTRIBUTE1,
+      </if>
+      <if test="attribute2 != null">
+        ATTRIBUTE2,
+      </if>
+      <if test="attribute3 != null">
+        ATTRIBUTE3,
+      </if>
+      <if test="attribute4 != null">
+        ATTRIBUTE4,
+      </if>
+      <if test="attribute5 != null">
+        ATTRIBUTE5,
+      </if>
+      <if test="attribute6 != null">
+        ATTRIBUTE6,
+      </if>
+      <if test="attribute7 != null">
+        ATTRIBUTE7,
+      </if>
+      <if test="attribute8 != null">
+        ATTRIBUTE8,
+      </if>
+      <if test="attribute9 != null">
+        ATTRIBUTE9,
+      </if>
+      <if test="attribute10 != null">
+        ATTRIBUTE10,
+      </if>
+      <if test="attribute11 != null">
+        ATTRIBUTE11,
+      </if>
+      <if test="attribute12 != null">
+        ATTRIBUTE12,
+      </if>
+      <if test="attribute13 != null">
+        ATTRIBUTE13,
+      </if>
+      <if test="attribute14 != null">
+        ATTRIBUTE14,
+      </if>
+      <if test="attribute15 != null">
+        ATTRIBUTE15,
+      </if>
+      <if test="attribute16 != null">
+        ATTRIBUTE16,
+      </if>
+      <if test="attribute17 != null">
+        ATTRIBUTE17,
+      </if>
+      <if test="attribute18 != null">
+        ATTRIBUTE18,
+      </if>
+      <if test="attribute19 != null">
+        ATTRIBUTE19,
+      </if>
+      <if test="attribute20 != null">
+        ATTRIBUTE20,
+      </if>
+      <if test="transportContractHeaderId != null">
+        TRANSPORT_CONTRACT_HEADER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sendcarLineId != null">
+        #{sendcarLineId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendcarFeeRelateId != null">
+        #{sendcarFeeRelateId,jdbcType=DECIMAL},
+      </if>
+      <if test="transportContractLineId != null">
+        #{transportContractLineId,jdbcType=DECIMAL},
+      </if>
+      <if test="distanceLineId != null">
+        #{distanceLineId,jdbcType=DECIMAL},
+      </if>
+      <if test="railwayPrepareFee != null">
+        #{railwayPrepareFee,jdbcType=CHAR},
+      </if>
+      <if test="budgetFlag != null">
+        #{budgetFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedBy != null">
+        #{lastUpdatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateLogin != null">
+        #{lastUpdateLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute1 != null">
+        #{attribute1,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute2 != null">
+        #{attribute2,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute3 != null">
+        #{attribute3,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute4 != null">
+        #{attribute4,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute5 != null">
+        #{attribute5,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute6 != null">
+        #{attribute6,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute7 != null">
+        #{attribute7,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute8 != null">
+        #{attribute8,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute9 != null">
+        #{attribute9,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute10 != null">
+        #{attribute10,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute11 != null">
+        #{attribute11,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute12 != null">
+        #{attribute12,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute13 != null">
+        #{attribute13,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute14 != null">
+        #{attribute14,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute15 != null">
+        #{attribute15,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute16 != null">
+        #{attribute16,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute17 != null">
+        #{attribute17,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute18 != null">
+        #{attribute18,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute19 != null">
+        #{attribute19,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute20 != null">
+        #{attribute20,jdbcType=VARCHAR},
+      </if>
+      <if test="transportContractHeaderId != null">
+        #{transportContractHeaderId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsSendcarFeeRelate">
+    update FMS.FMS_SENDCAR_FEE_RELATE
+    <set>
+      <if test="sendcarFeeRelateId != null">
+        SENDCAR_FEE_RELATE_ID = #{sendcarFeeRelateId,jdbcType=DECIMAL},
+      </if>
+      <if test="transportContractLineId != null">
+        TRANSPORT_CONTRACT_LINE_ID = #{transportContractLineId,jdbcType=DECIMAL},
+      </if>
+      <if test="distanceLineId != null">
+        DISTANCE_LINE_ID = #{distanceLineId,jdbcType=DECIMAL},
+      </if>
+      <if test="railwayPrepareFee != null">
+        RAILWAY_PREPARE_FEE = #{railwayPrepareFee,jdbcType=CHAR},
+      </if>
+      <if test="budgetFlag != null">
+        BUDGET_FLAG = #{budgetFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedBy != null">
+        LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastUpdateDate != null">
+        LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateLogin != null">
+        LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute1 != null">
+        ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute2 != null">
+        ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute3 != null">
+        ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute4 != null">
+        ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute5 != null">
+        ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute6 != null">
+        ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute7 != null">
+        ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute8 != null">
+        ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute9 != null">
+        ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute10 != null">
+        ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute11 != null">
+        ATTRIBUTE11 = #{attribute11,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute12 != null">
+        ATTRIBUTE12 = #{attribute12,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute13 != null">
+        ATTRIBUTE13 = #{attribute13,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute14 != null">
+        ATTRIBUTE14 = #{attribute14,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute15 != null">
+        ATTRIBUTE15 = #{attribute15,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute16 != null">
+        ATTRIBUTE16 = #{attribute16,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute17 != null">
+        ATTRIBUTE17 = #{attribute17,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute18 != null">
+        ATTRIBUTE18 = #{attribute18,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute19 != null">
+        ATTRIBUTE19 = #{attribute19,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute20 != null">
+        ATTRIBUTE20 = #{attribute20,jdbcType=VARCHAR},
+      </if>
+      <if test="transportContractHeaderId != null">
+        TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SENDCAR_LINE_ID = #{sendcarLineId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsSendcarFeeRelate">
+    update FMS.FMS_SENDCAR_FEE_RELATE
+    set SENDCAR_FEE_RELATE_ID = #{sendcarFeeRelateId,jdbcType=DECIMAL},
+      TRANSPORT_CONTRACT_LINE_ID = #{transportContractLineId,jdbcType=DECIMAL},
+      DISTANCE_LINE_ID = #{distanceLineId,jdbcType=DECIMAL},
+      RAILWAY_PREPARE_FEE = #{railwayPrepareFee,jdbcType=CHAR},
+      BUDGET_FLAG = #{budgetFlag,jdbcType=VARCHAR},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+      ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+      ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+      ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+      ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+      ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+      ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+      ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+      ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+      ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+      ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+      ATTRIBUTE11 = #{attribute11,jdbcType=VARCHAR},
+      ATTRIBUTE12 = #{attribute12,jdbcType=VARCHAR},
+      ATTRIBUTE13 = #{attribute13,jdbcType=VARCHAR},
+      ATTRIBUTE14 = #{attribute14,jdbcType=VARCHAR},
+      ATTRIBUTE15 = #{attribute15,jdbcType=VARCHAR},
+      ATTRIBUTE16 = #{attribute16,jdbcType=VARCHAR},
+      ATTRIBUTE17 = #{attribute17,jdbcType=VARCHAR},
+      ATTRIBUTE18 = #{attribute18,jdbcType=VARCHAR},
+      ATTRIBUTE19 = #{attribute19,jdbcType=VARCHAR},
+      ATTRIBUTE20 = #{attribute20,jdbcType=VARCHAR},
+      TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId,jdbcType=DECIMAL}
+    where SENDCAR_LINE_ID = #{sendcarLineId,jdbcType=DECIMAL}
+  </update>
+</mapper>

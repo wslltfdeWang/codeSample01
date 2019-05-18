@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.ExpenseInvviceRelateMapper">
+    <select id="queryInvMidVatMainByExpenseAccountId" parameterType="java.lang.Long"
+            resultType="com.foreveross.vds.dto.fms.InvMidVatMain">
+        select
+            id              id,
+            buyer_taxno     buyerTaxno,
+            inv_kind        invKind,
+            inv_num         invNum,
+            seller_taxno    sellerTaxno,
+            inv_date        invDate,
+            inv_cost        invCost,
+            inv_vat         invVat,
+            inv_sum         invSum,
+            inv_rate        invRate,
+            inv_pwd         invPwd,
+            inv_dedu_result invDeduResult,
+            inv_type        invType,
+            inv_from        invFrom,
+            inv_status      invStatus,
+            inv_comment     invComment,
+            inv_draw_time   invDrawTime,
+            inv_scan_time   invScanTime,
+            buyer_name      buyerName,
+            buyer_addr_tel  buyerAddrTel,
+            buyer_bank      buyerBank,
+            seller_name     sellerName,
+            seller_addr_tel sellerAddrTel,
+            seller_bank     sellerBank,
+            is_trans        isTrans,
+            create_date     createDate,
+            create_by       createBy,
+            update_date     updateDate,
+            update_by       updateBy,
+            income_month    incomeMonth,
+            sys_org_code    sysOrgCode,
+            check_time      checkTime,
+            check_code      checkCode,
+            machine_code    machineCode,
+            total_amount_cn totalAmountCn,
+            zerotaxratesign zerotaxratesign,
+            check_err_code  checkErrCode,
+            insert_time     insertTime,
+            sync_flag       syncFlag,
+            ext_01          ext01,
+            ext_02          ext02,
+            ext_03          ext03,
+            ext_04          ext04,
+            ext_05          ext05,
+            ext_06          ext06,
+            ext_07          ext07,
+            ext_08          ext08,
+            ext_09          ext09,
+            ext_10          ext10,
+            ext_11          ext11,
+            ext_12          ext12,
+            ext_13          ext13,
+            ext_14          ext14,
+            ext_15          ext15,
+            bind_flag       bindFlag,
+            insert_date     insertDate
+        from FMS_EXPENSE_INVOICE_RELATE t
+            left join INV_MID_VAT_MAIN t1
+                on t.invoice_id = t1.id
+        where t.expense_account_id = #{expenseAccountId}
+    </select>
+
+    <select id="queryInvMidVatMain" parameterType="java.lang.String"
+            resultType="com.foreveross.vds.dto.fms.InvMidVatMain">
+        select id id,
+        buyer_taxno buyerTaxno,
+        inv_kind invKind,
+        inv_num invNum,
+        seller_taxno sellerTaxno,
+        inv_date invDate,
+        inv_cost invCost,
+        inv_vat invVat,
+        inv_sum invSum,
+        inv_rate invRate,
+        inv_pwd invPwd,
+        inv_dedu_result invDeduResult,
+        inv_type invType,
+        inv_from invFrom,
+        inv_status invStatus,
+        inv_comment invComment,
+        inv_draw_time invDrawTime,
+        inv_scan_time invScanTime,
+        buyer_name buyerName,
+        buyer_addr_tel buyerAddrTel,
+        buyer_bank buyerBank,
+        seller_name sellerName,
+        seller_addr_tel sellerAddrTel,
+        seller_bank sellerBank,
+        is_trans isTrans,
+        create_date createDate,
+        create_by createBy,
+        update_date updateDate,
+        update_by updateBy,
+        income_month incomeMonth,
+        sys_org_code sysOrgCode,
+        check_time checkTime,
+        check_code checkCode,
+        machine_code machineCode,
+        total_amount_cn totalAmountCn,
+        zerotaxratesign zerotaxratesign,
+        check_err_code checkErrCode,
+        insert_time insertTime,
+        sync_flag syncFlag,
+        ext_01 ext01,
+        ext_02 ext02,
+        ext_03 ext03,
+        ext_04 ext04,
+        ext_05 ext05,
+        ext_06 ext06,
+        ext_07 ext07,
+        ext_08 ext08,
+        ext_09 ext09,
+        ext_10 ext10,
+        ext_11 ext11,
+        ext_12 ext12,
+        ext_13 ext13,
+        ext_14 ext14,
+        ext_15 ext15,
+        bind_flag bindFlag,
+        insert_date insertDate
+        from INV_MID_VAT_MAIN t1
+        where nvl(bind_flag, 'N') != 'Y'
+        and inv_num = #{invNum}
+        <!--      and inv_num in
+              <foreach collection="numLists" index="index" item="invNum" open="(" close=")" separator=",">
+              </foreach>-->
+    </select>
+
+    <insert id="addFmsExpenseInvoiceRelate" parameterType="com.foreveross.vds.dto.fms.FmsExpenseInvoiceRelate">
+        <selectKey resultType="java.lang.Long" keyProperty="expenseInvoiceRelateId" order="BEFORE">
+            select FMS_EXPENSE_INVOICE_RELATE_S.nextval as expenseInvoiceRelateId from dual
+        </selectKey>
+        insert into FMS_EXPENSE_INVOICE_RELATE
+        (expense_invoice_relate_id,
+        expense_account_id,
+        invoice_id,
+        remarks,
+        created_by,
+        creation_date,
+        last_updated_by,
+        last_update_date,
+        last_update_login,
+        attribute1,
+        attribute2,
+        attribute3,
+        attribute4,
+        attribute5,
+        attribute6,
+        attribute7,
+        attribute8,
+        attribute9,
+        attribute10)
+        values
+        (#{expenseInvoiceRelateId,
+         jdbcType = VARCHAR},
+        #{expenseAccountId,
+        jdbcType = VARCHAR},
+        #{invoiceId,
+        jdbcType = VARCHAR},
+        #{remarks,
+        jdbcType = VARCHAR},
+        #{createdBy,
+        jdbcType = VARCHAR},
+        #{creationDate,
+        jdbcType = VARCHAR},
+        #{lastUpdatedBy,
+        jdbcType = VARCHAR},
+        #{lastUpdateDate,
+        jdbcType = VARCHAR},
+        #{lastUpdateLogin,
+        jdbcType = VARCHAR},
+        #{attribute1,
+        jdbcType = VARCHAR},
+        #{attribute2,
+        jdbcType = VARCHAR},
+        #{attribute3,
+        jdbcType = VARCHAR},
+        #{attribute4,
+        jdbcType = VARCHAR},
+        #{attribute5,
+        jdbcType = VARCHAR},
+        #{attribute6,
+        jdbcType = VARCHAR},
+        #{attribute7,
+        jdbcType = VARCHAR},
+        #{attribute8,
+        jdbcType = VARCHAR},
+        #{attribute9,
+        jdbcType = VARCHAR},
+        #{attribute10,
+        jdbcType = VARCHAR})
+    </insert>
+    <update id="updateInvoiceBindFlag" parameterType="com.foreveross.vds.dto.fms.InvMidVatMain">
+        update inv_mid_vat_main
+        set bind_flag   = #{bindFlag},
+            update_date = sysdate,
+            update_by   = #{updateBy}
+        where id = #{id}
+    </update>
+
+    <select id="selectFee" parameterType="com.foreveross.vds.dto.fms.FmsExpenseInvoiceRelate"
+            resultType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+        select
+        t.total_fee totalFee,
+        t4.associated_fee asscoiatedFee,
+        t5.inv_sum invoiceFee
+        from fms_expense_account t
+        left join (select
+        t1.expense_account_id,
+        sum(t2.inv_sum) associated_fee
+        from fms_expense_invoice_relate t1, inv_mid_vat_main t2
+        where t1.invoice_id = t2.id
+        group by t1.expense_account_id) t4
+
+        on t4.expense_account_id = t.expense_account_id
+        ,
+        inv_mid_vat_main t5
+        where t.expense_account_id = #{expenseAccountId}
+        <if test="invoiceId != null and invoiceId != ''">
+            and t5.id = #{invoiceId}
+        </if>
+    </select>
+</mapper>

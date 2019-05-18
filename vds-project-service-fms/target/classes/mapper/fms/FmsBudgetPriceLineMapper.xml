@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsBudgetPriceLineMapper" >
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsBudgetPriceLine" >
+        <id column="BUDGET_PRICE_LINE_ID" property="budgetPriceLineId" jdbcType="DECIMAL" />
+        <result column="BUDGET_PRICE_HEADER_ID" property="budgetPriceHeaderId" jdbcType="DECIMAL" />
+        <result column="START_PROVINCE_ID" property="startProvinceId" jdbcType="DECIMAL" />
+        <result column="START_CITY_ID" property="startCityId" jdbcType="DECIMAL" />
+        <result column="START_COUNTY_ID" property="startCountyId" jdbcType="DECIMAL" />
+        <result column="END_PROVINCE_ID" property="endProvinceId" jdbcType="DECIMAL" />
+        <result column="END_CITY_ID" property="endCityId" jdbcType="DECIMAL" />
+        <result column="END_COUNTY_ID" property="endCountyId" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_METHOD" property="transportMethod" jdbcType="DECIMAL" />
+        <result column="CAR_CATEGORY_ID" property="carCategoryId" jdbcType="DECIMAL" />
+        <result column="UNIT_PRICE" property="unitPrice" jdbcType="VARCHAR" />
+        <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        BUDGET_PRICE_LINE_ID, BUDGET_PRICE_HEADER_ID, START_PROVINCE_ID, START_CITY_ID, START_COUNTY_ID, 
+        END_PROVINCE_ID, END_CITY_ID, END_COUNTY_ID, TRANSPORT_METHOD, CAR_CATEGORY_ID, UNIT_PRICE, 
+        START_DATE, END_DATE, ENABLED_FLAG, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, 
+        LAST_UPDATE_LOGIN, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, 
+        ATTRIBUTE7, ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from FMS.FMS_BUDGET_PRICE_LINE
+        where BUDGET_PRICE_LINE_ID = #{budgetPriceLineId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from FMS.FMS_BUDGET_PRICE_LINE
+        where BUDGET_PRICE_LINE_ID = #{budgetPriceLineId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsBudgetPriceLine" >
+        insert into FMS.FMS_BUDGET_PRICE_LINE (BUDGET_PRICE_LINE_ID, BUDGET_PRICE_HEADER_ID, 
+            START_PROVINCE_ID, START_CITY_ID, START_COUNTY_ID, 
+            END_PROVINCE_ID, END_CITY_ID, END_COUNTY_ID, 
+            TRANSPORT_METHOD, CAR_CATEGORY_ID, UNIT_PRICE, 
+            START_DATE, END_DATE, ENABLED_FLAG, 
+            CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, 
+            LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, ATTRIBUTE1, 
+            ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, 
+            ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, 
+            ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10
+            )
+        values (#{budgetPriceLineId,jdbcType=DECIMAL}, #{budgetPriceHeaderId,jdbcType=DECIMAL}, 
+            #{startProvinceId,jdbcType=DECIMAL}, #{startCityId,jdbcType=DECIMAL}, #{startCountyId,jdbcType=DECIMAL}, 
+            #{endProvinceId,jdbcType=DECIMAL}, #{endCityId,jdbcType=DECIMAL}, #{endCountyId,jdbcType=DECIMAL}, 
+            #{transportMethod,jdbcType=DECIMAL}, #{carCategoryId,jdbcType=DECIMAL}, #{unitPrice,jdbcType=VARCHAR}, 
+            #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{enabledFlag,jdbcType=VARCHAR}, 
+            #{createdBy,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=DECIMAL}, 
+            #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdateLogin,jdbcType=VARCHAR}, #{attribute1,jdbcType=VARCHAR}, 
+            #{attribute2,jdbcType=VARCHAR}, #{attribute3,jdbcType=VARCHAR}, #{attribute4,jdbcType=VARCHAR}, 
+            #{attribute5,jdbcType=VARCHAR}, #{attribute6,jdbcType=VARCHAR}, #{attribute7,jdbcType=VARCHAR}, 
+            #{attribute8,jdbcType=VARCHAR}, #{attribute9,jdbcType=VARCHAR}, #{attribute10,jdbcType=VARCHAR}
+            )
+    </insert>
+    <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsBudgetPriceLine" >
+    
+    	<selectKey keyProperty="budgetPriceLineId" order="BEFORE" resultType="java.lang.Long">
+			SELECT FMS.FMS_BUDGET_PRICE_LINE_S.NEXTVAL FROM DUAL
+    	</selectKey>
+    
+        insert into FMS.FMS_BUDGET_PRICE_LINE
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="budgetPriceLineId != null" >
+                BUDGET_PRICE_LINE_ID,
+            </if>
+            <if test="budgetPriceHeaderId != null" >
+                BUDGET_PRICE_HEADER_ID,
+            </if>
+            <if test="startProvinceId != null" >
+                START_PROVINCE_ID,
+            </if>
+            <if test="startCityId != null" >
+                START_CITY_ID,
+            </if>
+            <if test="startCountyId != null" >
+                START_COUNTY_ID,
+            </if>
+            <if test="endProvinceId != null" >
+                END_PROVINCE_ID,
+            </if>
+            <if test="endCityId != null" >
+                END_CITY_ID,
+            </if>
+            <if test="endCountyId != null" >
+                END_COUNTY_ID,
+            </if>
+            <if test="transportMethod != null" >
+                TRANSPORT_METHOD,
+            </if>
+            <if test="carCategoryId != null" >
+                CAR_CATEGORY_ID,
+            </if>
+            <if test="unitPrice != null" >
+                UNIT_PRICE,
+            </if>
+            <if test="startDate != null" >
+                START_DATE,
+            </if>
+            <if test="endDate != null" >
+                END_DATE,
+            </if>
+            <if test="enabledFlag != null" >
+                ENABLED_FLAG,
+            </if>
+            <if test="createdBy != null" >
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null" >
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null" >
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdateDate != null" >
+                LAST_UPDATE_DATE,
+            </if>
+            <if test="lastUpdateLogin != null" >
+                LAST_UPDATE_LOGIN,
+            </if>
+            <if test="attribute1 != null" >
+                ATTRIBUTE1,
+            </if>
+            <if test="attribute2 != null" >
+                ATTRIBUTE2,
+            </if>
+            <if test="attribute3 != null" >
+                ATTRIBUTE3,
+            </if>
+            <if test="attribute4 != null" >
+                ATTRIBUTE4,
+            </if>
+            <if test="attribute5 != null" >
+                ATTRIBUTE5,
+            </if>
+            <if test="attribute6 != null" >
+                ATTRIBUTE6,
+            </if>
+            <if test="attribute7 != null" >
+                ATTRIBUTE7,
+            </if>
+            <if test="attribute8 != null" >
+                ATTRIBUTE8,
+            </if>
+            <if test="attribute9 != null" >
+                ATTRIBUTE9,
+            </if>
+            <if test="attribute10 != null" >
+                ATTRIBUTE10,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="budgetPriceLineId != null" >
+                #{budgetPriceLineId,jdbcType=DECIMAL},
+            </if>
+            <if test="budgetPriceHeaderId != null" >
+                #{budgetPriceHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="startProvinceId != null" >
+                #{startProvinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="startCityId != null" >
+                #{startCityId,jdbcType=DECIMAL},
+            </if>
+            <if test="startCountyId != null" >
+                #{startCountyId,jdbcType=DECIMAL},
+            </if>
+            <if test="endProvinceId != null" >
+                #{endProvinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="endCityId != null" >
+                #{endCityId,jdbcType=DECIMAL},
+            </if>
+            <if test="endCountyId != null" >
+                #{endCountyId,jdbcType=DECIMAL},
+            </if>
+            <if test="transportMethod != null" >
+                #{transportMethod,jdbcType=DECIMAL},
+            </if>
+            <if test="carCategoryId != null" >
+                #{carCategoryId,jdbcType=DECIMAL},
+            </if>
+            <if test="unitPrice != null" >
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null" >
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null" >
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null" >
+                #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null" >
+                #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null" >
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null" >
+                #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null" >
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null" >
+                #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null" >
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null" >
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null" >
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null" >
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null" >
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null" >
+                #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null" >
+                #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null" >
+                #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null" >
+                #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null" >
+                #{attribute10,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsBudgetPriceLine" >
+        update FMS.FMS_BUDGET_PRICE_LINE
+        <set >
+            <if test="budgetPriceHeaderId != null" >
+                BUDGET_PRICE_HEADER_ID = #{budgetPriceHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="startProvinceId != null" >
+                START_PROVINCE_ID = #{startProvinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="startCityId != null" >
+                START_CITY_ID = #{startCityId,jdbcType=DECIMAL},
+            </if>
+            <if test="startCountyId != null" >
+                START_COUNTY_ID = #{startCountyId,jdbcType=DECIMAL},
+            </if>
+            <if test="endProvinceId != null" >
+                END_PROVINCE_ID = #{endProvinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="endCityId != null" >
+                END_CITY_ID = #{endCityId,jdbcType=DECIMAL},
+            </if>
+            <if test="endCountyId != null" >
+                END_COUNTY_ID = #{endCountyId,jdbcType=DECIMAL},
+            </if>
+            <if test="transportMethod != null" >
+                TRANSPORT_METHOD = #{transportMethod,jdbcType=DECIMAL},
+            </if>
+            <if test="carCategoryId != null" >
+                CAR_CATEGORY_ID = #{carCategoryId,jdbcType=DECIMAL},
+            </if>
+            <if test="unitPrice != null" >
+                UNIT_PRICE = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null" >
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null" >
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null" >
+                ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null" >
+                CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null" >
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null" >
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null" >
+                LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null" >
+                LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null" >
+                ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null" >
+                ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null" >
+                ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null" >
+                ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null" >
+                ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null" >
+                ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null" >
+                ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null" >
+                ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null" >
+                ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null" >
+                ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where BUDGET_PRICE_LINE_ID = #{budgetPriceLineId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsBudgetPriceLine" >
+        update FMS.FMS_BUDGET_PRICE_LINE
+        set BUDGET_PRICE_HEADER_ID = #{budgetPriceHeaderId,jdbcType=DECIMAL},
+            START_PROVINCE_ID = #{startProvinceId,jdbcType=DECIMAL},
+            START_CITY_ID = #{startCityId,jdbcType=DECIMAL},
+            START_COUNTY_ID = #{startCountyId,jdbcType=DECIMAL},
+            END_PROVINCE_ID = #{endProvinceId,jdbcType=DECIMAL},
+            END_CITY_ID = #{endCityId,jdbcType=DECIMAL},
+            END_COUNTY_ID = #{endCountyId,jdbcType=DECIMAL},
+            TRANSPORT_METHOD = #{transportMethod,jdbcType=DECIMAL},
+            CAR_CATEGORY_ID = #{carCategoryId,jdbcType=DECIMAL},
+            UNIT_PRICE = #{unitPrice,jdbcType=VARCHAR},
+            START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR}
+        where BUDGET_PRICE_LINE_ID = #{budgetPriceLineId,jdbcType=DECIMAL}
+    </update>
+    
+    <select id="queryList" resultMap="BaseResultMap" parameterType="com.foreveross.vds.vo.fms.FmsBudgetPriceLine">
+    	select 
+        <include refid="Base_Column_List" />
+        from FMS.FMS_BUDGET_PRICE_LINE
+        where 1=1 and START_DATE &lt;= SYSDATE and (END_DATE >= SYSDATE or END_DATE is null)
+        <if test="budgetPriceHeaderId == null">
+        	AND BUDGET_PRICE_HEADER_ID IS NULL
+        </if>
+        <if test="budgetPriceHeaderId != null">
+        	AND BUDGET_PRICE_HEADER_ID = #{budgetPriceHeaderId}
+        </if>
+        <if test="startProvinceId != null">
+        	AND START_PROVINCE_ID = #{startProvinceId}
+        </if>
+        <if test="startCityId != null">
+        	AND START_CITY_ID = #{startCityId}
+        </if>
+        <if test="startCountyId != null">
+        	AND START_COUNTY_ID = #{startCountyId}
+        </if>
+        <if test="endProvinceId != null">
+        	AND END_PROVINCE_ID = #{endProvinceId}
+        </if>
+        <if test="endCityId != null">
+        	AND END_CITY_ID = #{endCityId}
+        </if>
+        <if test="endCountyId != null">
+        	AND END_COUNTY_ID = #{endCountyId}
+        </if>
+        <if test="transportMethod != null">
+        	AND TRANSPORT_METHOD = #{transportMethod}
+        </if>
+        <if test="enabledFlag != null and enabledFlag != ''">
+        	AND ENABLED_FLAG = #{enabledFlag}
+        </if>
+        <if test="carCategoryId != null">
+        	AND CAR_CATEGORY_ID = #{carCategoryId}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsManualSettledMapper">
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsManualSettled">
+        <id column="MANUAL_SETTLED_ID" jdbcType="DECIMAL" property="manualSettledId"/>
+        <result column="SETTLED_STATUS" jdbcType="DECIMAL" property="settledStatus"/>
+        <result column="MANUAL_SETTLED_NAME" jdbcType="VARCHAR" property="manualSettledName"/>
+        <result column="CONTRACT_CATEGORY" jdbcType="DECIMAL" property="contractCategory"/>
+        <result column="CONTRACT_NAME" jdbcType="VARCHAR" property="contractName"/>
+        <result column="CONTRACT_ID" jdbcType="DECIMAL" property="contractId"/>
+        <result column="DEPARTURE_ID" jdbcType="DECIMAL" property="departureId"/>
+        <result column="AMOUNT" jdbcType="DECIMAL" property="amount"/>
+        <result column="QUANTITY" jdbcType="DECIMAL" property="quantity"/>
+        <result column="PROVINCE_ID" jdbcType="DECIMAL" property="provinceId"/>
+        <result column="CITY_ID" jdbcType="DECIMAL" property="cityId"/>
+        <result column="COUNTY_ID" jdbcType="DECIMAL" property="countyId"/>
+        <result column="ANNEX_ID" jdbcType="DECIMAL" property="annexId"/>
+        <result column="SETTLED_FLAG" jdbcType="VARCHAR" property="settledFlag"/>
+        <result column="ORDER_NUMBER" jdbcType="DECIMAL" property="orderNumber"/>
+        <result column="ORGANIZATION_ID" jdbcType="DECIMAL" property="organizationId"/>
+        <result column="TRANSPORT_MODEL" jdbcType="DECIMAL" property="transportModel"/>
+        <result column="SENDCAR_NUMBER" jdbcType="VARCHAR" property="sendcarNumber"/>
+        <result column="CAR_NUMBER" jdbcType="VARCHAR" property="carNumber"/>
+        <result column="SHIP_TO_ADRESS" jdbcType="VARCHAR" property="shipToAdress"/>
+        <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="STORAGE_CONTACT_TYPE" jdbcType="DECIMAL" property="storageContactType"/>
+        <result column="SECTION_NUMBER" jdbcType="DECIMAL" property="sectionNumber"/>
+        <result column="TRANSPORT_METHOD" jdbcType="DECIMAL" property="transportMethod"/>
+        <result column="LOGISTICS_ID" jdbcType="DECIMAL" property="logisticsId"/>
+        <result column="CREATED_BY" jdbcType="DECIMAL" property="createdBy"/>
+        <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="LAST_UPDATED_BY" jdbcType="DECIMAL" property="lastUpdatedBy"/>
+        <result column="LAST_UPDATE_DATE" jdbcType="TIMESTAMP" property="lastUpdateDate"/>
+        <result column="LAST_UPDATE_LOGIN" jdbcType="VARCHAR" property="lastUpdateLogin"/>
+        <result column="ATTRIBUTE1" jdbcType="VARCHAR" property="attribute1"/>
+        <result column="ATTRIBUTE2" jdbcType="VARCHAR" property="attribute2"/>
+        <result column="ATTRIBUTE3" jdbcType="VARCHAR" property="attribute3"/>
+        <result column="ATTRIBUTE4" jdbcType="VARCHAR" property="attribute4"/>
+        <result column="ATTRIBUTE5" jdbcType="VARCHAR" property="attribute5"/>
+        <result column="ATTRIBUTE6" jdbcType="VARCHAR" property="attribute6"/>
+        <result column="ATTRIBUTE7" jdbcType="VARCHAR" property="attribute7"/>
+        <result column="ATTRIBUTE8" jdbcType="VARCHAR" property="attribute8"/>
+        <result column="ATTRIBUTE9" jdbcType="VARCHAR" property="attribute9"/>
+        <result column="ATTRIBUTE10" jdbcType="VARCHAR" property="attribute10"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    MANUAL_SETTLED_ID, SETTLED_STATUS, MANUAL_SETTLED_NAME, CONTRACT_CATEGORY, CONTRACT_NAME, 
+    CONTRACT_ID, DEPARTURE_ID, AMOUNT, QUANTITY, PROVINCE_ID, CITY_ID, COUNTY_ID, ANNEX_ID, 
+    SETTLED_FLAG, ORDER_NUMBER, ORGANIZATION_ID, TRANSPORT_MODEL, SENDCAR_NUMBER, CAR_NUMBER, 
+    SHIP_TO_ADRESS, START_DATE, END_DATE, STORAGE_CONTACT_TYPE, SECTION_NUMBER, TRANSPORT_METHOD, 
+    LOGISTICS_ID, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, 
+    ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, 
+    ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from FMS.FMS_MANUAL_SETTLED
+        where MANUAL_SETTLED_ID = #{manualSettledId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from FMS.FMS_MANUAL_SETTLED
+    where MANUAL_SETTLED_ID = #{manualSettledId,jdbcType=DECIMAL}
+  </delete>
+    <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsManualSettled">
+        <selectKey keyProperty="manualSettledId" resultType="java.lang.Long" order="BEFORE">
+            SELECT FMS_MANUAL_SETTLED_S.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into FMS.FMS_MANUAL_SETTLED (MANUAL_SETTLED_ID, SETTLED_STATUS, MANUAL_SETTLED_NAME,
+        CONTRACT_CATEGORY, CONTRACT_NAME, CONTRACT_ID,
+        DEPARTURE_ID, AMOUNT, QUANTITY,
+        PROVINCE_ID, CITY_ID, COUNTY_ID,
+        ANNEX_ID, SETTLED_FLAG, ORDER_NUMBER,
+        ORGANIZATION_ID, TRANSPORT_MODEL, SENDCAR_NUMBER,
+        CAR_NUMBER, SHIP_TO_ADRESS, START_DATE,
+        END_DATE, STORAGE_CONTACT_TYPE, SECTION_NUMBER,
+        TRANSPORT_METHOD, LOGISTICS_ID, CREATED_BY,
+        CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE,
+        LAST_UPDATE_LOGIN, ATTRIBUTE1, ATTRIBUTE2,
+        ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5,
+        ATTRIBUTE6, ATTRIBUTE7, ATTRIBUTE8,
+        ATTRIBUTE9, ATTRIBUTE10)
+        values (#{manualSettledId,jdbcType=DECIMAL}, #{settledStatus,jdbcType=DECIMAL},
+        #{manualSettledName,jdbcType=VARCHAR},
+        #{contractCategory,jdbcType=DECIMAL}, #{contractName,jdbcType=VARCHAR}, #{contractId,jdbcType=DECIMAL},
+        #{departureId,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{quantity,jdbcType=DECIMAL},
+        #{provinceId,jdbcType=DECIMAL}, #{cityId,jdbcType=DECIMAL}, #{countyId,jdbcType=DECIMAL},
+        #{annexId,jdbcType=DECIMAL}, #{settledFlag,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL},
+        #{organizationId,jdbcType=DECIMAL}, #{transportModel,jdbcType=DECIMAL}, #{sendcarNumber,jdbcType=VARCHAR},
+        #{carNumber,jdbcType=VARCHAR}, #{shipToAdress,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP},
+        #{endDate,jdbcType=TIMESTAMP}, #{storageContactType,jdbcType=DECIMAL}, #{sectionNumber,jdbcType=DECIMAL},
+        #{transportMethod,jdbcType=DECIMAL}, #{logisticsId,jdbcType=DECIMAL}, #{createdBy,jdbcType=DECIMAL},
+        #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=DECIMAL}, #{lastUpdateDate,jdbcType=TIMESTAMP},
+        #{lastUpdateLogin,jdbcType=VARCHAR}, #{attribute1,jdbcType=VARCHAR}, #{attribute2,jdbcType=VARCHAR},
+        #{attribute3,jdbcType=VARCHAR}, #{attribute4,jdbcType=VARCHAR}, #{attribute5,jdbcType=VARCHAR},
+        #{attribute6,jdbcType=VARCHAR}, #{attribute7,jdbcType=VARCHAR}, #{attribute8,jdbcType=VARCHAR},
+        #{attribute9,jdbcType=VARCHAR}, #{attribute10,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsManualSettled">
+        <selectKey keyProperty="manualSettledId" resultType="java.lang.Long" order="BEFORE">
+            SELECT FMS_MANUAL_SETTLED_S.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into FMS.FMS_MANUAL_SETTLED
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="manualSettledId != null">
+                MANUAL_SETTLED_ID,
+            </if>
+            <if test="settledStatus != null">
+                SETTLED_STATUS,
+            </if>
+            <if test="manualSettledName != null">
+                MANUAL_SETTLED_NAME,
+            </if>
+            <if test="contractCategory != null">
+                CONTRACT_CATEGORY,
+            </if>
+            <if test="contractName != null">
+                CONTRACT_NAME,
+            </if>
+            <if test="contractId != null">
+                CONTRACT_ID,
+            </if>
+            <if test="departureId != null">
+                DEPARTURE_ID,
+            </if>
+            <if test="amount != null">
+                AMOUNT,
+            </if>
+            <if test="quantity != null">
+                QUANTITY,
+            </if>
+            <if test="provinceId != null">
+                PROVINCE_ID,
+            </if>
+            <if test="cityId != null">
+                CITY_ID,
+            </if>
+            <if test="countyId != null">
+                COUNTY_ID,
+            </if>
+            <if test="annexId != null">
+                ANNEX_ID,
+            </if>
+            <if test="settledFlag != null">
+                SETTLED_FLAG,
+            </if>
+            <if test="orderNumber != null">
+                ORDER_NUMBER,
+            </if>
+            <if test="organizationId != null">
+                ORGANIZATION_ID,
+            </if>
+            <if test="transportModel != null">
+                TRANSPORT_MODEL,
+            </if>
+            <if test="sendcarNumber != null">
+                SENDCAR_NUMBER,
+            </if>
+            <if test="carNumber != null">
+                CAR_NUMBER,
+            </if>
+            <if test="shipToAdress != null">
+                SHIP_TO_ADRESS,
+            </if>
+            <if test="startDate != null">
+                START_DATE,
+            </if>
+            <if test="endDate != null">
+                END_DATE,
+            </if>
+            <if test="storageContactType != null">
+                STORAGE_CONTACT_TYPE,
+            </if>
+            <if test="sectionNumber != null">
+                SECTION_NUMBER,
+            </if>
+            <if test="transportMethod != null">
+                TRANSPORT_METHOD,
+            </if>
+            <if test="logisticsId != null">
+                LOGISTICS_ID,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdateDate != null">
+                LAST_UPDATE_DATE,
+            </if>
+            <if test="lastUpdateLogin != null">
+                LAST_UPDATE_LOGIN,
+            </if>
+            <if test="attribute1 != null">
+                ATTRIBUTE1,
+            </if>
+            <if test="attribute2 != null">
+                ATTRIBUTE2,
+            </if>
+            <if test="attribute3 != null">
+                ATTRIBUTE3,
+            </if>
+            <if test="attribute4 != null">
+                ATTRIBUTE4,
+            </if>
+            <if test="attribute5 != null">
+                ATTRIBUTE5,
+            </if>
+            <if test="attribute6 != null">
+                ATTRIBUTE6,
+            </if>
+            <if test="attribute7 != null">
+                ATTRIBUTE7,
+            </if>
+            <if test="attribute8 != null">
+                ATTRIBUTE8,
+            </if>
+            <if test="attribute9 != null">
+                ATTRIBUTE9,
+            </if>
+            <if test="attribute10 != null">
+                ATTRIBUTE10,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="manualSettledId != null">
+                #{manualSettledId,jdbcType=DECIMAL},
+            </if>
+            <if test="settledStatus != null">
+                #{settledStatus,jdbcType=DECIMAL},
+            </if>
+            <if test="manualSettledName != null">
+                #{manualSettledName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractCategory != null">
+                #{contractCategory,jdbcType=DECIMAL},
+            </if>
+            <if test="contractName != null">
+                #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractId != null">
+                #{contractId,jdbcType=DECIMAL},
+            </if>
+            <if test="departureId != null">
+                #{departureId,jdbcType=DECIMAL},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="quantity != null">
+                #{quantity,jdbcType=DECIMAL},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="cityId != null">
+                #{cityId,jdbcType=DECIMAL},
+            </if>
+            <if test="countyId != null">
+                #{countyId,jdbcType=DECIMAL},
+            </if>
+            <if test="annexId != null">
+                #{annexId,jdbcType=DECIMAL},
+            </if>
+            <if test="settledFlag != null">
+                #{settledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNumber != null">
+                #{orderNumber,jdbcType=DECIMAL},
+            </if>
+            <if test="organizationId != null">
+                #{organizationId,jdbcType=DECIMAL},
+            </if>
+            <if test="transportModel != null">
+                #{transportModel,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcarNumber != null">
+                #{sendcarNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="carNumber != null">
+                #{carNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="shipToAdress != null">
+                #{shipToAdress,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="storageContactType != null">
+                #{storageContactType,jdbcType=DECIMAL},
+            </if>
+            <if test="sectionNumber != null">
+                #{sectionNumber,jdbcType=DECIMAL},
+            </if>
+            <if test="transportMethod != null">
+                #{transportMethod,jdbcType=DECIMAL},
+            </if>
+            <if test="logisticsId != null">
+                #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null">
+                #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null">
+                #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null">
+                #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null">
+                #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null">
+                #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null">
+                #{attribute10,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsManualSettled">
+        update FMS.FMS_MANUAL_SETTLED
+        <set>
+            <if test="settledStatus != null">
+                SETTLED_STATUS = #{settledStatus,jdbcType=DECIMAL},
+            </if>
+            <if test="manualSettledName != null">
+                MANUAL_SETTLED_NAME = #{manualSettledName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractCategory != null">
+                CONTRACT_CATEGORY = #{contractCategory,jdbcType=DECIMAL},
+            </if>
+            <if test="contractName != null">
+                CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractId != null">
+                CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+            </if>
+            <if test="departureId != null">
+                DEPARTURE_ID = #{departureId,jdbcType=DECIMAL},
+            </if>
+            <if test="amount != null">
+                AMOUNT = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="quantity != null">
+                QUANTITY = #{quantity,jdbcType=DECIMAL},
+            </if>
+            <if test="provinceId != null">
+                PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="cityId != null">
+                CITY_ID = #{cityId,jdbcType=DECIMAL},
+            </if>
+            <if test="countyId != null">
+                COUNTY_ID = #{countyId,jdbcType=DECIMAL},
+            </if>
+            <if test="annexId != null">
+                ANNEX_ID = #{annexId,jdbcType=DECIMAL},
+            </if>
+            <if test="settledFlag != null">
+                SETTLED_FLAG = #{settledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNumber != null">
+                ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+            </if>
+            <if test="organizationId != null">
+                ORGANIZATION_ID = #{organizationId,jdbcType=DECIMAL},
+            </if>
+            <if test="transportModel != null">
+                TRANSPORT_MODEL = #{transportModel,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcarNumber != null">
+                SENDCAR_NUMBER = #{sendcarNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="carNumber != null">
+                CAR_NUMBER = #{carNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="shipToAdress != null">
+                SHIP_TO_ADRESS = #{shipToAdress,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="storageContactType != null">
+                STORAGE_CONTACT_TYPE = #{storageContactType,jdbcType=DECIMAL},
+            </if>
+            <if test="sectionNumber != null">
+                SECTION_NUMBER = #{sectionNumber,jdbcType=DECIMAL},
+            </if>
+            <if test="transportMethod != null">
+                TRANSPORT_METHOD = #{transportMethod,jdbcType=DECIMAL},
+            </if>
+            <if test="logisticsId != null">
+                LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null">
+                LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null">
+                LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null">
+                ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null">
+                ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null">
+                ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null">
+                ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null">
+                ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where MANUAL_SETTLED_ID = #{manualSettledId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsManualSettled">
+    update FMS.FMS_MANUAL_SETTLED
+    set SETTLED_STATUS = #{settledStatus,jdbcType=DECIMAL},
+      MANUAL_SETTLED_NAME = #{manualSettledName,jdbcType=VARCHAR},
+      CONTRACT_CATEGORY = #{contractCategory,jdbcType=DECIMAL},
+      CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+      DEPARTURE_ID = #{departureId,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL},
+      PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      CITY_ID = #{cityId,jdbcType=DECIMAL},
+      COUNTY_ID = #{countyId,jdbcType=DECIMAL},
+      ANNEX_ID = #{annexId,jdbcType=DECIMAL},
+      SETTLED_FLAG = #{settledFlag,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      ORGANIZATION_ID = #{organizationId,jdbcType=DECIMAL},
+      TRANSPORT_MODEL = #{transportModel,jdbcType=DECIMAL},
+      SENDCAR_NUMBER = #{sendcarNumber,jdbcType=VARCHAR},
+      CAR_NUMBER = #{carNumber,jdbcType=VARCHAR},
+      SHIP_TO_ADRESS = #{shipToAdress,jdbcType=VARCHAR},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      STORAGE_CONTACT_TYPE = #{storageContactType,jdbcType=DECIMAL},
+      SECTION_NUMBER = #{sectionNumber,jdbcType=DECIMAL},
+      TRANSPORT_METHOD = #{transportMethod,jdbcType=DECIMAL},
+      LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+      ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+      ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+      ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+      ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+      ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+      ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+      ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+      ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+      ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+      ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR}
+    where MANUAL_SETTLED_ID = #{manualSettledId,jdbcType=DECIMAL}
+  </update>
+
+
+    <select id="queryList" parameterType="com.foreveross.vds.dto.fms.FmsManualSettledRequest"
+            resultType="com.foreveross.vds.vo.fms.FmsManualSettled">
+        SELECT
+        *
+        FROM
+        FMS.FMS_MANUAL_SETTLED
+        <where>
+            <if test="manualSettledName != null and manualSettledName != ''">
+                AND MANUAL_SETTLED_NAME LIKE '%${manualSettledName}%'
+            </if>
+            <if test="contractName != null and contractName != ''">
+                AND CONTRACT_NAME LIKE '%${contractName}%'
+            </if>
+            <if test="departureId != null">
+                AND DEPARTURE_ID = #{departureId}
+            </if>
+            <if test="provinceId != null">
+                AND PROVINCE_ID = #{provinceId}
+            </if>
+            <if test="cityId != null">
+                AND CITY_ID = #{cityId}
+            </if>
+            <if test="countyId != null">
+                AND COUNTY_ID = #{countyId}
+            </if>
+            <if test="settledFlag != null and settledFlag != ''">
+                AND SETTLED_FLAG = #{settledFlag}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

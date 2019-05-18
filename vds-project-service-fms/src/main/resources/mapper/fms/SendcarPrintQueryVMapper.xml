@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.SendcarPrintQueryVMapper">
+    <select id="queryList" parameterType="com.foreveross.vds.dto.fms.SendcarPrintRequest"
+            resultType="com.foreveross.vds.vo.fms.SendcarPrintQueryV">
+        SELECT
+        *
+        FROM
+        SENDCAR_PRINT_QUERY_V
+        <where>
+            <if test="orderNumber != null and orderNumber != ''">
+                AND ORDER_NUMBER LIKE '%${orderNumber}%'
+            </if>
+            <if test="logisticsId != null">
+                AND LOGISTICS_ID = #{logisticsId}
+            </if>
+            <if test="carrierId != null">
+                AND CARRIER_ID = #{carrierId}
+            </if>
+            <if test="transToolId != null">
+                AND TRANS_TOOL_ID = #{transToolId}
+            </if>
+            <if test="endProvinceId != null">
+                AND END_PROVINCE_ID = #{endProvinceId}
+            </if>
+            <if test="endCityId != null">
+                AND END_CITY_ID = #{endCityId}
+            </if>
+            <if test="endCountyId != null">
+                AND END_COUNTY_ID = #{endCountyId}
+            </if>
+            <if test="orgId != null">
+            	AND ORGANIZATION_ID = #{orgId}
+            </if>
+            <if test="organizationId != null and organizationId.size() != 0">
+                AND ORGANIZATION_ID IN
+                <foreach collection="organizationId" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="printFlag != null">
+                AND PRINT_FLAG = #{printFlag}
+            </if>
+            <if test="sendcarOrderNumber != null and sendcarOrderNumber!=''">
+                AND SENDCAR_ORDER_NUMBER = #{sendcarOrderNumber}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="selectCarOutDate" resultType="com.foreveross.vds.vo.fms.SendcarPrintOutDate">
+        SELECT
+            T1.SENDCAR_HEADER_ID,
+            T2.VIN_CODE,
+            T3.CREATION_DATE OUT_DATE
+        FROM
+            TMS_SENDCAR_HEADER T1
+        LEFT JOIN TMS_SENDCAR_LINE T2 ON T1.SENDCAR_HEADER_ID = T2.SENDCAR_HEADER_ID
+        LEFT JOIN INV_VEHICLE_OUT T3 ON T2.VIN_CODE = T3.VIN_CODE AND T1.ORGANIZATION_ID = T3.ORGANIZATION_ID
+        WHERE 1=1
+          AND T1.SENDCAR_HEADER_ID = #{sendcarHeaderId}
+        ORDER BY
+            T3.CREATION_DATE DESC
+
+    </select>
+</mapper>

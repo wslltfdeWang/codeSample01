@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.storagecontract.SettlementStorageContractMapper">
+	<select id="querySettlementStorageContract" parameterType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettledV" resultType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettledV">
+			select *
+		  from FMS_STORAGE_SETTLED_V
+			 where 1 = 1 
+			<if test="contractname != null and contractname != ''"> 
+            	AND ( contractname LIKE   '%'|| #{contractname} ||'%') 
+            </if>
+			<if test="contractnumber != null and contractnumber != ''"> 
+            	AND ( contractnumber LIKE   '%'|| #{contractnumber} ||'%') 
+            </if>
+            <if test="settledstartdate != null"> 
+            	AND to_char(settledstartdate,'yyyy-MM-dd')  <![CDATA[ >= ]]>  to_char(#{settledstartdate},'yyyy-MM-dd')
+            </if>
+            <if test="settledenddate != null"> 
+            	AND to_char(settledenddate,'yyyy-MM-dd')  <![CDATA[ <= ]]>   to_char(#{settledenddate},'yyyy-MM-dd')
+            </if>
+            <if test="startpointid != null and startpointid != ''"> 
+            	AND startpointid  =  #{startpointid}
+            </if>
+            <if test="orgId != null and orgId != ''"> 
+            	AND orgId  =  #{orgId}
+            </if>
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	<!-- 根据合同ID判断，该合同是否正式合同 -->
+	<select id="isFormalContract" parameterType="java.lang.Long" resultType="java.lang.String">
+			select t.description
+			  from fnd_lookup_values t
+			 where exists (select 1
+			          from fnd_lookup_types t1
+			         where t.lookup_type_id = t1.lookup_type_id
+			           and t1.lookup_type = 'CONTRACT_TYPE')
+			   and t.lookup_code = 'FORMAL'
+			   and exists (select 1
+			          from FMS_STORAGE_CONTRACT t2
+			         where t2.CONTRACT_TYPE = t.lookup_id
+			           and t2.storage_contract_id = #{storageContractId})
+	</select>
+	
+	<!-- <insert id="addLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+	     <selectKey resultType="java.lang.Long" keyProperty="logisticsId" order="BEFORE">
+              select TMS_LOGISTICS_PROVIDERS_S.nextval as logisticsId from dual
+          </selectKey>
+			insert into TMS_LOGISTICS_PROVIDERS
+			  (LOGISTICS_ID,
+			   LOGISTICS_CODE,
+			   LOGISTICS_NAME,
+			   BOOK_DATE,
+			   ENABLED_FLAG,
+			   START_DATE,
+			   END_DATE,
+			   CREATED_BY,
+			   CREATION_DATE,
+			   logistics_short_name)
+			values
+			  (TMS_LOGISTICS_PROVIDERS_S.nextval,
+			   #{logisticsCode},
+			   #{logisticsName},
+			   #{bookDate,jdbcType=TIMESTAMP},
+			   #{enabledFlag},
+			   #{startDate,jdbcType=TIMESTAMP},
+			   #{endDate,jdbcType=TIMESTAMP},
+			   #{createdBy,jdbcType=VARCHAR},
+			   #{creationDate,jdbcType=TIMESTAMP},
+			   #{logisticsShortName})
+	</insert>
+	
+	<select id="chckLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders" resultType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			select logistics_id logisticsId,
+		       logistics_code logisticsCode,
+		       logistics_name logisticsName,
+		       logistics_short_name logisticsShortName,
+		       book_date bookDate,
+		       enabled_flag enabledFlag,
+		       start_date startDate,
+		       end_date endDate,
+		       created_by createdBy,
+		       creation_date creationDate,
+		       last_updated_by lastUpdatedBy,
+		       last_update_date lastUpdateDate,
+		       last_update_login lastUpdateLogin,
+		       attribute1 attribute1,
+		       attribute2 attribute2,
+		       attribute3 attribute3,
+		       attribute4 attribute4,
+		       attribute5 attribute5,
+		       attribute6 attribute6,
+		       attribute7 attribute7,
+		       attribute8 attribute8,
+		       attribute9 attribute9,
+		       attribute10 attribute10
+		  from TMS_LOGISTICS_PROVIDERS
+			 where 1 = 1 
+			<if test="logisticsCode != null and logisticsCode != ''"> 
+            	and (logistics_code = #{logisticsCode}
+            </if>
+			<if test="logisticsName != null and logisticsName != ''"> 
+            	or logistics_name = #{logisticsName}
+            </if>
+            
+            <if test="logisticsShortName != null and logisticsShortName != ''"> 
+            	or logistics_short_name = #{logisticsShortName})
+            </if>
+            <if test="logisticsId != null and logisticsId != ''"> 
+            	and logistics_id <![CDATA[ <> ]]> #{logisticsId}
+            </if>
+	</select>
+	
+	<delete id="delLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			delete from TMS_LOGISTICS_PROVIDERS where LOGISTICS_ID =#{logisticsId}
+	</delete>
+	
+	<update id="updateLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			update TMS_LOGISTICS_PROVIDERS t
+			   set t.logistics_code   = #{logisticsCode},
+			       t.logistics_name   = #{logisticsName},
+			       t.enabled_flag     = #{enabledFlag},
+			       <if test="startDate != null"> 
+			       t.start_date       = #{startDate},
+			       </if>
+			       <if test="endDate != null"> 
+			       t.end_date         = #{endDate},
+			       </if>
+			       <if test="lastUpdatedBy != null and lastUpdatedBy != ''"> 
+			       t.last_updated_by  = #{lastUpdatedBy},
+			       </if>
+			       <if test="lastUpdateDate != null"> 
+			       t.last_update_date = #{lastUpdateDate},
+			       </if>
+			       t.logistics_short_name = #{logisticsShortName}
+			 where t.logistics_id = #{logisticsId}
+	</update> -->
+</mapper>

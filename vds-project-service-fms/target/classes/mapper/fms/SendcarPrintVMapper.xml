@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.SendcarPrintVMapper">
+    <select id="queryList" parameterType="com.foreveross.vds.dto.fms.SendcarPrintRequest" resultType="com.foreveross.vds.vo.fms.SendcarPrintVNew">
+      SELECT
+        *
+      FROM
+        SENDCAR_PRINT_V
+      <where>
+          <if test="sendcarHeaderId != null and sendcarHeaderId.size() != 0">
+              AND SENDCAR_HEADER_ID IN
+              <foreach collection="sendcarHeaderId" index="index" item="item" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+      </where>
+      ORDER BY SENDCAR_HEADER_ID
+    </select>
+	<select id="queryLineList" parameterType="com.foreveross.vds.vo.fms.SendcarPrintVNew"
+		resultType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+		select
+		T2.CAR_TYPE || '.' || T2.STATUS || '.' || T2.COLOR AS MATERIAL,
+		T2.VIN_CODE,
+		T1.Engine_NUMBER as ENGINER_ID,
+		'' INVOICE_NUMBER,
+		T2.SENCAR_LINE_ID
+		from tms_sendcar_line t2 left join cavds_vehicle_certificate t1
+		on t1.vin_code = t2.vin_code
+		<where>
+			<if test="sendcarHeaderId != null and sendcarHeaderId != ''">
+				AND SENDCAR_HEADER_ID = #{sendcarHeaderId}
+			</if>
+		</where>
+	</select>
+</mapper>

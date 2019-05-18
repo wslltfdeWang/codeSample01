@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.SendCarCloseMapper">
+
+
+    <select id="queryTmsSendcarLineV" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLineV"
+            resultType="com.foreveross.vds.dto.tms.TmsSendcarLineV">
+        SELECT * FROM TMS_SENDCAR_LINE_V
+        where 1 = 1
+        <if test="logisticsId != null and logisticsId != ''">
+            and logisitics_id = #{logisiticsId}
+        </if>
+        <if test="organizationIds != null and organizationIds.size() > 0">
+            AND organization_id IN
+            <foreach collection="organizationIds" item="organizationId" open="(" close=")" separator=",">
+                #{organizationId}
+            </foreach>
+        </if>
+        <if test="sendcarOrderNumbers != null and sendcarOrderNumbers.size() > 0">
+            AND sendcar_order_number IN
+            <foreach collection="sendcarOrderNumbers" item="sendcarOrderNumber" open="(" close=")" separator=",">
+                #{sendcarOrderNumber}
+            </foreach>
+        </if>
+        order by ORGANIZATION_ID,order_number,SENDCAR_ORDER_NUMBER,car_type,vin_code
+    </select>
+
+    <select id="queryCloseTmsSendcarLineV" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLineV"
+            resultType="com.foreveross.vds.dto.tms.TmsSendcarLineV">
+        select tsh.top_po_number order_Number,
+        tsh.ORGANIZATION_ID,
+        tsh.ORGANIZATION_SHORT_NAME,
+        tsl.VIN_CODE,
+        tsl.car_type,
+        tsl.close_reason,
+        tsl.sencar_line_id,
+        tsh.START_POINT_ID,--发运起点
+        tsh.TRANSPORT_MODEL,--发运模式
+        tsh.TRANSPORT_MODEL_STR,
+        tsh.SENDCAR_ORDER_NUMBER,--交接单号
+        tsh.TRANS_TOOL_CODE,--车牌号
+        tsh.SECTION_ORDER,--段次
+        tsh.TRANSPORT_METHOD,--发运方式
+        tsh.LOGISTICS_ID,--物流商
+        tsh.START_PROVINCE_ID,--起点省
+        tsh.START_CITY_ID,--起点市
+        tsh.START_COUNTY_ID,--起点县区
+        tsh.SHIP_TO_ADDRESS,--发运地址
+        tsh.END_PROVINCE_ID,--终点省
+        tsh.END_CITY_ID,--终点市
+        tsh.END_COUNTY_ID,--终点县区
+        tsh.NUM,--数量
+        -- 以下字段为隐藏字段
+        tsh.SENDCAR_HEADER_ID,--送车交接单头ID
+        tsh.ORG_ID,--业务实体ID
+        tsh.SENDCAR_DATE,--生成交接单时间
+        tsh.settled_flag,
+        tsh.RECEIVE_STATUS,
+        tsh.LOOKUP_CODE,
+        tsl.CLOSE_FLAG
+        from TMS_SENDCAR_LINE tsl
+        left join FMS_SETTLETRANSPORT_CHARGE_V tsh on tsh.SENDCAR_HEADER_ID = tsl.SENDCAR_HEADER_ID
+        where nvl(tsl.CLOSE_FLAG, 'Y') = 'Y'
+        <if test="logisticsId != null and logisticsId != ''">
+            and logisitics_id = #{logisiticsId}
+        </if>
+        <if test="organizationIds != null and organizationIds.size() > 0">
+            AND organization_id IN
+            <foreach collection="organizationIds" item="organizationId" open="(" close=")" separator=",">
+                #{organizationId}
+            </foreach>
+        </if>
+        <if test="sendcarOrderNumbers != null and sendcarOrderNumbers.size() > 0">
+            AND sendcar_order_number IN
+            <foreach collection="sendcarOrderNumbers" item="sendcarOrderNumber" open="(" close=")" separator=",">
+                #{sendcarOrderNumber}
+            </foreach>
+        </if>
+        order by ORGANIZATION_ID,order_number,SENDCAR_ORDER_NUMBER,car_type,vin_code
+    </select>
+
+
+    <update id="updateTmsSendcarLine" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        update TMS_SENDCAR_LINE t
+        set t.close_flag      = 'Y',
+            t.close_date      = sysdate,
+            t.close_reason    = #{closeReason},
+            LAST_UPDATED_BY   = #{userId},
+            LAST_UPDATE_LOGIN = #{lastUpdateLogin}
+        where t.sencar_line_id = #{sencarLineId}
+    </update>
+    <update id="updateTmsSendcarHeader" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        update TMS_SENDCAR_HEADER t
+        set t.settled_quantity = t.settled_quantity - 1,
+            LAST_UPDATED_BY    = #{userId},
+            LAST_UPDATE_LOGIN  = #{lastUpdateLogin}
+        where t.SENDCAR_HEADER_ID =
+              (select SENDCAR_HEADER_ID from TMS_SENDCAR_LINE where SENCAR_LINE_ID = #{sencarLineId})
+    </update>
+    <update id="recordLineClose" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        insert into FMS_CLOSE_LINE_RECORD (CLOSE_LINE_ID,
+                                           SENCAR_LINE_ID,
+                                           CLOSE_BY,
+                                           CLOSE_DATE,
+                                           CLOSE_REASON,
+                                           CREATED_BY,
+                                           CREATION_DATE,
+                                           LAST_UPDATED_BY,
+                                           LAST_UPDATE_DATE,
+                                           LAST_UPDATE_LOGIN)
+        values (FMS_CLOSE_LINE_RECORD_s.nextval,
+                #{sencarLineId},
+                #{userId},
+                sysdate,
+                #{closeReason},
+                #{userId},
+                sysdate,
+                #{userId},
+                sysdate,
+                #{lastUpdateLogin})
+    </update>
+</mapper>

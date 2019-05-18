@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsTransportSettledHeaderMapper">
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        <id column="TRANSPORT_SETTLED_HEADER_ID" property="transportSettledHeaderId" jdbcType="DECIMAL"/>
+        <result column="ORG_ID" property="orgId" jdbcType="DECIMAL"/>
+        <result column="LOGISTICS_ID" property="logisticsId" jdbcType="DECIMAL"/>
+        <result column="START_POINT_ID" property="startPointId" jdbcType="DECIMAL"/>
+        <result column="SETTLED_STATUS" property="settledStatus" jdbcType="VARCHAR"/>
+        <result column="BATCH_CODE" property="batchCode" jdbcType="VARCHAR"/>
+        <result column="BATCH_FEE" property="batchFee" jdbcType="DECIMAL"/>
+        <result column="REJECT_REASON" property="rejectReason" jdbcType="VARCHAR"/>
+        <result column="FORMAL_FLAG" property="formalFlag" jdbcType="VARCHAR"/>
+        <result column="CONTRACT_HEADER_ID" property="contractHeaderId" jdbcType="DECIMAL"/>
+        <result column="CONTRACT_END_DATE" property="contractEndDate" jdbcType="TIMESTAMP"/>
+        <result column="REFUND_FLAG" property="refundFlag" jdbcType="VARCHAR"/>
+        <result column="DISTANCE_HEADER_ID" property="distanceHeaderId" jdbcType="DECIMAL"/>
+        <result column="REMARKS" property="remarks" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP"/>
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP"/>
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR"/>
+        <result column="APPROVE_DATE" property="approveDate" jdbcType="TIMESTAMP"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP"/>
+        <result column="LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR"/>
+        <result column="REJECT_FLAG" property="rejectFlag" jdbcType="VARCHAR"/>
+        <result column="TRANSPORT_METHOD" property="transportMethod" jdbcType="VARCHAR"/>
+        <result column="EXPENSE_ACCOUNT_NUMBER" property="expenseAccountNumber" jdbcType="VARCHAR"/>
+        <result column="isExpenseFlag" property="isExpenseFlag" jdbcType="VARCHAR"/>
+        <result column="EXPENSE_ACCOUNT_NUMBER_his" property="expenseAccountNumberHis" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        TRANSPORT_SETTLED_HEADER_ID, ORG_ID, LOGISTICS_ID, START_POINT_ID, SETTLED_STATUS,TRANSPORT_METHOD,
+        BATCH_CODE, BATCH_FEE, REJECT_REASON, FORMAL_FLAG, CONTRACT_HEADER_ID, CONTRACT_END_DATE, 
+        REFUND_FLAG, DISTANCE_HEADER_ID, REMARKS, START_DATE, END_DATE, ENABLED_FLAG, CREATED_BY, APPROVE_DATE,
+        CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, ATTRIBUTE1, 
+        ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, ATTRIBUTE8, 
+        ATTRIBUTE9, ATTRIBUTE10, REJECT_FLAG,EXPENSE_ACCOUNT_NUMBER
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from FMS.FMS_TRANSPORT_SETTLED_HEADER
+        where TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from FMS.FMS_TRANSPORT_SETTLED_HEADER
+        where TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        insert into FMS.FMS_TRANSPORT_SETTLED_HEADER (TRANSPORT_SETTLED_HEADER_ID, ORG_ID, 
+            LOGISTICS_ID, START_POINT_ID, SETTLED_STATUS, 
+            BATCH_CODE, BATCH_FEE, REJECT_REASON, 
+            FORMAL_FLAG, CONTRACT_HEADER_ID, CONTRACT_END_DATE, 
+            REFUND_FLAG, DISTANCE_HEADER_ID, REMARKS, 
+            START_DATE, END_DATE, ENABLED_FLAG, 
+            CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, 
+            LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, ATTRIBUTE1, 
+            ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, 
+            ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, 
+            ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10, 
+            REJECT_FLAG)
+        values (#{transportSettledHeaderId,jdbcType=DECIMAL}, #{orgId,jdbcType=DECIMAL}, 
+            #{logisticsId,jdbcType=DECIMAL}, #{startPointId,jdbcType=DECIMAL}, #{settledStatus,jdbcType=VARCHAR}, 
+            #{batchCode,jdbcType=VARCHAR}, #{batchFee,jdbcType=DECIMAL}, #{rejectReason,jdbcType=VARCHAR}, 
+            #{formalFlag,jdbcType=VARCHAR}, #{contractHeaderId,jdbcType=DECIMAL}, #{contractEndDate,jdbcType=TIMESTAMP}, 
+            #{refundFlag,jdbcType=VARCHAR}, #{distanceHeaderId,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, 
+            #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{enabledFlag,jdbcType=VARCHAR}, 
+            #{createdBy,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=DECIMAL}, 
+            #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdateLogin,jdbcType=VARCHAR}, #{attribute1,jdbcType=VARCHAR}, 
+            #{attribute2,jdbcType=VARCHAR}, #{attribute3,jdbcType=VARCHAR}, #{attribute4,jdbcType=VARCHAR}, 
+            #{attribute5,jdbcType=VARCHAR}, #{attribute6,jdbcType=VARCHAR}, #{attribute7,jdbcType=VARCHAR}, 
+            #{attribute8,jdbcType=VARCHAR}, #{attribute9,jdbcType=VARCHAR}, #{attribute10,jdbcType=VARCHAR}, 
+            #{rejectFlag,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        insert into FMS.FMS_TRANSPORT_SETTLED_HEADER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transportSettledHeaderId != null">
+                TRANSPORT_SETTLED_HEADER_ID,
+            </if>
+            <if test="orgId != null">
+                ORG_ID,
+            </if>
+            <if test="logisticsId != null">
+                LOGISTICS_ID,
+            </if>
+            <if test="startPointId != null">
+                START_POINT_ID,
+            </if>
+            <if test="settledStatus != null">
+                SETTLED_STATUS,
+            </if>
+            <if test="batchCode != null">
+                BATCH_CODE,
+            </if>
+            <if test="batchFee != null">
+                BATCH_FEE,
+            </if>
+            <if test="rejectReason != null">
+                REJECT_REASON,
+            </if>
+            <if test="formalFlag != null">
+                FORMAL_FLAG,
+            </if>
+            <if test="contractHeaderId != null">
+                CONTRACT_HEADER_ID,
+            </if>
+            <if test="contractEndDate != null">
+                CONTRACT_END_DATE,
+            </if>
+            <if test="refundFlag != null">
+                REFUND_FLAG,
+            </if>
+            <if test="distanceHeaderId != null">
+                DISTANCE_HEADER_ID,
+            </if>
+            <if test="remarks != null">
+                REMARKS,
+            </if>
+            <if test="startDate != null">
+                START_DATE,
+            </if>
+            <if test="endDate != null">
+                END_DATE,
+            </if>
+            <if test="enabledFlag != null">
+                ENABLED_FLAG,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdateDate != null">
+                LAST_UPDATE_DATE,
+            </if>
+            <if test="lastUpdateLogin != null">
+                LAST_UPDATE_LOGIN,
+            </if>
+            <if test="attribute1 != null">
+                ATTRIBUTE1,
+            </if>
+            <if test="attribute2 != null">
+                ATTRIBUTE2,
+            </if>
+            <if test="attribute3 != null">
+                ATTRIBUTE3,
+            </if>
+            <if test="attribute4 != null">
+                ATTRIBUTE4,
+            </if>
+            <if test="attribute5 != null">
+                ATTRIBUTE5,
+            </if>
+            <if test="attribute6 != null">
+                ATTRIBUTE6,
+            </if>
+            <if test="attribute7 != null">
+                ATTRIBUTE7,
+            </if>
+            <if test="attribute8 != null">
+                ATTRIBUTE8,
+            </if>
+            <if test="attribute9 != null">
+                ATTRIBUTE9,
+            </if>
+            <if test="attribute10 != null">
+                ATTRIBUTE10,
+            </if>
+            <if test="rejectFlag != null">
+                REJECT_FLAG,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transportSettledHeaderId != null">
+                #{transportSettledHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=DECIMAL},
+            </if>
+            <if test="logisticsId != null">
+                #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="startPointId != null">
+                #{startPointId,jdbcType=DECIMAL},
+            </if>
+            <if test="settledStatus != null">
+                #{settledStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="batchCode != null">
+                #{batchCode,jdbcType=VARCHAR},
+            </if>
+            <if test="batchFee != null">
+                #{batchFee,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectReason != null">
+                #{rejectReason,jdbcType=VARCHAR},
+            </if>
+            <if test="formalFlag != null">
+                #{formalFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="contractHeaderId != null">
+                #{contractHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="contractEndDate != null">
+                #{contractEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="refundFlag != null">
+                #{refundFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="distanceHeaderId != null">
+                #{distanceHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null">
+                #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null">
+                #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null">
+                #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null">
+                #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null">
+                #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null">
+                #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null">
+                #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectFlag != null">
+                #{rejectFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        update FMS.FMS_TRANSPORT_SETTLED_HEADER
+        <set>
+            <if test="orgId != null">
+                ORG_ID = #{orgId,jdbcType=DECIMAL},
+            </if>
+            <if test="logisticsId != null">
+                LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="startPointId != null">
+                START_POINT_ID = #{startPointId,jdbcType=DECIMAL}, l
+            </if>
+            <if test="settledStatus != null">
+                SETTLED_STATUS = #{settledStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="batchCode != null">
+                BATCH_CODE = #{batchCode,jdbcType=VARCHAR},
+            </if>
+            <if test="batchFee != null">
+                BATCH_FEE = #{batchFee,jdbcType=DECIMAL},
+            </if>
+            <if test="rejectReason != null">
+                REJECT_REASON = #{rejectReason,jdbcType=VARCHAR},
+            </if>
+            <if test="formalFlag != null">
+                FORMAL_FLAG = #{formalFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="contractHeaderId != null">
+                CONTRACT_HEADER_ID = #{contractHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="contractEndDate != null">
+                CONTRACT_END_DATE = #{contractEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="refundFlag != null">
+                REFUND_FLAG = #{refundFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="distanceHeaderId != null">
+                DISTANCE_HEADER_ID = #{distanceHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="remarks != null">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null">
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null">
+                ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="approveDate != null">
+                APPROVE_DATE = #{approveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateDate != null">
+                LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null">
+                LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null">
+                ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null">
+                ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null">
+                ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null">
+                ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null">
+                ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectFlag != null">
+                REJECT_FLAG = #{rejectFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        update FMS.FMS_TRANSPORT_SETTLED_HEADER
+        set ORG_ID = #{orgId,jdbcType=DECIMAL},
+            LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+            START_POINT_ID = #{startPointId,jdbcType=DECIMAL},
+            SETTLED_STATUS = #{settledStatus,jdbcType=VARCHAR},
+            BATCH_CODE = #{batchCode,jdbcType=VARCHAR},
+            BATCH_FEE = #{batchFee,jdbcType=DECIMAL},
+            REJECT_REASON = #{rejectReason,jdbcType=VARCHAR},
+            FORMAL_FLAG = #{formalFlag,jdbcType=VARCHAR},
+            CONTRACT_HEADER_ID = #{contractHeaderId,jdbcType=DECIMAL},
+            CONTRACT_END_DATE = #{contractEndDate,jdbcType=TIMESTAMP},
+            REFUND_FLAG = #{refundFlag,jdbcType=VARCHAR},
+            DISTANCE_HEADER_ID = #{distanceHeaderId,jdbcType=DECIMAL},
+            REMARKS = #{remarks,jdbcType=VARCHAR},
+            START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            APPROVE_DATE = #{approveDate,jdbcType=TIMESTAMP},
+            LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            REJECT_FLAG = #{rejectFlag,jdbcType=VARCHAR}
+        where TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId,jdbcType=DECIMAL}
+    </update>
+
+    <select id="queryList" resultMap="BaseResultMap"
+            parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        select t1.TRANSPORT_SETTLED_HEADER_ID,
+        t1.ORG_ID,
+        t1.LOGISTICS_ID,
+        t8.departure_name,
+        t1.SETTLED_STATUS,
+        t1.BATCH_CODE,
+        t1.BATCH_FEE,
+        t1.REJECT_REASON,
+        t1.FORMAL_FLAG,
+        t1.CONTRACT_HEADER_ID,
+        t1.CONTRACT_END_DATE,
+        t1.REFUND_FLAG,
+        t1.DISTANCE_HEADER_ID,
+        t1.REMARKS,
+        t1.START_DATE,
+        t1.END_DATE,
+        t1.ENABLED_FLAG,
+        t1.CREATED_BY,
+        t1.CREATION_DATE,
+        t1.LAST_UPDATED_BY,
+        t1.LAST_UPDATE_DATE,
+        t1.LAST_UPDATE_LOGIN,
+        (select sum(t3.SETTLED_QUANTITY)
+        from fms.FMS_TRANSPORT_SETTLED_LINE t2,
+        TMS_SENDCAR_HEADER t3
+        where t2.TRANSPORT_SETTLED_HEADER_ID =
+        t1.TRANSPORT_SETTLED_HEADER_ID
+        and t3.SENDCAR_HEADER_ID = t2.SENDCAR_HEADER_ID
+        and nvl(t2.ENABLE_FLAG, 'Y') = 'Y'
+        group by t1.TRANSPORT_SETTLED_HEADER_ID) as      ATTRIBUTE1,
+        t2.user_name,
+        t7.transport_method,
+        t9.EXPENSE_ACCOUNT_NUMBER,
+        decode(t10.EXPENSE_ACCOUNT_NUMBER, null, '否', '是') isExpenseFlag,
+        t10.EXPENSE_ACCOUNT_NUMBER                        EXPENSE_ACCOUNT_NUMBER_HIS
+        from FMS.FMS_TRANSPORT_SETTLED_HEADER t1
+        left join fnd_user t2 on t1.created_by = t2.user_id
+        left join Tms_Departure t8 on t1.START_POINT_ID = t8.departure_id
+        left join (select t6.LOOKUP_ID, t3.TRANSPORT_SETTLED_HEADER_ID, max(t6.DESCRIPTION) transport_method
+        from FMS.FMS_TRANSPORT_SETTLED_HEADER t3,
+        fms.FMS_TRANSPORT_SETTLED_LINE t4,
+        tms.TMS_SENDCAR_HEADER t5,
+        fnd.FND_LOOKUP_VALUES t6
+        where t3.TRANSPORT_SETTLED_HEADER_ID = t4.TRANSPORT_SETTLED_HEADER_ID
+        and t4.SENDCAR_HEADER_ID = t5.SENDCAR_HEADER_ID
+        and t5.TRANSPORT_METHOD_ID = t6.LOOKUP_ID
+        group by t3.TRANSPORT_SETTLED_HEADER_ID, t6.LOOKUP_ID) t7
+        on t7.TRANSPORT_SETTLED_HEADER_ID = t1.TRANSPORT_SETTLED_HEADER_ID
+        left join (select fea.EXPENSE_ACCOUNT_ID, fesr.SETTLED_HEADER_ID, fea.EXPENSE_ACCOUNT_NUMBER
+        from FMS_EXPENSE_ACCOUNT fea,
+        FMS_EXPENSE_SETTLED_RELATE fesr
+        where nvl(fea.ENABLED_FLAG, 'Y') = 'Y'
+        and fesr.EXPENSE_ACCOUNT_ID = fea.EXPENSE_ACCOUNT_ID) t9
+        on t9.SETTLED_HEADER_ID = t1.TRANSPORT_SETTLED_HEADER_ID
+        left join (select fesr.SETTLED_HEADER_ID, max(fea.EXPENSE_ACCOUNT_NUMBER) EXPENSE_ACCOUNT_NUMBER
+        from FMS_EXPENSE_ACCOUNT fea,
+        FMS_EXPENSE_SETTLED_RELATE fesr
+        where fesr.EXPENSE_ACCOUNT_ID = fea.EXPENSE_ACCOUNT_ID
+        group by fesr.SETTLED_HEADER_ID) t10 on t10.SETTLED_HEADER_ID = t1.TRANSPORT_SETTLED_HEADER_ID
+        WHERE 1 = 1
+        and NVL(T1.ENABLED_FLAG, 'Y') = 'Y'
+        <if test="orgId != null">
+            AND t1.ORG_ID = #{orgId}
+        </if>
+        <if test="logisticsId != null">
+            AND t1.LOGISTICS_ID = #{logisticsId}
+        </if>
+        <if test="startPointId != null and startPointId != ''">
+            AND t8.departure_id = #{startPointId}
+        </if>
+        <if test="startDate != null">
+            <![CDATA[AND to_char(t1.CREATION_DATE, 'YYYYMMdd')>= to_char(#{startDate}, 'YYYYMMdd')]]>
+        </if>
+        <if test="endDate != null">
+            AND ( to_char(#{endDate}, 'YYYYMMdd') >= to_char(t1.CREATION_DATE, 'YYYYMMdd'))
+        </if>
+        <if test="settledStatus != null">
+            AND t1.SETTLED_STATUS = #{settledStatus}
+        </if>
+        <if test="batchCodeList != null and batchCodeList.size > 0">
+            AND t1.BATCH_CODE IN
+            <foreach collection="batchCodeList" index="index"
+                     item="batchCode" open="(" close=")" separator=",">
+                #{batchCode}
+            </foreach>
+        </if>
+        <if test="expenseAccountNumber!= null and expenseAccountNumber != ''">
+            AND t9.EXPENSE_ACCOUNT_NUMBER = #{expenseAccountNumber}
+        </if>
+        <if test="transportMethod != null and transportMethod != ''">
+            AND t7.LOOKUP_ID = #{transportMethod}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND t2.USER_NAME = #{userName}
+        </if>
+    </select>
+
+    <update id="updateTransportSettledLineByTransportSettledHeader"
+            parameterType="com.foreveross.vds.vo.fms.FmsTransportSettledHeader">
+        update fms_transport_settled_line
+        set enable_flag       = 'N',
+            last_updated_by   = #{lastUpdatedBy},
+            last_update_date  = sysdate,
+            last_update_login = #{lastUpdateLogin}
+        where transport_settled_header_id = #{transportSettledHeaderId}
+    </update>
+</mapper>

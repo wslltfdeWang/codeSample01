@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsTransportSettledLineVMapper" >
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsTransportSettledLineV" >
+        <result column="BATCH_CODE" property="batchCode" jdbcType="VARCHAR" />
+        <result column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
+        <result column="ORGANIZATION_ID" property="organizationId" jdbcType="DECIMAL" />
+        <result column="ORGANIZATION_NAME" property="organizationName" jdbcType="VARCHAR" />
+        <result column="TRANSPORT_MODEL" property="transportModel" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_MODEL_NAME" property="transportModelName" jdbcType="VARCHAR" />
+        <result column="SENDCAR_ORDER_NUMBER" property="sendcarOrderNumber" jdbcType="VARCHAR" />
+        <result column="SECTION_ORDER" property="sectionOrder" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_METHOD_ID" property="transportMethodId" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_METHOD_NAME" property="transportMethodName" jdbcType="VARCHAR" />
+        <result column="LOGISTICS_ID" property="logisticsId" jdbcType="DECIMAL" />
+        <result column="LOGISTICS_SHORT_NAME" property="logisticsShortName" jdbcType="VARCHAR" />
+        <result column="CARRIER_ID" property="carrierId" jdbcType="DECIMAL" />
+        <result column="SHIP_TO_ADDRESS" property="shipToAddress" jdbcType="VARCHAR" />
+        <result column="START_PROVINCE_ID" property="startProvinceId" jdbcType="DECIMAL" />
+        <result column="START_CITY_ID" property="startCityId" jdbcType="DECIMAL" />
+        <result column="START_COUNTY_ID" property="startCountyId" jdbcType="DECIMAL" />
+        <result column="END_PROVINCE_ID" property="endProvinceId" jdbcType="DECIMAL" />
+        <result column="END_CITY_ID" property="endCityId" jdbcType="DECIMAL" />
+        <result column="END_COUNTY_ID" property="endCountyId" jdbcType="DECIMAL" />
+        <result column="START_PROVINCE_NAME" property="startProvinceName" jdbcType="VARCHAR" />
+        <result column="START_CITY_NAME" property="startCityName" jdbcType="VARCHAR" />
+        <result column="START_COUNTY_NAME" property="startCountyName" jdbcType="VARCHAR" />
+        <result column="END_PROVINCE_NAME" property="endProvinceName" jdbcType="VARCHAR" />
+        <result column="END_CITY_NAME" property="endCityName" jdbcType="VARCHAR" />
+        <result column="END_COUNTY_NAME" property="endCountyName" jdbcType="VARCHAR" />
+        <result column="CAR_QUANTITY" property="carQuantity" jdbcType="DECIMAL" />
+        <result column="CAR_TYPE" property="carType" jdbcType="VARCHAR" />
+        <result column="CAR_CATEGORY_ID" property="carCategoryId" jdbcType="DECIMAL" />
+        <result column="CAR_CATEGORY_NAME" property="carCategoryName" jdbcType="VARCHAR" />
+        <result column="CAR_SERIES_ID" property="carSeriesId" jdbcType="DECIMAL" />
+        <result column="CAR_SERIES_NAME" property="carSeriesName" jdbcType="VARCHAR" />
+        <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_DISTANCE" property="transportDistance" jdbcType="DECIMAL" />
+        <result column="FREIGHT_FEE" property="freightFee" jdbcType="DECIMAL" />
+        <result column="OVER_SEA_FEE" property="overSeaFee" jdbcType="DECIMAL" />
+        <result column="RAILWAY_PREPARE_FEE" property="railwayPrepareFee" jdbcType="DECIMAL" />
+        <result column="UNIT_FEE" property="unitFee" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_SETTLED_LINE_ID" property="transportSettledLineId" jdbcType="DECIMAL" />
+        <result column="TRANSPORT_SETTLED_HEADER_ID" property="transportSettledHeaderId" jdbcType="DECIMAL" />
+    </resultMap>
+    
+    <select id="queryList" resultMap="BaseResultMap" parameterType="java.lang.Object">
+    	SELECT * FROM FMS_TRANSPORT_SETTLED_LINE_V
+    	WHERE 1=1
+    	<if test="transportSettledHeaderId != null">
+    		AND TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId}
+    	</if>
+    	<if test="orgId != null">
+    		AND ORG_ID = #{orgId}
+    	</if>
+    	<if test="logisticsId != null">
+    		AND LOGISTICS_ID = #{logisticsId}
+    	</if>
+    	<if test="startPointId != null">
+    		AND START_POINT_ID = #{startPointId}
+    	</if>
+    	<if test="startDate != null">
+    		AND START_DATE >= #{startDate}
+    	</if>
+    	<if test="endDate != null">
+    		AND END_DATE &lt;= #{endDate}
+    	</if>
+        <if test="transportSettledHeaderIds != null and transportSettledHeaderIds.length != 0">
+            AND TRANSPORT_SETTLED_HEADER_ID IN
+            <foreach collection="transportSettledHeaderIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryTransportSettledLineTotalfee" resultType="string" >
+        SELECT sum(UNIT_FEE) FROM FMS_TRANSPORT_SETTLED_LINE_V
+        WHERE 1=1
+        <if test="transportSettledHeaderIds != null and transportSettledHeaderIds.length != 0">
+            AND TRANSPORT_SETTLED_HEADER_ID in
+            <foreach collection="transportSettledHeaderIds" index="index" item="item" open="(" separator="，" close=")" >
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="print" resultType="com.foreveross.vds.dto.tms.TmsSendcarHeaderFmsE" parameterType="java.lang.Object">
+    	SELECT * FROM FMS_TRANSPORT_SETTLED_LINE_P_V
+    	WHERE 1=1
+    	<if test="transportSettledHeaderId != null">
+    		AND TRANSPORT_SETTLED_HEADER_ID = #{transportSettledHeaderId}
+    	</if>
+    	<if test="orgId != null">
+    		AND ORG_ID = #{orgId}
+    	</if>
+    	<if test="logisticsId != null">
+    		AND LOGISTICS_ID = #{logisticsId}
+    	</if>
+    	<if test="startPointId != null">
+    		AND START_POINT_ID = #{startPointId}
+    	</if>
+    	<if test="startDate != null">
+    		AND START_DATE >= #{startDate}
+    	</if>
+    	<if test="endDate != null">
+    		AND END_DATE &lt;= #{endDate}
+    	</if>
+        <if test="transportSettledHeaderIds != null and transportSettledHeaderIds.length != 0">
+            AND TRANSPORT_SETTLED_HEADER_ID IN
+            <foreach collection="transportSettledHeaderIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+</mapper>

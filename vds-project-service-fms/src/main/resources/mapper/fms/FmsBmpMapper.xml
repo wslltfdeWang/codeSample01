@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsBmpMapper">
+    <select id="queryFmsBmpVList" parameterType="com.foreveross.vds.dto.fms.FmsBmpV"
+            resultType="com.foreveross.vds.dto.fms.FmsBmpV">
+        select
+        data_id dataId,batch_code batchCode,batch_fee batchFee,batch_type batchType ,contract_id contractId,
+        t.contract_name contractName,
+        t.contract_number contractNumber,
+        t.receiving_unit receivingUnit,
+        t.account_bank accountBank,
+        t.receiving_acount receivingAcount,
+        t.settled_status settledStatus,
+        t.departure_id departureId,
+        t.transport_method transportMethod,
+        t.logistics_id logisticsId,
+        t.sendcar_year sendcarYear,
+        t.approve_date approveDate,
+        t.isExpenseFlag,
+        t.expenseAccountNumberHis,
+        t.org_id orgId
+        from fms_bmp_v t
+        where 1=1
+        <if test="batchCode != null and batchCode != ''">
+            AND t.batch_code LIKE '%${batchCode}%'
+        </if>
+        <if test="batchCode1 != null and batchCode1 != ''">
+            AND t.batch_code = #{batchCode1}
+        </if>
+        <if test="batchType != null and batchType != ''">
+            and t.batch_type = #{batchType}
+        </if>
+        <if test="queryType != null and queryType != ''">
+            and exists (select 1
+            from fnd_lookup_values t1
+            where t1.lookup_id = t.settled_status
+            and exists (select 1
+            from fnd_lookup_types t2
+            where t2.lookup_type_id = t1.lookup_type_id
+            and t2.lookup_type = 'SETTLE_STATUS')
+            and t1.meaning = #{queryType})
+        </if>
+        <if test="departureId != null">
+            and t.departure_id = #{departureId}
+        </if>
+        <if test="transportMethod != null">
+            and t.transport_method = #{transportMethod}
+        </if>
+        <if test="logisticsId != null">
+            and t.logistics_id = #{logisticsId}
+        </if>
+        <if test="sendcarYear != null and sendcarYear != ''">
+            and t.sendcar_year like '%${sendcarYear}%'
+        </if>
+        <if test="approveDateStart != null">
+            <![CDATA[  and approve_date >= #{approveDateStart} ]]>
+        </if>
+        <if test="approveDateEnd != null">
+            <![CDATA[  and approve_date <= #{approveDateEnd} ]]>
+        </if>
+        <if test="contractNo != null and contractNo != ''">
+            and t.contract_no like '%${contractNo}%'
+        </if>
+        <if test="orgId != null and orgId != ''">
+            and t.org_id = #{orgId}
+        </if>
+        <if test="orderBy != null and orderBy != ''">
+            order by ${orderBy}
+        </if>
+    </select>
+    <!-- 查询费用流程审核时报销单号结算批次关联表视图 -->
+    <select id="queryFmsExpenseSettledRelateVList" parameterType="java.lang.String"
+            resultType="com.foreveross.vds.dto.fms.FmsExpenseSettledRelateV">
+        SELECT EXPENSE_ACCOUNT_ID          expenseAccountId,
+               TRANSPORT_EXPENSE_RELATE_ID transportExpenseRelateId,
+               FEE_TYPE                    feeType,
+               BATCH_CODE                  batchCode,
+               BATCH_FEE                   batchFee,
+               ORG_NAME                    orgName,
+               LOGISTICS_NAME              logisticsName,
+               START_POINT_NAME            startPointName,
+               PRO_INST_ID                 proInstId
+        FROM FMS_EXPENSE_SETTLED_RELATE_V T
+        WHERE PRO_INST_ID = #{proInstId}
+    </select>
+
+    <select id="queryFmsProApprovalRecordByProInstId" parameterType="java.lang.String"
+            resultType="com.foreveross.vds.dto.fms.FmsProApprovalRecord">
+        select approval_record_id approvalRecordId,
+               expense_account_id expenseAccountId,
+               pro_inst_id        proInstId,
+               link_name          linkName,
+               approval_result    approvalResult,
+               approval_by        approvalBy,
+               approval_date      approvalDate,
+               created_by         createdBy,
+               creation_date      creationDate,
+               last_updated_by    lastUpdatedBy,
+               last_update_date   lastUpdateDate,
+               last_update_login  lastUpdateLogin,
+               attribute1         attribute1,
+               attribute2         attribute2,
+               attribute3         attribute3,
+               attribute4         attribute4,
+               attribute5         attribute5,
+               attribute6         attribute6,
+               attribute7         attribute7,
+               attribute8         attribute8,
+               attribute9         attribute9,
+               attribute10        attribute10
+        from FMS_PRO_APPROVAL_RECORD
+        where pro_inst_id = #{proInstId}
+        order by approval_record_id desc
+    </select>
+
+    <select id="queryFmsProApprovalRecordByExpenseAccountId" parameterType="java.lang.Long"
+            resultType="com.foreveross.vds.dto.fms.FmsProApprovalRecord">
+        select approval_record_id approvalRecordId,
+               expense_account_id expenseAccountId,
+               pro_inst_id        proInstId,
+               link_name          linkName,
+               approval_result    approvalResult,
+               approval_by        approvalBy,
+               approval_date      approvalDate,
+               created_by         createdBy,
+               creation_date      creationDate,
+               last_updated_by    lastUpdatedBy,
+               last_update_date   lastUpdateDate,
+               last_update_login  lastUpdateLogin,
+               attribute1         attribute1,
+               attribute2         attribute2,
+               attribute3         attribute3,
+               attribute4         attribute4,
+               attribute5         attribute5,
+               attribute6         attribute6,
+               attribute7         attribute7,
+               attribute8         attribute8,
+               attribute9         attribute9,
+               attribute10        attribute10
+        from FMS_PRO_APPROVAL_RECORD
+        where expense_account_id = #{expenseAccountId}
+        order by approval_record_id desc
+    </select>
+
+    <select id="getExpenseAccountNumber" parameterType="java.lang.String" resultType="java.lang.String">
+        select replace(lpad(to_char(nvl(count(1), 0) + 1), 4), ' ', '0')
+        from FMS_EXPENSE_ACCOUNT t
+        where to_char(t.creation_date, 'yyyyMMdd') = to_char(sysdate, 'yyyyMMdd')
+    </select>
+
+
+    <select id="getFeeType" parameterType="com.foreveross.vds.dto.fms.FmsProApprovalRecord"
+            resultType="java.lang.String">
+        select T2.lookup_code type
+        from FMS_EXPENSE_ACCOUNT t1,
+             FND_LOOKUP_VALUES t2
+        where T1.FEE_TYPE = T2.LOOKUP_ID
+          and t1.EXPENSE_ACCOUNT_ID = #{expenseAccountId}
+    </select>
+
+    <update id="rejOrAdoptFmsFlow" parameterType="java.util.Map">
+        UPDATE FMS_EXPENSE_ACCOUNT T SET
+        T.PRO_STATUS = #{proStatus},
+        <if test="rejectReason != null and rejectReason != ''">
+            T.REJECT_REASON = #{rejectReason},
+        </if>
+        T.PRO_END_DATE = sysdate
+        WHERE T.PRO_INST_ID = #{proInstId}
+    </update>
+
+    <select id="isRelateConfirm" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount"
+            resultType="java.lang.String">
+        select decode(
+                   SETTLED_STATUS,
+                   (select flv.LOOKUP_ID
+                    from FND_LOOKUP_VALUES flv,
+                         FND_LOOKUP_TYPES flt
+                    where flv.LOOKUP_TYPE_ID = flt.LOOKUP_TYPE_ID
+                      and flt.LOOKUP_TYPE = 'SETTLE_STATUS'
+                      and flv.LOOKUP_CODE = 'POSTED'),
+                   'Y', 'N') attribute1
+        from FMS_EXPENSE_ACCOUNT
+        where EXPENSE_ACCOUNT_ID = #{expenseAccountId}
+    </select>
+
+    <insert id="addFmsProApprovalRecord" parameterType="com.foreveross.vds.dto.fms.FmsProApprovalRecord">
+        <selectKey resultType="java.lang.Long" keyProperty="approvalRecordId" order="BEFORE">
+            select FMS_PRO_APPROVAL_RECORD_S.nextval as approvalRecordId from dual
+        </selectKey>
+        insert into FMS_PRO_APPROVAL_RECORD
+        (approval_record_id,
+        expense_account_id,
+        pro_inst_id,
+        link_name,
+        approval_result,
+        approval_by,
+        approval_date,
+        created_by,
+        creation_date,
+        last_updated_by,
+        last_update_date,
+        last_update_login,
+        attribute1,
+        attribute2,
+        attribute3,
+        attribute4,
+        attribute5,
+        attribute6,
+        attribute7,
+        attribute8,
+        attribute9,
+        attribute10)
+        values
+        (#{approvalRecordId,
+         jdbcType = VARCHAR},
+        #{expenseAccountId,
+        jdbcType = VARCHAR},
+        #{proInstId,
+        jdbcType = VARCHAR},
+        #{linkName,
+        jdbcType = VARCHAR},
+        #{approvalResult,
+        jdbcType = VARCHAR},
+        #{approvalBy,
+        jdbcType = VARCHAR},
+        #{approvalDate,
+        jdbcType = VARCHAR},
+        #{createdBy,
+        jdbcType = VARCHAR},
+        #{creationDate,
+        jdbcType = VARCHAR},
+        #{lastUpdatedBy,
+        jdbcType = VARCHAR},
+        #{lastUpdateDate,
+        jdbcType = VARCHAR},
+        #{lastUpdateLogin,
+        jdbcType = VARCHAR},
+        #{attribute1,
+        jdbcType = VARCHAR},
+        #{attribute2,
+        jdbcType = VARCHAR},
+        #{attribute3,
+        jdbcType = VARCHAR},
+        #{attribute4,
+        jdbcType = VARCHAR},
+        #{attribute5,
+        jdbcType = VARCHAR},
+        #{attribute6,
+        jdbcType = VARCHAR},
+        #{attribute7,
+        jdbcType = VARCHAR},
+        #{attribute8,
+        jdbcType = VARCHAR},
+        #{attribute9,
+        jdbcType = VARCHAR},
+        #{attribute10,
+        jdbcType = VARCHAR})
+    </insert>
+
+    <select id="getStatusByExpenseNumber" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount"
+            resultType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+        select EXPENSE_ACCOUNT_ID expenseAccountId,
+               SETTLED_STATUS     settledStatus,
+               FEE_TYPE           feeType,
+               PRO_INST_ID        proInstId
+        from FMS_EXPENSE_ACCOUNT
+        where ENABLED_FLAG = 'Y'
+          and EXPENSE_ACCOUNT_NUMBER = #{expenseAccountNumber}
+    </select>
+
+    <update id="disableExpenseAccount" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+        update FMS_EXPENSE_ACCOUNT
+        set ENABLED_FLAG      = 'N',
+            last_updated_by   = #{userId},
+            last_update_date  = sysdate,
+            last_update_login = #{sessionId}
+            where EXPENSE_ACCOUNT_ID = #{expenseAccountId}
+    </update>
+
+
+    <update id="disableExpenseAccountLine" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+        update FMS_EXPENSE_SETTLED_RELATE
+        set ENABLED_FLAG = 'N',
+            last_updated_by   = #{userId},
+            last_update_date  = sysdate,
+            last_update_login = #{sessionId}
+        where EXPENSE_ACCOUNT_ID = #{expenseAccountId}
+    </update>
+
+    <update id="unBindInvoice" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+        update INV_MID_VAT_MAIN
+        set BIND_FLAG = 'N'
+        where ID in (select INVOICE_ID from FMS_EXPENSE_INVOICE_RELATE where EXPENSE_ACCOUNT_ID = #{expenseAccountId})
+    </update>
+
+    <delete id="deleteInvoiceRelate" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+        delete FMS_EXPENSE_INVOICE_RELATE
+        where EXPENSE_ACCOUNT_ID = #{expenseAccountId}
+    </delete>
+
+</mapper>

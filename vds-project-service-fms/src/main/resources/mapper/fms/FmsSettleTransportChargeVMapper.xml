@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsSettleTransportChargeVMapper">
+
+    <select id="listFmsSettleTransportChargeTree"
+            parameterType="com.foreveross.vds.dto.fms.FmsSettleTransportChargeVRequest"
+            resultType="com.foreveross.vds.vo.fms.FmsSettleTransportChargeV">
+        SELECT
+        *
+        FROM FMS_SETTLETRANSPORT_CHARGE_V
+        <where>
+            <!-- 业务实体ID -->
+            <if test="orgId != null">
+                and ORG_ID = #{orgId}
+            </if>
+            <!-- 组织 -->
+            <if test="organizationIds != null and organizationIds.size() != 0">
+                and ORGANIZATION_ID in
+                <foreach collection="organizationIds" index="index" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <!-- 发运起点 -->
+            <if test="startPointId != null">
+                and START_POINT_ID = #{startPointId}
+            </if>
+            <!-- 送车交接单日期起 -->
+            <if test="sendcarDateStart != null">
+                <![CDATA[  and SENDCAR_DATE >= TO_DATE (#{sendcarDateStart}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+            </if>
+            <!-- 送车交接单日期止 -->
+            <if test="sendcarDateEnd != null">
+                <![CDATA[  and SENDCAR_DATE <= TO_DATE (#{sendcarDateEnd}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+            </if>
+            <!-- 终点省 -->
+            <if test="endProvinceId != null">
+                and END_PROVINCE_ID = #{endProvinceId}
+            </if>
+            <!-- 终点市 -->
+            <if test="endCityId != null">
+                and END_CITY_ID = #{endCityId}
+            </if>
+            <!-- 终点县区 -->
+            <if test="endCountyId != null">
+                and END_COUNTY_ID = #{endCountyId}
+            </if>
+            <!-- 物流商 -->
+            <if test="logisticsId != null">
+                and LOGISTICS_ID = #{logisticsId}
+            </if>
+            <!-- 发运模式 -->
+            <if test="transportModel != null">
+                and TRANSPORT_MODEL = #{transportModel}
+            </if>
+            <!-- 交接单号 -->
+            <if test="sendcarOrderNumber != null">
+                AND SENDCAR_ORDER_NUMBER like '%${sendcarOrderNumber}%'
+            </if>
+            <!-- 发运方式 -->
+            <if test="transportMethod != null">
+                and TRANSPORT_METHOD = #{transportMethod}
+            </if>
+            <!-- 交车状态 -->
+            <if test="receiveStatus != null and receiveStatus != ''">
+                and RECEIVE_STATUS = #{receiveStatus}
+            </if>
+            <!-- 结算状态 -->
+            <if test="settledFlag != null and settledFlag != ''">
+                and SETTLED_FLAG = #{settledFlag}
+            </if>
+            <!-- 匹配价格状态 -->
+            <if test="isMatch != null and isMatch != ''">
+                and isMatch = #{isMatch}
+            </if>
+
+        </where>
+    </select>
+    
+    <select id="getSettleTransportChargeVForTop"
+            parameterType="java.lang.Long"
+            resultType="java.lang.String">
+        SELECT
+        TOP_PO_NUMBER
+        FROM FMS_SETTLETRANSPORT_CHARGE_V
+        <where>
+            SENDCAR_HEADER_ID = #{sendcarHeaderId}
+        </where>
+    </select>
+    
+    <select id="export" parameterType="com.foreveross.vds.dto.fms.FmsSettleTransportChargeVRequest" resultType="com.foreveross.vds.dto.tms.TmsSendcarHeaderFmsE">
+    	SELECT * FROM TMS_SENDCAR_HEADER_FMS_E
+    	<where>
+    		<!-- 业务实体ID -->
+            <if test="orgId != null">
+                and ORG_ID = #{orgId}
+            </if>
+            <!-- 组织 -->
+            <if test="organizationIds != null and organizationIds.size() != 0">
+                and ORGANIZATION_ID in
+                <foreach collection="organizationIds" index="index" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="sendcarHeaderIds != null and sendcarHeaderIds.length != 0">
+                and sendcar_header_id in
+                <foreach collection="sendcarHeaderIds" index="index" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <!-- 发运起点 -->
+            <if test="startPointId != null">
+                and START_POINT_ID = #{startPointId}
+            </if>
+            <!-- 送车交接单日期起 -->
+            <if test="sendcarDateStart != null and sendcarDateStart != ''">
+                <![CDATA[  and SENDCAR_DATE >= TO_DATE (#{sendcarDateStart}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+            </if>
+            <!-- 送车交接单日期止 -->
+            <if test="sendcarDateEnd != null and sendcarDateEnd != ''">
+                <![CDATA[  and SENDCAR_DATE <= TO_DATE (#{sendcarDateEnd}, 'yyyy-mm-dd hh24:mi:ss') ]]>
+            </if>
+            <!-- 终点省 -->
+            <if test="endProvinceId != null">
+                and END_PROVINCE_ID = #{endProvinceId}
+            </if>
+            <!-- 终点市 -->
+            <if test="endCityId != null">
+                and END_CITY_ID = #{endCityId}
+            </if>
+            <!-- 终点县区 -->
+            <if test="endCountyId != null">
+                and END_COUNTY_ID = #{endCountyId}
+            </if>
+            <!-- 物流商 -->
+            <if test="logisticsId != null">
+                and LOGISTICS_ID = #{logisticsId}
+            </if>
+            <!-- 发运模式 -->
+            <if test="transportModel != null">
+                and TRANSPORT_MODEL = #{transportModel}
+            </if>
+            <!-- 交接单号 -->
+            <if test="sendcarOrderNumber != null">
+                AND SENDCAR_ORDER_NUMBER like '%${sendcarOrderNumber}%'
+            </if>
+            <!-- 发运方式 -->
+            <if test="transportMethod != null">
+                and TRANSPORT_METHOD = #{transportMethod}
+            </if>
+            <!-- 交车状态 -->
+            <if test="receiveStatus != null and receiveStatus != ''">
+                and RECEIVE_STATUS = #{receiveStatus}
+            </if>
+            <!-- 结算状态 -->
+            <if test="settledFlag != null and settledFlag != ''">
+                and SETTLED_FLAG = #{settledFlag}
+            </if>
+    	</where>
+    </select>
+</mapper>

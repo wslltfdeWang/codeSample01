@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsCreateSettleTransportChargeMapper">
+    <select id="getSettleTransportChargeV" parameterType="com.foreveross.vds.dto.fms.SettleTransportChargeV"
+            resultType="com.foreveross.vds.dto.fms.SettleTransportChargeV">
+        select * from Settle_Transport_Charge_V
+        where 1=1
+        <if test="sendcarheaderidList != null and sendcarheaderidList.size > 0">
+            AND sendcarHeaderId IN
+            <foreach collection="sendcarheaderidList" index="index" item="sendcarHeaderId" open="(" close=")"
+                     separator=",">
+                #{sendcarHeaderId}
+            </foreach>
+        </if>
+    </select>
+    <!-- 根据送车交接单头ID获取金额 -->
+    <select id="getPrice" parameterType="java.lang.Long" resultType="java.math.BigDecimal">
+        select sum(nvl(t1.unit_fee, 0) + nvl(t1.over_sea_fee, 0) +
+                   nvl(t1.railway_prepare_fee, 0))
+        from FMS_SENDCAR_FEE_RELATE t
+            left join FMS_TRANSPORT_CONTRACT_LINE t1
+                on t.transport_contract_line_id = t1.transport_contract_line_id
+        where exists(select 1
+                     from TMS_SENDCAR_LINE t2
+                     where t2.sencar_line_id = t.sendcar_line_id
+                       and nvl(t2.close_flag, 'N') = 'N'
+                           and exists
+                           (select 1
+                            from TMS_SENDCAR_HEADER t3
+                            where t3.sendcar_header_id = t2.sendcar_header_id
+                                  and t3.sendcar_header_id = #{sendcarHeaderId}))
+    </select>
+
+    <!-- 根据规则获取结算批次码 -->
+    <select id="getBatchCode" parameterType="com.foreveross.vds.dto.fms.FmsTransportSettledHeader" resultType="java.lang.String">
+        SELECT T1.LOGISTICS_CODE || TD.DEPARTURE_CODE || to_char(sysdate, 'yyyyMM') || 'T'||FMS_SETTLED_HEADER_BATCHCODE_S.nextval
+        FROM FMS_TRANSPORT_CONTRACT_HEADER T
+            LEFT JOIN TMS_LOGISTICS_PROVIDERS T1
+                ON T.LOGISTICS_ID = T1.LOGISTICS_ID,
+            TMS_DEPARTURE TD
+
+        WHERE T.TRANSPORT_CONTRACT_HEADER_ID = #{contractHeaderId}
+        AND   TD.DEPARTURE_ID = #{startPointId}
+    </select>
+
+    <insert id="addFmsTransportSettledLine" parameterType="com.foreveross.vds.dto.fms.FmsTransportSettledLine">
+        <selectKey resultType="java.lang.Long" keyProperty="transportSettledLineId" order="BEFORE">
+            select FMS_TRANSPORT_SETTLED_LINE_S.nextval as transportSettledLineId from dual
+        </selectKey>
+        insert into FMS_TRANSPORT_SETTLED_LINE
+        (transport_settled_line_id,
+        transport_settled_header_id,
+        sendcar_header_id,
+        transport_contract_header_id,
+        order_number,
+        distance_line_id,
+        amount,
+        reject_reason,
+        reject_flag,
+        created_by,
+        creation_date,
+        last_updated_by,
+        last_update_date,
+        last_update_login,
+        attribute1,
+        attribute2,
+        attribute3,
+        attribute4,
+        attribute5,
+        attribute6,
+        attribute7,
+        attribute8,
+        attribute9,
+        attribute10)
+        values
+        (#{transportSettledLineId,
+         jdbcType = VARCHAR},
+        #{transportSettledHeaderId,
+        jdbcType = VARCHAR},
+        #{sendcarHeaderId,
+        jdbcType = VARCHAR},
+        #{transportContractHeaderId,
+        jdbcType = VARCHAR},
+        #{orderNumber,
+        jdbcType = VARCHAR},
+        #{distanceLineId,
+        jdbcType = VARCHAR},
+        #{amount,
+        jdbcType = VARCHAR},
+        #{rejectReason,
+        jdbcType = VARCHAR},
+        #{rejectFlag,
+        jdbcType = VARCHAR},
+        #{createdBy,
+        jdbcType = VARCHAR},
+        #{creationDate,
+        jdbcType = VARCHAR},
+        #{lastUpdatedBy,
+        jdbcType = VARCHAR},
+        #{lastUpdateDate,
+        jdbcType = VARCHAR},
+        #{lastUpdateLogin,
+        jdbcType = VARCHAR},
+        #{attribute1,
+        jdbcType = VARCHAR},
+        #{attribute2,
+        jdbcType = VARCHAR},
+        #{attribute3,
+        jdbcType = VARCHAR},
+        #{attribute4,
+        jdbcType = VARCHAR},
+        #{attribute5,
+        jdbcType = VARCHAR},
+        #{attribute6,
+        jdbcType = VARCHAR},
+        #{attribute7,
+        jdbcType = VARCHAR},
+        #{attribute8,
+        jdbcType = VARCHAR},
+        #{attribute9,
+        jdbcType = VARCHAR},
+        #{attribute10,
+        jdbcType = VARCHAR})
+    </insert>
+    <insert id="addFmsTransportSettledHeader" parameterType="com.foreveross.vds.dto.fms.FmsTransportSettledHeader">
+        <selectKey resultType="java.lang.Long" keyProperty="transportSettledHeaderId" order="BEFORE">
+            select FMS_TRANSPORT_SETTLED_HEADER_S.nextval as transportSettledHeaderId from dual
+        </selectKey>
+        insert into FMS_TRANSPORT_SETTLED_HEADER
+        (transport_settled_header_id,
+        org_id,
+        logistics_id,
+        start_point_id,
+        settled_status,
+        batch_code,
+        batch_fee,
+        reject_reason ,
+        formal_flag ,
+        contract_header_id,
+        refund_flag ,
+        distance_header_id,
+        remarks,
+        start_date,
+        end_date,
+        enabled_flag,
+        transport_method,
+        created_by,
+        creation_date,
+        last_updated_by,
+        last_update_date,
+        last_update_login,
+        attribute1,
+        attribute2,
+        attribute3,
+        attribute4,
+        attribute5,
+        attribute6,
+        attribute7,
+        attribute8,
+        attribute9,
+        attribute10)
+        values
+        (#{transportSettledHeaderId,
+         jdbcType = VARCHAR},
+        #{orgId,
+        jdbcType = VARCHAR},
+        #{logisticsId,
+        jdbcType = VARCHAR},
+        #{startPointId,
+        jdbcType = VARCHAR},
+        #{settledStatus,
+        jdbcType = VARCHAR},
+        #{batchCode,
+        jdbcType = VARCHAR},
+        #{batchFee,
+        jdbcType = VARCHAR},
+        #{rejectReason,
+        jdbcType = VARCHAR},
+        #{formalFlag,
+        jdbcType = VARCHAR},
+        #{contractHeaderId,
+        jdbcType = VARCHAR},
+        #{refundFlag,
+        jdbcType = VARCHAR},
+        #{distanceHeaderId,
+        jdbcType = VARCHAR},
+        #{remarks,
+        jdbcType = VARCHAR},
+        #{startDate,
+        jdbcType = VARCHAR},
+        #{endDate,
+        jdbcType = VARCHAR},
+        #{enabledFlag,
+        jdbcType = VARCHAR},
+        #{transportMethod,
+         jdbcType = VARCHAR},
+        #{createdBy,
+        jdbcType = VARCHAR},
+        #{creationDate,
+        jdbcType = VARCHAR},
+        #{lastUpdatedBy,
+        jdbcType = VARCHAR},
+        #{lastUpdateDate,
+        jdbcType = VARCHAR},
+        #{lastUpdateLogin,
+        jdbcType = VARCHAR},
+        #{attribute1,
+        jdbcType = VARCHAR},
+        #{attribute2,
+        jdbcType = VARCHAR},
+        #{attribute3,
+        jdbcType = VARCHAR},
+        #{attribute4,
+        jdbcType = VARCHAR},
+        #{attribute5,
+        jdbcType = VARCHAR},
+        #{attribute6,
+        jdbcType = VARCHAR},
+        #{attribute7,
+        jdbcType = VARCHAR},
+        #{attribute8,
+        jdbcType = VARCHAR},
+        #{attribute9,
+        jdbcType = VARCHAR},
+        #{attribute10,
+        jdbcType = VARCHAR})
+    </insert>
+
+    <update id="updateSendCarHeader" parameterType="java.lang.Long">
+        update TMS_SENDCAR_HEADER t
+        set t.Settled_Flag = 'Y'
+        where t.sendcar_header_id = #{sendcarHeaderId}
+    </update>
+    <select id="querySendcarLineByHeaderId" resultType="com.foreveross.vds.dto.tms.TmsSendcarLine"
+            parameterType="com.foreveross.vds.dto.fms.FmsTransportSettledLine">
+        select
+            t.sencar_line_id  sencarLineId,
+            pol.car_series_id carSeriesId
+        from tms_sendcar_line t,
+            pms_order_detail pod,
+            pms_order_line pol
+        where t.order_detail_id = pod.order_detail_id
+              and pod.order_line_id = pol.order_line_id
+              and t.sendcar_header_id = #{sendcarHeaderId}
+        and nvl(t.close_flag, 'N') = 'N'
+    </select>
+
+    <select id="queryFeeRelateByLineId" resultType="int" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        select t.sendcar_fee_relate_id
+        from fms_sendcar_fee_relate t
+        where t.sendcar_line_id = #{sencarLineId}
+    </select>
+
+    <insert id="saveFeeRelate" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        insert into fms_sendcar_fee_relate
+        (sendcar_fee_relate_id,
+         sendcar_line_id,
+         created_by,
+         creation_date,
+         last_updated_by,
+         last_update_date,
+         last_update_login)
+            select
+                fms_sendcar_fee_relate_s.nextval,
+                #{sencarLineId},
+                #{createdBy,
+        jdbcType = VARCHAR},
+                sysdate,
+                #{lastUpdatedBy,
+        jdbcType = VARCHAR},
+                sysdate,
+                #{lastUpdateLogin,
+        jdbcType = VARCHAR}
+            from dual
+    </insert>
+
+    <select id="queryCarCategoryId" resultType="int" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        select fcc.car_category_id carCategoryId
+        from inv.INV_MATERIAL_INFO imi,
+             TMS.TMS_SENDCAR_LINE tsl,
+             FMS.FMS_CAR_CATEGORY fcc,
+             FMS.FMS_CAR_CATEGORY_RELEATION fcr,
+             TMS.TMS_SENDCAR_HEADER tsh
+        where imi.vehicle_code = fcr.vehicle_code
+          and tsh.SENDCAR_HEADER_ID = tsl.SENDCAR_HEADER_ID
+          and tsh.ORG_ID = fcc.ORG_ID
+          and tsl.ITEM_ID = imi.ITEM_ID
+          and tsh.ORGANIZATION_ID = imi.ORGANIZATION_ID
+          and fcr.CAR_CATEGORY_ID = fcc.CAR_CATEGORY_ID
+          and tsl.SENCAR_LINE_ID = #{sencarLineId}
+    </select>
+
+    <update id="matchSendcarLineCarCategory" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        update tms_sendcar_line tsl
+        set tsl.last_updated_by   = #{lastUpdatedBy},
+            tsl.last_update_date  = sysdate,
+            tsl.last_update_login = #{lastUpdateLogin},
+            tsl.car_category_id   = #{carCategoryId}
+        where not exists(select 1
+                         from tms_sendcar_header th
+                         where th.sendcar_header_id = tsl.sendcar_header_id and
+                               nvl(th.settled_flag, 'N') = 'Y')
+              and tsl.sencar_line_id = #{sencarLineId}
+    </update>
+
+    <select id="selectContractDataBySendcarLineId" resultType="com.foreveross.vds.vo.fms.FmsTransportContractLine"
+            parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        select
+            ftcl.transport_contract_line_id   transportContractLineId,
+            ftcl.transport_contract_header_id transportContractHeaderId,
+            ftcl.distance_line_id             distanceLineId,
+            tsl.sencar_line_id                sendcarLineId,
+            ftcl.contract_Priority            contractPriority
+        from fms_transport_contract_line ftcl,
+            fms_transport_contract_header ftch,
+            tms_departure_org_realation tspo,
+            tms_departure tsp,
+            tms_sendcar_line tsl,
+            tms_sendcar_header tsh
+        where tsl.sendcar_header_id = tsh.sendcar_header_id
+              and tsl.car_category_id = ftcl.car_category_id
+              and ftch.transport_contract_header_id =
+                  ftcl.transport_contract_header_id
+              and ftch.logistics_id = tsh.logistics_id
+              and tspo.departure_id = tsp.departure_id
+              and tsp.departure_id = ftcl.start_point_id
+              and tsh.organization_id = tspo.organization_id
+              and tsh.transport_method_id = ftcl.transport_method
+              and tsh.end_province_id = ftcl.end_province_id
+              and tsh.end_city_id = ftcl.end_city_id
+              and tsh.end_county_id = ftcl.end_county_id
+              and tsh.creation_date between ftch.start_date and ftch.end_date
+              and ftch.enabled_flag = 'Y'
+              and ftch.confirm_flag = 'Y'
+              and tsl.sencar_line_id = #{sencarLineId}
+    </select>
+    <!-- 根据送车交接单行ID更新结算关联表数据 -->
+    <update id="updateFeeRelateBySendcarLineId" parameterType="com.foreveross.vds.dto.fms.FmsTransportSettledLine">
+        update fms_sendcar_fee_relate t
+        set t.transport_contract_line_id   = #{transportContractLineId},
+            t.transport_contract_header_id = #{transportContractHeaderId},
+            t.distance_line_id             = #{distanceLineId},
+            t.last_updated_by              = #{lastUpdatedBy},
+            t.last_update_date             = sysdate,
+            t.last_update_login            = #{lastUpdateLogin}
+        where t.sendcar_line_id = #{sencarLineId}
+    </update>
+    <!-- 查询已生成结算关联关系的送车交接单行ID -->
+    <select id="queryReSendcarLine" parameterType="com.foreveross.vds.dto.tms.TmsSendcarLine"
+            resultType="com.foreveross.vds.dto.tms.TmsSendcarLine">
+        select tsl.sencar_line_id
+        from tms_sendcar_line tsl
+        where exists(select 1
+                     from fms_sendcar_fee_relate t
+                     where t.sendcar_line_id = tsl.sencar_line_id)
+              and nvl(tsl.close_flag, 'N') = 'N'
+              and exists(select 1
+                         from tms_sendcar_header tsh
+                         where tsh.sendcar_header_id = tsl.sendcar_header_id
+                               and nvl(tsh.settled_flag, 'N') = 'N'
+                               and nvl(tsh.enabled_flag, 'Y') = 'Y')
+    </select>
+</mapper>

@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.manualclearing.ManualSettledMapper">
+	<select id="queryFmsManualSettledV" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledV" resultType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledV">
+			select *
+		  from FMS_MANUAL_SETTLED_V
+			 where 1 = 1 
+            <if test="manualSettledName != null and manualSettledName != ''"> 
+            	AND ( manual_settled_name LIKE   '%'|| #{manualSettledName} ||'%') 
+            </if>
+			<if test="contractCategory != null and contractCategory != ''"> 
+            	AND ( contract_category = #{contractCategory}) 
+            </if>
+            <if test="contractName != null and contractName != ''"> 
+            	AND ( contract_name LIKE   '%'|| #{contractName} ||'%') 
+            </if>
+			<if test="startPointId != null and startPointId != ''"> 
+            	AND ( start_point_id = #{startPointId}) 
+            </if>
+			<if test="provinceId != null and provinceId != ''"> 
+            	AND ( province_id = #{province_id}) 
+            </if>
+			<if test="cityId != null and cityId != ''"> 
+            	AND ( city_id = #{cityId}) 
+            </if>
+			<if test="countyId != null and countyId != ''"> 
+            	AND ( county_id = #{countyId}) 
+            </if>
+            <if test="settledStatuss != null and settledStatuss.size()>0">
+			and settled_status in
+			<foreach collection="settledStatuss" index="index" item="settledStatus" open="(" separator="," close=")">
+				#{settledStatus,jdbcType=NUMERIC}
+			</foreach>
+			</if>  
+            <if test="settledFlag != null and settledFlag != ''"> 
+            	AND ( settled_flag = #{settledFlag}) 
+            </if>
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	<!-- 获取结算批次 -->
+	<select id="getBatchCode" parameterType="java.lang.Long" resultType="java.lang.String">
+			select t.contract_number || to_char(sysdate, 'yyyyMMdd') || t1.lookup_code,
+			       t.start_point_id
+			  from FMS_MANUAL_SETTLED_V t
+			  left join fnd_lookup_values t1
+			    on t1.lookup_id = t.contract_category
+			 where t.manual_settled_id = #{manualSettledId}
+	</select>
+	<!-- 获取结算批次 -->
+	<select id="getLineNumber" resultType="java.lang.String">
+			select to_char(FMS_SETTLED_HEADER_BATCHCODE_S.nextval,'fm000') lineNumber from dual 
+	</select>
+	
+	<!-- 判断结算名称是否存在 -->
+	<select id="checkSettledName" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettled" resultType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettled">
+			select 1
+		  from FMS_MANUAL_SETTLED
+			 where 1 = 1 
+			<if test="manualSettledName != null and manualSettledName != ''"> 
+            	AND ( manual_settled_name = #{manualSettledName}) 
+            </if>
+			<if test="manualSettledId != null and manualSettledId != ''"> 
+            	AND ( manual_settled_id <![CDATA[ <> ]]> #{manualSettledId}) 
+            </if>
+            
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	<!-- 查询仓储合同和运输合同视图 -->
+	<select id="queryContractAllV" parameterType="com.foreveross.vds.dto.fms.manualclearing.ContractAllV" resultType="com.foreveross.vds.dto.fms.manualclearing.ContractAllV">
+			select *
+		  from CONTRACT_ALL_V
+			 where 1 = 1 
+			<if test="confirmFlag != null and confirmFlag != ''"> 
+            	AND ( confirmFlag = #{confirmFlag}) 
+            </if>
+            <if test="startPointId != null and startPointId != ''"> 
+            	AND ( startPointId = #{startPointId}) 
+            </if>
+            <if test="contractCategory != null and contractCategory != ''"> 
+            	AND ( contractCategory = #{contractCategory}) 
+            </if>
+	</select>
+	<!-- 添加结算数据 -->
+	<insert id="addFmsManualSettled" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettled">
+	     <selectKey resultType="java.lang.Long" keyProperty="manualSettledId" order="BEFORE">
+              select FMS_MANUAL_SETTLED_S.nextval as manualSettledId from dual
+          </selectKey>
+			  insert into FMS_MANUAL_SETTLED (MANUAL_SETTLED_ID, SETTLED_STATUS, MANUAL_SETTLED_NAME, 
+      CONTRACT_CATEGORY, CONTRACT_NAME, CONTRACT_ID, 
+      DEPARTURE_ID, PRICE, AMOUNT, 
+      QUANTITY, PROVINCE_ID, CITY_ID, 
+      COUNTY_ID, ANNEX_ID, SETTLED_FLAG, 
+      ORDER_NUMBER, START_POINT_ID, ORG_ID, 
+      ORGANIZATION_ID, TRANSPORT_MODEL, SENDCAR_NUMBER, 
+      CAR_NUMBER, SHIP_TO_ADRESS, START_DATE, 
+      END_DATE, STORAGE_CONTACT_TYPE, SECTION_NUMBER, 
+      TRANSPORT_METHOD, LOGISTICS_ID, CREATED_BY, 
+      CREATION_DATE, LAST_UPDATED_BY, LAST_UPDATE_DATE, 
+      LAST_UPDATE_LOGIN, ATTRIBUTE1, ATTRIBUTE2, 
+      ATTRIBUTE3, ATTRIBUTE4, ATTRIBUTE5, 
+      ATTRIBUTE6, ATTRIBUTE7, ATTRIBUTE8, 
+      ATTRIBUTE9, ATTRIBUTE10)
+    values (#{manualSettledId,jdbcType=DECIMAL}, #{settledStatus,jdbcType=DECIMAL}, #{manualSettledName,jdbcType=VARCHAR}, 
+      #{contractCategory,jdbcType=DECIMAL}, #{contractName,jdbcType=VARCHAR}, #{contractId,jdbcType=DECIMAL}, 
+      #{departureId,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=DECIMAL}, #{provinceId,jdbcType=DECIMAL}, #{cityId,jdbcType=DECIMAL}, 
+      #{countyId,jdbcType=DECIMAL}, #{annexId,jdbcType=DECIMAL}, #{settledFlag,jdbcType=VARCHAR}, 
+      #{orderNumber,jdbcType=DECIMAL}, #{startPointId,jdbcType=DECIMAL}, #{orgId,jdbcType=DECIMAL}, 
+      #{organizationId,jdbcType=DECIMAL}, #{transportModel,jdbcType=DECIMAL}, #{sendcarNumber,jdbcType=VARCHAR}, 
+      #{carNumber,jdbcType=VARCHAR}, #{shipToAdress,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{storageContactType,jdbcType=DECIMAL}, #{sectionNumber,jdbcType=DECIMAL}, 
+      #{transportMethod,jdbcType=DECIMAL}, #{logisticsId,jdbcType=DECIMAL}, #{createdBy,jdbcType=DECIMAL}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=DECIMAL}, #{lastUpdateDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdateLogin,jdbcType=VARCHAR}, #{attribute1,jdbcType=VARCHAR}, #{attribute2,jdbcType=VARCHAR}, 
+      #{attribute3,jdbcType=VARCHAR}, #{attribute4,jdbcType=VARCHAR}, #{attribute5,jdbcType=VARCHAR}, 
+      #{attribute6,jdbcType=VARCHAR}, #{attribute7,jdbcType=VARCHAR}, #{attribute8,jdbcType=VARCHAR}, 
+      #{attribute9,jdbcType=VARCHAR}, #{attribute10,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 根据ID获取结算数据 -->
+	<select id="getFmsManualSettledById" parameterType="java.lang.Long" resultType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettled">
+			select manual_settled_id   manualSettledId,
+		       manual_settled_name manualSettledName,
+		       contract_category   contractCategory,
+		       contract_id         contractId,
+		       start_point_id      startPointId,
+		       amount              amount,
+		       quantity            quantity,
+		       province_id         provinceId,
+		       city_id             cityId,
+		       county_id           countyId,
+		       annex_id            annexId,
+		       settled_flag        settledFlag,
+		       created_by          createdBy,
+		       creation_date       creationDate,
+		       last_updated_by     lastUpdatedBy,
+		       last_update_date    lastUpdateDate,
+		       last_update_login   lastUpdateLogin,
+		       attribute1          attribute1,
+		       attribute2          attribute2,
+		       attribute3          attribute3,
+		       attribute4          attribute4,
+		       attribute5          attribute5,
+		       attribute6          attribute6,
+		       attribute7          attribute7,
+		       attribute8          attribute8,
+		       attribute9          attribute9,
+		       attribute10         attribute10
+		  from FMS_MANUAL_SETTLED
+			 where manual_settled_id = #{manualSettledId}
+	</select>
+	
+	<delete id="delFmsManualSettled" parameterType="java.lang.Long">
+			delete from FMS_MANUAL_SETTLED where manual_settled_id =#{manualSettledId}
+	</delete>
+	
+	<update id="updateFmsManualSettled" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettled">
+			update FMS_MANUAL_SETTLED
+		    set
+     		  SETTLED_STATUS = #{settledStatus,jdbcType=DECIMAL},
+     		  SETTLED_FLAG = #{settledFlag,jdbcType=VARCHAR},
+		      MANUAL_SETTLED_NAME = #{manualSettledName,jdbcType=VARCHAR},
+		      CONTRACT_CATEGORY = #{contractCategory,jdbcType=DECIMAL},
+		      CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+		      CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+		      DEPARTURE_ID = #{departureId,jdbcType=DECIMAL},
+		      PRICE = #{price,jdbcType=DECIMAL},
+		      AMOUNT = #{amount,jdbcType=DECIMAL},
+		      QUANTITY = #{quantity,jdbcType=DECIMAL},
+		      PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+		      CITY_ID = #{cityId,jdbcType=DECIMAL},
+		      COUNTY_ID = #{countyId,jdbcType=DECIMAL},
+		      ANNEX_ID = #{annexId,jdbcType=DECIMAL},
+		      ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+		      START_POINT_ID = #{startPointId,jdbcType=DECIMAL},
+		      ORG_ID = #{orgId,jdbcType=DECIMAL},
+		      ORGANIZATION_ID = #{organizationId,jdbcType=DECIMAL},
+		      TRANSPORT_MODEL = #{transportModel,jdbcType=DECIMAL},
+		      SENDCAR_NUMBER = #{sendcarNumber,jdbcType=VARCHAR},
+		      CAR_NUMBER = #{carNumber,jdbcType=VARCHAR},
+		      SHIP_TO_ADRESS = #{shipToAdress,jdbcType=VARCHAR},
+		      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+		      END_DATE = #{endDate,jdbcType=TIMESTAMP},
+		      STORAGE_CONTACT_TYPE = #{storageContactType,jdbcType=DECIMAL},
+		      SECTION_NUMBER = #{sectionNumber,jdbcType=DECIMAL},
+		      TRANSPORT_METHOD = #{transportMethod,jdbcType=DECIMAL},
+		      LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+		      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+		      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+		      LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+		      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+		      LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+		      ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+		      ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+		      ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+		      ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+		      ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+		      ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+		      ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+		      ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+		      ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+		      ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR}
+		    where MANUAL_SETTLED_ID = #{manualSettledId,jdbcType=DECIMAL}
+	</update>
+	<!-- 添加结算数据头数据 -->
+	<insert id="addFmsManualSettledHeader" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledHeader">
+	     <selectKey resultType="java.lang.Long" keyProperty="manualSettledHeaderId" order="BEFORE">
+              select FMS_MANUAL_SETTLED_HEADER_S.nextval as manualSettledHeaderId from dual
+          </selectKey>
+			 insert into FMS_MANUAL_SETTLED_HEADER (MANUAL_SETTLED_HEADER_ID, BATCH_CODE, 
+		      CONTRACT_CATEGORY, SETTLED_STATUS, BATCH_FEE, 
+		      REJECT_REASON, REMARKS, ENABLED_FLAG, 
+		      CREATED_BY, CREATION_DATE, LAST_UPDATED_BY, 
+		      LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, ATTRIBUTE1, 
+		      ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4, 
+		      ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, 
+		      ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10
+		      )
+		    values (#{manualSettledHeaderId,jdbcType=DECIMAL}, #{batchCode,jdbcType=VARCHAR}, 
+		      #{contractCategory,jdbcType=DECIMAL}, #{settledStatus,jdbcType=DECIMAL}, #{batchFee,jdbcType=DECIMAL}, 
+		      #{rejectReason,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{enabledFlag,jdbcType=VARCHAR}, 
+		      #{createdBy,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=DECIMAL}, 
+		      #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdateLogin,jdbcType=VARCHAR}, #{attribute1,jdbcType=VARCHAR}, 
+		      #{attribute2,jdbcType=VARCHAR}, #{attribute3,jdbcType=VARCHAR}, #{attribute4,jdbcType=VARCHAR}, 
+		      #{attribute5,jdbcType=VARCHAR}, #{attribute6,jdbcType=VARCHAR}, #{attribute7,jdbcType=VARCHAR}, 
+		      #{attribute8,jdbcType=VARCHAR}, #{attribute9,jdbcType=VARCHAR}, #{attribute10,jdbcType=VARCHAR}
+		      )
+	</insert>
+	<!-- 添加结算数据行数据 -->
+	<insert id="addFmsFmsManualSettledLine" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledLine">
+	     <selectKey resultType="java.lang.Long" keyProperty="manualSettledLineId" order="BEFORE">
+              select FMS_MANUAL_SETTLED_LINE_S.nextval as manualSettledLineId from dual
+          </selectKey>
+			insert into FMS_MANUAL_SETTLED_LINE
+			  (manual_settled_line_id,
+			   manual_settled_header_id,
+			   order_number,
+			   manual_settled_id,
+			   reject_reason,
+			   reject_flag,
+			   created_by,
+			   creation_date,
+			   last_updated_by,
+			   last_update_date,
+			   last_update_login,
+			   attribute1,
+			   attribute2,
+			   attribute3,
+			   attribute4,
+			   attribute5,
+			   attribute6,
+			   attribute7,
+			   attribute8,
+			   attribute9,
+			   attribute10)
+			values
+			  (#{manualSettledLineId,
+			   jdbcType = VARCHAR},
+			   #{manualSettledHeaderId,
+			   jdbcType = VARCHAR},
+			   #{orderNumber,
+			   jdbcType = VARCHAR},
+			   #{manualSettledId,
+			   jdbcType = VARCHAR},
+			   #{rejectReason,
+			   jdbcType = VARCHAR},
+			   #{rejectFlag,
+			   jdbcType = VARCHAR},
+			   #{createdBy,
+			   jdbcType = VARCHAR},
+			   #{creationDate,
+			   jdbcType = VARCHAR},
+			   #{lastUpdatedBy,
+			   jdbcType = VARCHAR},
+			   #{lastUpdateDate,
+			   jdbcType = VARCHAR},
+			   #{lastUpdateLogin,
+			   jdbcType = VARCHAR},
+			   #{attribute1,
+			   jdbcType = VARCHAR},
+			   #{attribute2,
+			   jdbcType = VARCHAR},
+			   #{attribute3,
+			   jdbcType = VARCHAR},
+			   #{attribute4,
+			   jdbcType = VARCHAR},
+			   #{attribute5,
+			   jdbcType = VARCHAR},
+			   #{attribute6,
+			   jdbcType = VARCHAR},
+			   #{attribute7,
+			   jdbcType = VARCHAR},
+			   #{attribute8,
+			   jdbcType = VARCHAR},
+			   #{attribute9,
+			   jdbcType = VARCHAR},
+			   #{attribute10,
+			   jdbcType = VARCHAR})
+	</insert>
+
+  <update id="updateFmsManualSettledSelective" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettled" >
+    update FMS_MANUAL_SETTLED
+    <set >
+      <if test="settledStatus != null" >
+        SETTLED_STATUS = #{settledStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="manualSettledName != null" >
+        MANUAL_SETTLED_NAME = #{manualSettledName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractCategory != null" >
+        CONTRACT_CATEGORY = #{contractCategory,jdbcType=DECIMAL},
+      </if>
+      <if test="contractName != null" >
+        CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null" >
+        CONTRACT_ID = #{contractId,jdbcType=DECIMAL},
+      </if>
+      <if test="departureId != null" >
+        DEPARTURE_ID = #{departureId,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=DECIMAL},
+      </if>
+      <if test="countyId != null" >
+        COUNTY_ID = #{countyId,jdbcType=DECIMAL},
+      </if>
+      <if test="annexId != null" >
+        ANNEX_ID = #{annexId,jdbcType=DECIMAL},
+      </if>
+      <if test="settledFlag != null" >
+        SETTLED_FLAG = #{settledFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="startPointId != null" >
+        START_POINT_ID = #{startPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="organizationId != null" >
+        ORGANIZATION_ID = #{organizationId,jdbcType=DECIMAL},
+      </if>
+      <if test="transportModel != null" >
+        TRANSPORT_MODEL = #{transportModel,jdbcType=DECIMAL},
+      </if>
+      <if test="sendcarNumber != null" >
+        SENDCAR_NUMBER = #{sendcarNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null" >
+        CAR_NUMBER = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="shipToAdress != null" >
+        SHIP_TO_ADRESS = #{shipToAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storageContactType != null" >
+        STORAGE_CONTACT_TYPE = #{storageContactType,jdbcType=DECIMAL},
+      </if>
+      <if test="sectionNumber != null" >
+        SECTION_NUMBER = #{sectionNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="transportMethod != null" >
+        TRANSPORT_METHOD = #{transportMethod,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsId != null" >
+        LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="creationDate != null" >
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedBy != null" >
+        LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastUpdateDate != null" >
+        LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateLogin != null" >
+        LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute1 != null" >
+        ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute2 != null" >
+        ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute3 != null" >
+        ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute4 != null" >
+        ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute5 != null" >
+        ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute6 != null" >
+        ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute7 != null" >
+        ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute8 != null" >
+        ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute9 != null" >
+        ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute10 != null" >
+        ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MANUAL_SETTLED_ID = #{manualSettledId,jdbcType=DECIMAL}
+  </update>
+  
+
+
+
+
+</mapper>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.differenceCost.FmsRefundSettledHeaderMapper">
+	<select id="queryFmsTransportSettledHeaderToDifference" parameterType="com.foreveross.vds.dto.fms.FmsTransportSettledHeader" resultType="com.foreveross.vds.dto.fms.FmsTransportSettledHeader">
+			select t.transport_settled_header_id transportSettledHeaderId,
+			       t.org_id                      orgId,
+			       t.logistics_id                logisticsId,
+			       t.start_point_id              startPointId,
+			       t.settled_status              settledStatus,
+			       t.batch_code                  batchCode,
+			       t.batch_fee                   batchFee,
+			       t.reject_reason               rejectReason,
+			       t.formal_flag                 formalFlag,
+			       t.contract_header_id          contractHeaderId,
+			       t.refund_flag                 refundFlag,
+			       t.distance_header_id          distanceHeaderId,
+			       t.remarks                     remarks,
+			       t.start_date                  startDate,
+			       t.end_date                    endDate,
+			       t.enabled_flag                enabledFlag,
+			       t.created_by                  createdBy,
+			       t.creation_date               creationDate,
+			       t.last_updated_by             lastUpdatedBy,
+			       t.last_update_date            lastUpdateDate,
+			       t.last_update_login           lastUpdateLogin,
+			       t.attribute1                  attribute1,
+			       t.attribute2                  attribute2,
+			       t.attribute3                  attribute3,
+			       t.attribute4                  attribute4,
+			       t.attribute5                  attribute5,
+			       t.attribute6                  attribute6,
+			       t.attribute7                  attribute7,
+			       t.attribute8                  attribute8,
+			       t.attribute9                  attribute9,
+			       t.attribute10                 attribute10,
+			       t1.description                orgName,
+			       t2.logistics_short_name       logisticsName,
+			       t3.start_point_name           startPointName,
+			       t5.category_name              categoryName,
+			       t5.contract_category_id       contractCategoryId,
+       			   t4.contract_name              contractName 
+			  from FMS_TRANSPORT_SETTLED_HEADER t
+			  left join fnd_lookup_values t1
+			    on t1.lookup_id = t.org_id
+			  left join tms_logistics_providers t2
+			    on t2.logistics_id = t.logistics_id
+			  left join tms_start_point t3
+			    on t3.start_point_id = t.start_point_id
+			  left join FMS_TRANSPORT_CONTRACT_HEADER t4
+			    on t4.transport_contract_header_id = t.contract_header_id
+			  left join FMS_STORAGE_CONTRACT_CATEGORY t5
+			    on t5.contract_category_id = t4.contract_type
+			 where 1 = 1 
+			 and t.REFUND_FLAG = 'Y'
+			 <!-- and 已挂账状态 -->
+			<if test="logisticsId != null and logisticsId != ''"> 
+            	AND ( t.logistics_id = #{logisticsId}) 
+            </if>
+            <if test="orgId != null"> 
+            	AND ( t.org_Id = #{orgId}) 
+            </if>
+            <if test="batchCode != null and batchCode !=''"> 
+            	AND ( t.batch_Code LIKE   '%'|| #{batchCode} ||'%') 
+            </if>
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	
+	<select id="queryFmsRefundSettledHeader" parameterType="com.foreveross.vds.dto.fms.differencecost.FmsRefundSettledHeader" resultType="com.foreveross.vds.dto.fms.differencecost.FmsRefundSettledHeader">
+			select refund_settled_header_id refundSettledHeaderId,
+		       batch_code               batchCode            ,
+		       settled_status           settledStatus        ,
+		       batch_fee                batchFee             ,
+		       reject_reason            rejectReason         ,
+		       remarks                  remarks              ,
+		       created_by               createdBy            ,
+		       creation_date            creationDate         ,
+		       last_updated_by          lastUpdatedBy        ,
+		       last_update_date         lastUpdateDate       ,
+		       last_update_login        lastUpdateLogin      ,
+		       attribute1               attribute1           ,
+		       attribute2               attribute2           ,
+		       attribute3               attribute3           ,
+		       attribute4               attribute4           ,
+		       attribute5               attribute5           ,
+		       attribute6               attribute6           ,
+		       attribute7               attribute7           ,
+		       attribute8               attribute8           ,
+		       attribute9               attribute9           ,
+		       attribute10              attribute10          ,
+		       reject_flag              rejectFlag           
+		  from FMS_REFUND_SETTLED_HEADER t
+			 where 1 = 1 
+			 <!-- and 已挂账状态 -->
+			<if test="settledStatus != null and settledStatus != ''"> 
+            	AND ( t.settled_status = #{logisticsId}) 
+            </if>
+            <if test="batchCode != null and batchCode !=''"> 
+            	AND ( t.batch_Code LIKE   '%'|| #{batchCode} ||'%') 
+            </if>
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	
+	<insert id="addFmsRefundSettledHeader" parameterType="com.foreveross.vds.dto.fms.differencecost.FmsRefundSettledHeader">
+	     <selectKey resultType="java.lang.Long" keyProperty="refundSettledHeaderId" order="BEFORE">
+              select FMS_REFUND_SETTLED_HEADER_S.nextval as refundSettledHeaderId from dual
+          </selectKey>
+			insert into FMS_REFUND_SETTLED_HEADER
+			  (refund_settled_header_id,
+			   batch_code,
+			   settled_status,
+			   batch_fee,
+			   reject_reason,
+			   remarks,
+			   created_by,
+			   creation_date,
+			   last_updated_by,
+			   last_update_date,
+			   last_update_login,
+			   attribute1,
+			   attribute2,
+			   attribute3,
+			   attribute4,
+			   attribute5,
+			   attribute6,
+			   attribute7,
+			   attribute8,
+			   attribute9,
+			   attribute10,
+			   REJECT_FLAG)
+			values
+			  (#{refundSettledHeaderId,
+			   jdbcType = VARCHAR},
+			   #{batchCode,
+			   jdbcType = VARCHAR},
+			   #{settledStatus,
+			   jdbcType = VARCHAR},
+			   #{batchFee,
+			   jdbcType = VARCHAR},
+			   #{rejectReason,
+			   jdbcType = VARCHAR},
+			   #{remarks,
+			   jdbcType = VARCHAR},
+			   #{createdBy,
+			   jdbcType = VARCHAR},
+			   #{creationDate,
+			   jdbcType = VARCHAR},
+			   #{lastUpdatedBy,
+			   jdbcType = VARCHAR},
+			   #{lastUpdateDate,
+			   jdbcType = VARCHAR},
+			   #{lastUpdateLogin,
+			   jdbcType = VARCHAR},
+			   #{attribute1,
+			   jdbcType = VARCHAR},
+			   #{attribute2,
+			   jdbcType = VARCHAR},
+			   #{attribute3,
+			   jdbcType = VARCHAR},
+			   #{attribute4,
+			   jdbcType = VARCHAR},
+			   #{attribute5,
+			   jdbcType = VARCHAR},
+			   #{attribute6,
+			   jdbcType = VARCHAR},
+			   #{attribute7,
+			   jdbcType = VARCHAR},
+			   #{attribute8,
+			   jdbcType = VARCHAR},
+			   #{attribute9,
+			   jdbcType = VARCHAR},
+			   #{attribute10,
+			   jdbcType = VARCHAR},
+			   #{rejectFlag,
+			   jdbcType = VARCHAR})
+	</insert>
+	
+	<select id="getCode" parameterType="java.lang.Long" resultType="java.lang.String">
+		select t.contract_number || t1.logistics_code
+		  from FMS_TRANSPORT_CONTRACT_HEADER t
+		  left join tms_logistics_providers t1
+		    on t1.logistics_id = t.logistics_id
+		  where t.transport_contract_header_id = #{transportContractHeaderId}
+	</select>
+	
+	
+	<update id="auditFmsRefundSettledHeader" parameterType="com.foreveross.vds.dto.fms.differencecost.FmsRefundSettledHeader">
+			update FMS_REFUND_SETTLED_HEADER t
+			   set t.reject_flag = #{rejectFlag}
+			   , t.reject_reason = #{rejectReason}
+			 where t.refund_settled_header_id = #{refundSettledHeaderId}
+	</update>
+</mapper>

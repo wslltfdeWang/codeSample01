@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.SendcarGenerateVMapper">
+    <select id="queryList" parameterType="com.foreveross.vds.dto.fms.SendcarGenerateRequest"
+            resultType="com.foreveross.vds.vo.fms.SendcarGenerateV">
+        SELECT
+        *
+        FROM
+        SENDCAR_GENERATE_V
+        <where>
+            AND FLAG = 1
+            <if test="orderNumbers != null">
+                AND
+                <foreach collection="orderNumbers" index="index" item="item" open="(" separator="or" close=")">
+                    ORDER_NUMBER like '%${item}%'
+                </foreach>
+            </if>
+            <if test="logisticsId != null">
+                AND LOGISTICS_ID = #{logisticsId}
+            </if>
+            <if test="carrierId != null">
+                AND CARRIER_ID = #{carrierId}
+            </if>
+            <if test="transToolId != null">
+                AND TRANS_TOOL_ID = #{transToolId}
+            </if>
+            <if test="loadingMode != null">
+                AND LOADING_MODE = #{loadingMode}
+            </if>
+            <if test="endProvinceId != null">
+                AND END_PROVINCE_ID = #{endProvinceId}
+            </if>
+            <if test="endCityId != null">
+                AND END_CITY_ID = #{endCityId}
+            </if>
+            <if test="endCountyId != null">
+                AND END_COUNTY_ID = #{endCountyId}
+            </if>
+            <if test="startOrganizationId != null and startOrganizationId.size() != 0">
+                AND START_ORGANIZATION_ID IN
+                <foreach collection="startOrganizationId" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="vinId != null">
+                AND VIN_ID = #{vinId}
+            </if>
+            <if test="sectionOrder != null">
+                AND SECTION_ORDER = #{sectionOrder}
+            </if>
+            <if test="allotCarrierIds != null and allotCarrierIds.size() != 0">
+                AND ALLOT_CARRIER_ID IN
+                <foreach collection="allotCarrierIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <choose>
+                <!-- 如果是人工自提 -->
+                <when test="rgzt != null and rgzt == 'Y'.toString()">
+                    <if test="transportMethod != null">
+                        AND TRANSPORT_METHOD = #{transportMethod}
+                    </if>
+                </when>
+                <!-- 如果是公铁水 -->
+                <when test="rgzt != null and rgzt == 'N'.toString()">
+                    AND TRANSPORT_METHOD NOT IN (
+                    SELECT
+                    T2.LOOKUP_ID
+                    FROM
+                    FND_LOOKUP_TYPES T1
+                    JOIN FND_LOOKUP_VALUES T2 ON T1.LOOKUP_TYPE_ID = T2.LOOKUP_TYPE_ID
+                    WHERE T1.LOOKUP_TYPE = 'TRANSPORT_METHOD' AND T2.LOOKUP_CODE IN ('MANUAL','SELF')
+                    )
+                </when>
+            </choose>
+            <!-- 订单时间开始 -->
+            <if test="orderDateStart != null">
+                <![CDATA[  and ORDER_DATE >= #{orderDateStart} ]]>
+            </if>
+            <!-- 订单时间结束 -->
+            <if test="orderDateEnd != null">
+                <![CDATA[  and ORDER_DATE <= #{orderDateEnd} ]]>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryExport" parameterType="com.foreveross.vds.dto.fms.SendcarGenerateRequest"
+            resultType="com.foreveross.vds.dto.fms.SendcarExportDto">
+        SELECT
+            ROWNUM RN,
+            T.*
+        FROM
+        (
+            SELECT
+            *
+            FROM
+            SENDCAR_GENERATE_V T
+            <where>
+                AND FLAG = 1
+                <if test="orderNumber != null and orderNumber != ''">
+                    AND ORDER_NUMBER LIKE '%${orderNumber}%'
+                </if>
+                <if test="logisticsId != null">
+                    AND LOGISTICS_ID = #{logisticsId}
+                </if>
+                <if test="carrierId != null">
+                    AND CARRIER_ID = #{carrierId}
+                </if>
+                <if test="transToolId != null">
+                    AND TRANS_TOOL_ID = #{transToolId}
+                </if>
+                <if test="loadingMode != null">
+                    AND LOADING_MODE = #{loadingMode}
+                </if>
+                <if test="endProvinceId != null">
+                    AND END_PROVINCE_ID = #{endProvinceId}
+                </if>
+                <if test="endCityId != null">
+                    AND END_CITY_ID = #{endCityId}
+                </if>
+                <if test="endCountyId != null">
+                    AND END_COUNTY_ID = #{endCountyId}
+                </if>
+                <if test="startOrganizationId != null and startOrganizationId.size() != 0">
+                    AND START_ORGANIZATION_ID IN
+                    <foreach collection="startOrganizationId" index="index" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="vinId != null">
+                    AND VIN_ID = #{vinId}
+                </if>
+                <if test="sectionOrder != null">
+                    AND SECTION_ORDER = #{sectionOrder}
+                </if>
+                <if test="allotCarrierIds != null and allotCarrierIds.size() != 0">
+                    AND ALLOT_CARRIER_ID IN
+                    <foreach collection="allotCarrierIds" index="index" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <choose>
+                    <!-- 如果是人工自提 -->
+                    <when test="rgzt != null and rgzt == 'Y'.toString()">
+                        <if test="transportMethod != null">
+                            AND TRANSPORT_METHOD = #{transportMethod}
+                        </if>
+                    </when>
+                    <!-- 如果是公铁水 -->
+                    <when test="rgzt != null and rgzt == 'N'.toString()">
+                        AND TRANSPORT_METHOD NOT IN (
+                        SELECT
+                        T2.LOOKUP_ID
+                        FROM
+                        FND_LOOKUP_TYPES T1
+                        JOIN FND_LOOKUP_VALUES T2 ON T1.LOOKUP_TYPE_ID = T2.LOOKUP_TYPE_ID
+                        WHERE T1.LOOKUP_TYPE = 'TRANSPORT_METHOD' AND T2.LOOKUP_CODE IN ('MANUAL','SELF')
+                        )
+                    </when>
+                </choose>
+            </where>
+            ORDER BY ORDER_NUMBER DESC
+        ) T
+    </select>
+
+    <select id="selectSameLoadListDetail" resultType="com.foreveross.vds.dto.fms.SendcarGenerateRequest">
+        SELECT
+            T2.VIN_ID
+        FROM
+            INV_LOAD_LIST T1
+        JOIN INV_LOAD_LIST_DETAIL T2 ON T1.LOAD_HEADER_ID = T2.LOAD_HEADER_ID
+        WHERE 1=1
+        AND NVL(T2.STATUS,'N')='Y'
+        AND NVL(T2.ENABLE_FLAG, 'Y') = 'Y'
+        AND T1.LOAD_HEADER_ID = (
+                SELECT
+                    T1.LOAD_HEADER_ID
+                FROM
+                    INV_LOAD_LIST_DETAIL T1
+                    JOIN INV_PREPARECAR_PLAN T2 ON T1.PREPARECAR_PLAN_ID = T2.PREPARECAR_PLAN_ID
+                WHERE 1=1
+                AND NVL(T1.STATUS,'N')='Y'
+                AND NVL(T1.ENABLE_FLAG, 'Y') = 'Y'
+                AND T1.VIN_ID = #{vinId} 
+                AND T1.ORGANIZATION_ID IN
+                <foreach collection="organizationIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+
+            )
+    </select>
+
+    <select id="countSendcarHeaderId" resultType="int">
+        SELECT
+            COUNT (DISTINCT T1.SENDCAR_HEADER_ID)
+        FROM
+            TMS_SENDCAR_HEADER T1
+        JOIN TMS_SENDCAR_LINE T2 ON T1.SENDCAR_HEADER_ID = T2.SENDCAR_HEADER_ID
+        <where>
+            <if test="sectionOrder != null">
+                AND T1.SECTION_ORDER = #{sectionOrder}
+            </if>
+            <if test="vinIdList != null and vinIdList.size() != 0">
+                AND T2.BARCODE_17 IN
+                <foreach collection="vinIdList" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+
+            </if>
+        </where>
+    </select>
+
+    <select id="getSendcarHeaderIdBy" resultType="Long">
+        SELECT
+        T1.SENDCAR_HEADER_ID
+        FROM
+        TMS_SENDCAR_HEADER T1
+        JOIN TMS_SENDCAR_LINE T2 ON T1.SENDCAR_HEADER_ID = T2.SENDCAR_HEADER_ID
+        <where>
+            <if test="sectionOrder != null">
+                AND T1.SECTION_ORDER = #{sectionOrder}
+            </if>
+            <if test="vinCode != null and vinCode != ''">
+                AND T2.VIN_CODE = #{vinCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTransTool" resultType="com.foreveross.vds.vo.tms.TmsTransTool">
+        SELECT
+        *
+        FROM
+        TMS_TRANS_TOOL
+        WHERE
+        TRANS_TOOL_ID = #{transToolId}
+    </select>
+
+    <select id="getDriverInfo" resultType="com.foreveross.vds.vo.inv.InvDriverInfo" >
+        SELECT T2.*
+        FROM TMS_SENDCAR_HEADER T1
+        JOIN INV_DRIVER_INFO T2 ON T1.DRIVER_ID = T2.DRIVER_ID
+        WHERE NOT EXISTS (SELECT 1 FROM TMS_SENDCAR_HEADER WHERE CREATION_DATE > T1.CREATION_DATE)
+        AND T1.TRANS_TOOL_ID = #{transToolId}
+    </select>
+
+    <select id="countLoadScan" resultType="int">
+        SELECT
+            COUNT(1)
+        FROM
+            INV.INV_LOAD_LIST_DETAIL T
+        WHERE
+            1 = 1
+        AND NVL(T.ENABLE_FLAG, 'Y') = 'Y'
+        AND NVL(T.STATUS, 'N') = 'Y'
+        AND NVL(T.LOAD_OUT_SUBTRACT_FLAG, 'N') = 'N'
+        AND T.VIN_CODE = #{vinCode}
+        AND T.ORGANIZATION_ID IN
+        <foreach collection="organizationIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="queryPreparecarPlanBy" resultType="com.foreveross.vds.vo.invload.InvPreparecarPlan">
+        SELECT
+          *
+        FROM INV.INV_PREPARECAR_PLAN
+        WHERE 1=1
+        AND NVL(STATUS, 'Y') = 'Y'
+        AND VIN_CODE = #{vinCode}
+        AND ORGANIZATION_ID IN
+        <foreach collection="organizationIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getStorageLocationType" resultType="long">
+        SELECT
+            t2.STORAGE_ROOM_TYPE_ID
+        FROM
+            INV.INV_STORAGE_LOCATION t1
+        JOIN inv.INV_STORAGE_ROOM t2 ON t1.STORAGE_ROOM_ID = t2.STORAGE_ROOM_ID
+        WHERE
+            1 = 1
+        AND t1.STORAGE_LOCATION_ID = #{storageLocationId}
+    </select>
+</mapper>

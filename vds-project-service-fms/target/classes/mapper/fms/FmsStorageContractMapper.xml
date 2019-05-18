@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsStorageContractMapper" >
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsStorageContract" >
+        <id column="STORAGE_CONTRACT_ID" property="storageContractId" jdbcType="DECIMAL" />
+        <result column="CONTRACT_NUMBER" property="contractNumber" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NAME" property="contractName" jdbcType="VARCHAR" />
+        <result column="CONTRACT_TYPE" property="contractType" jdbcType="DECIMAL" />
+        <result column="CONTRACT_CATEGORY_ID" property="contractCategoryId" jdbcType="DECIMAL" />
+        <result column="LOGISTICS_ID" property="logisticsId" jdbcType="DECIMAL" />
+        <result column="START_POINT_ID" property="startPointId" jdbcType="DECIMAL" />
+        <result column="STORAGE_ROOM_ID" property="storageRoomId" jdbcType="DECIMAL" />
+        <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+        <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+        <result column="MONTH_PRICE" property="monthPrice" jdbcType="DECIMAL" />
+        <result column="IS_CONFIRM_FLAG" property="isConfirmFlag" jdbcType="VARCHAR" />
+        <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR" />
+        <result column="ORG_ID" property="orgId" jdbcType="DECIMAL" />
+        <result column="DEPARTURE_NAME" property="departureName" jdbcType="VARCHAR" />
+    </resultMap>
+	<sql id="Base_Column_List">
+		ts.STORAGE_CONTRACT_ID,
+		ts.CONTRACT_NUMBER,
+		ts.CONTRACT_NAME,
+		ts.CONTRACT_TYPE,
+		ts.CONTRACT_CATEGORY_ID,
+		ts.LOGISTICS_ID,
+		ts.START_POINT_ID,
+		ts.STORAGE_ROOM_ID,
+		ts.QUANTITY,
+		ts.UNIT_PRICE,
+		ts.MONTH_PRICE,
+		ts.IS_CONFIRM_FLAG,
+		ts.START_DATE,
+		ts.END_DATE,
+		ts.ENABLED_FLAG,
+		ts.CREATED_BY,
+		ts.CREATION_DATE,
+		ts.LAST_UPDATED_BY,
+		ts.LAST_UPDATE_DATE,
+		ts.LAST_UPDATE_LOGIN,
+		ts.ATTRIBUTE1,
+		ts.ATTRIBUTE2,
+		ts.ATTRIBUTE3,
+		ts.ATTRIBUTE4,
+		ts.ATTRIBUTE5,
+		ts.ATTRIBUTE6,
+		ts.ATTRIBUTE7,
+		ts.ATTRIBUTE8,
+		ts.ATTRIBUTE9,
+		ts.ATTRIBUTE10,
+		ts.ORG_ID
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from FMS.FMS_STORAGE_CONTRACT ts
+        where ts.STORAGE_CONTRACT_ID = #{storageContractId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from FMS.FMS_STORAGE_CONTRACT
+        where STORAGE_CONTRACT_ID = #{storageContractId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsStorageContract" >
+        insert into FMS.FMS_STORAGE_CONTRACT (STORAGE_CONTRACT_ID, CONTRACT_NUMBER, 
+            CONTRACT_NAME, CONTRACT_TYPE, CONTRACT_CATEGORY_ID, 
+            LOGISTICS_ID, START_POINT_ID, STORAGE_ROOM_ID, 
+            QUANTITY, UNIT_PRICE, MONTH_PRICE, 
+            IS_CONFIRM_FLAG, START_DATE, END_DATE, 
+            ENABLED_FLAG, CREATED_BY, CREATION_DATE, 
+            LAST_UPDATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, 
+            ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, 
+            ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6, 
+            ATTRIBUTE7, ATTRIBUTE8, ATTRIBUTE9, 
+            ATTRIBUTE10, ORG_ID)
+        values (#{storageContractId,jdbcType=DECIMAL}, #{contractNumber,jdbcType=VARCHAR}, 
+            #{contractName,jdbcType=VARCHAR}, #{contractType,jdbcType=DECIMAL}, #{contractCategoryId,jdbcType=DECIMAL}, 
+            #{logisticsId,jdbcType=DECIMAL}, #{startPointId,jdbcType=DECIMAL}, #{storageRoomId,jdbcType=DECIMAL}, 
+            #{quantity,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, #{monthPrice,jdbcType=DECIMAL}, 
+            #{isConfirmFlag,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+            #{enabledFlag,jdbcType=VARCHAR}, #{createdBy,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP}, 
+            #{lastUpdatedBy,jdbcType=DECIMAL}, #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdateLogin,jdbcType=VARCHAR}, 
+            #{attribute1,jdbcType=VARCHAR}, #{attribute2,jdbcType=VARCHAR}, #{attribute3,jdbcType=VARCHAR}, 
+            #{attribute4,jdbcType=VARCHAR}, #{attribute5,jdbcType=VARCHAR}, #{attribute6,jdbcType=VARCHAR}, 
+            #{attribute7,jdbcType=VARCHAR}, #{attribute8,jdbcType=VARCHAR}, #{attribute9,jdbcType=VARCHAR}, 
+            #{attribute10,jdbcType=VARCHAR}, #{orgId,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsStorageContract" >
+    
+    	<selectKey keyProperty="storageContractId" order="BEFORE" resultType="java.lang.Long">
+    		SELECT FMS.FMS_STORAGE_CONTRACT_S.NEXTVAL FROM DUAL
+    	</selectKey>
+    
+        insert into FMS.FMS_STORAGE_CONTRACT
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="storageContractId != null" >
+                STORAGE_CONTRACT_ID,
+            </if>
+            <if test="contractNumber != null" >
+                CONTRACT_NUMBER,
+            </if>
+            <if test="contractName != null" >
+                CONTRACT_NAME,
+            </if>
+            <if test="contractType != null" >
+                CONTRACT_TYPE,
+            </if>
+            <if test="contractCategoryId != null" >
+                CONTRACT_CATEGORY_ID,
+            </if>
+            <if test="logisticsId != null" >
+                LOGISTICS_ID,
+            </if>
+            <if test="startPointId != null" >
+                START_POINT_ID,
+            </if>
+            <if test="storageRoomId != null" >
+                STORAGE_ROOM_ID,
+            </if>
+            <if test="quantity != null" >
+                QUANTITY,
+            </if>
+            <if test="unitPrice != null" >
+                UNIT_PRICE,
+            </if>
+            <if test="monthPrice != null" >
+                MONTH_PRICE,
+            </if>
+            <if test="isConfirmFlag != null" >
+                IS_CONFIRM_FLAG,
+            </if>
+            <if test="startDate != null" >
+                START_DATE,
+            </if>
+            <if test="endDate != null" >
+                END_DATE,
+            </if>
+            <if test="enabledFlag != null" >
+                ENABLED_FLAG,
+            </if>
+            <if test="createdBy != null" >
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null" >
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null" >
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdateDate != null" >
+                LAST_UPDATE_DATE,
+            </if>
+            <if test="lastUpdateLogin != null" >
+                LAST_UPDATE_LOGIN,
+            </if>
+            <if test="attribute1 != null" >
+                ATTRIBUTE1,
+            </if>
+            <if test="attribute2 != null" >
+                ATTRIBUTE2,
+            </if>
+            <if test="attribute3 != null" >
+                ATTRIBUTE3,
+            </if>
+            <if test="attribute4 != null" >
+                ATTRIBUTE4,
+            </if>
+            <if test="attribute5 != null" >
+                ATTRIBUTE5,
+            </if>
+            <if test="attribute6 != null" >
+                ATTRIBUTE6,
+            </if>
+            <if test="attribute7 != null" >
+                ATTRIBUTE7,
+            </if>
+            <if test="attribute8 != null" >
+                ATTRIBUTE8,
+            </if>
+            <if test="attribute9 != null" >
+                ATTRIBUTE9,
+            </if>
+            <if test="attribute10 != null" >
+                ATTRIBUTE10,
+            </if>
+            <if test="orgId != null" >
+                ORG_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="storageContractId != null" >
+                #{storageContractId,jdbcType=DECIMAL},
+            </if>
+            <if test="contractNumber != null" >
+                #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="contractName != null" >
+                #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractType != null" >
+                #{contractType,jdbcType=DECIMAL},
+            </if>
+            <if test="contractCategoryId != null" >
+                #{contractCategoryId,jdbcType=DECIMAL},
+            </if>
+            <if test="logisticsId != null" >
+                #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="startPointId != null" >
+                #{startPointId,jdbcType=DECIMAL},
+            </if>
+            <if test="storageRoomId != null" >
+                #{storageRoomId,jdbcType=DECIMAL},
+            </if>
+            <if test="quantity != null" >
+                #{quantity,jdbcType=DECIMAL},
+            </if>
+            <if test="unitPrice != null" >
+                #{unitPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="monthPrice != null" >
+                #{monthPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="isConfirmFlag != null" >
+                #{isConfirmFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null" >
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null" >
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null" >
+                #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null" >
+                #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null" >
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null" >
+                #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null" >
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null" >
+                #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null" >
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null" >
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null" >
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null" >
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null" >
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null" >
+                #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null" >
+                #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null" >
+                #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null" >
+                #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null" >
+                #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId != null" >
+                #{orgId,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsStorageContract" >
+        update FMS.FMS_STORAGE_CONTRACT
+        <set >
+            <if test="contractNumber != null" >
+                CONTRACT_NUMBER = #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="contractName != null" >
+                CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="contractType != null" >
+                CONTRACT_TYPE = #{contractType,jdbcType=DECIMAL},
+            </if>
+            <if test="contractCategoryId != null" >
+                CONTRACT_CATEGORY_ID = #{contractCategoryId,jdbcType=DECIMAL},
+            </if>
+            <if test="logisticsId != null" >
+                LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="startPointId != null" >
+                START_POINT_ID = #{startPointId,jdbcType=DECIMAL},
+            </if>
+            <if test="storageRoomId != null" >
+                STORAGE_ROOM_ID = #{storageRoomId,jdbcType=DECIMAL},
+            </if>
+            <if test="quantity != null" >
+                QUANTITY = #{quantity,jdbcType=DECIMAL},
+            </if>
+            <if test="unitPrice != null" >
+                UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="monthPrice != null" >
+                MONTH_PRICE = #{monthPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="isConfirmFlag != null" >
+                IS_CONFIRM_FLAG = #{isConfirmFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null" >
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null" >
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null" >
+                ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null" >
+                CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null" >
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null" >
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null" >
+                LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null" >
+                LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null" >
+                ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null" >
+                ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null" >
+                ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null" >
+                ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null" >
+                ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null" >
+                ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null" >
+                ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null" >
+                ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null" >
+                ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null" >
+                ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId != null" >
+                ORG_ID = #{orgId,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where STORAGE_CONTRACT_ID = #{storageContractId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsStorageContract" >
+        update FMS.FMS_STORAGE_CONTRACT
+        set CONTRACT_NUMBER = #{contractNumber,jdbcType=VARCHAR},
+            CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+            CONTRACT_TYPE = #{contractType,jdbcType=DECIMAL},
+            CONTRACT_CATEGORY_ID = #{contractCategoryId,jdbcType=DECIMAL},
+            LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+            START_POINT_ID = #{startPointId,jdbcType=DECIMAL},
+            STORAGE_ROOM_ID = #{storageRoomId,jdbcType=DECIMAL},
+            QUANTITY = #{quantity,jdbcType=DECIMAL},
+            UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+            MONTH_PRICE = #{monthPrice,jdbcType=DECIMAL},
+            IS_CONFIRM_FLAG = #{isConfirmFlag,jdbcType=VARCHAR},
+            START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            ORG_ID = #{orgId,jdbcType=DECIMAL}
+        where STORAGE_CONTRACT_ID = #{storageContractId,jdbcType=DECIMAL}
+    </update>
+    <select id="queryList" resultMap="BaseResultMap" parameterType="com.foreveross.vds.vo.fms.FmsStorageContract">
+    	SELECT <include refid="Base_Column_List" />,t1.DEPARTURE_NAME
+        FROM FMS.FMS_STORAGE_CONTRACT ts
+        left join tms.tms_departure t1 on ts.START_POINT_ID = t1.DEPARTURE_ID
+        WHERE 1=1
+        <if test="contractNumber != null and contractNumber != ''">
+        	AND ts.CONTRACT_NUMBER = #{contractNumber}
+        </if>
+        <if test="contractName != null and contractName != ''">
+        	AND ts.CONTRACT_NAME = #{contractName}
+        </if>
+        <if test="contractType != null">
+        	AND ts.CONTRACT_TYPE = #{contractType}
+        </if>
+        <if test="contractCategoryId != null">
+        	AND ts.CONTRACT_CATEGORY_ID = #{contractCategoryId}
+        </if>
+        <if test="logisticsId != null">
+        	AND ts.LOGISTICS_ID = #{logisticsId}
+        </if>
+        <if test="startPointId != null">
+        	AND ts.START_POINT_ID = #{startPointId}
+        </if>
+        <if test="storageRoomId != null">
+        	AND ts.STORAGE_ROOM_ID = #{storageRoomId}
+        </if>
+        <if test="orgId != null">
+        	AND ts.ORG_ID = #{orgId}
+        </if>
+        <if test="startDate != null">
+        	AND ts.START_DATE >= #{startDate}
+        </if>
+        <if test="endDate != null">
+        	AND ts.END_DATE &lt;= #{endDate}
+        </if>
+        <if test="isConfirmFlag != null and isConfirmFlag != ''">
+        	AND ts.IS_CONFIRM_FLAG = #{isConfirmFlag}
+        </if>
+    </select>
+    
+    <select id="export" resultType="com.foreveross.vds.vo.fms.FmsStorageContractV" parameterType="com.foreveross.vds.vo.fms.FmsStorageContract">
+    	SELECT *
+        FROM VDS.FMS_STORAGE_CONTRACT_V
+        WHERE 1=1
+        <if test="contractNumber != null and contractNumber != ''">
+        	AND CONTRACT_NUMBER = #{contractNumber}
+        </if>
+        <if test="contractName != null and contractName != ''">
+        	AND CONTRACT_NAME = #{contractName}
+        </if>
+        <if test="contractType != null">
+        	AND CONTRACT_TYPE = #{contractType}
+        </if>
+        <if test="contractCategoryId != null">
+        	AND CONTRACT_CATEGORY_ID = #{contractCategoryId}
+        </if>
+        <if test="logisticsId != null">
+        	AND LOGISTICS_ID = #{logisticsId}
+        </if>
+        <if test="startPointId != null">
+        	AND START_POINT_ID = #{startPointId}
+        </if>
+        <if test="storageRoomId != null">
+        	AND STORAGE_ROOM_ID = #{storageRoomId}
+        </if>
+        <if test="orgId != null">
+        	AND ORG_ID = #{orgId}
+        </if>
+        <if test="startDate != null">
+        	AND START_DATE >= #{startDate}
+        </if>
+        <if test="endDate != null">
+        	AND END_DATE &lt;= #{endDate}
+        </if>
+        <if test="isConfirmFlag != null and isConfirmFlag != ''">
+        	AND IS_CONFIRM_FLAG = #{isConfirmFlag}
+        </if>
+    </select>
+</mapper>

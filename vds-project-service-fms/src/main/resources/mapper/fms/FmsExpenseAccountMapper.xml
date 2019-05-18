@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsExpenseAccountMapper">
+	<select id="queryFmsExpenseAccountList"
+		parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount"
+		resultType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+		select * from fms_expense_account_v
+		where 1 = 1
+		<if
+			test="expenseAccountNumber != null and expenseAccountNumber != ''">
+			AND ( expenseAccountNumber LIKE '%'|| #{expenseAccountNumber}
+			||'%')
+		</if>
+		<if test="proInstId != null and proInstId != ''">
+			AND ( proInstId = #{proInstId})
+		</if>
+		<if test="feeType != null and feeType != ''">
+			AND ( feeType = #{feeType})
+		</if>
+		<if test="departureId != null and departureId != ''">
+			AND ( departureId = #{departureId})
+		</if>
+		<if test="startDate != null">
+			<![CDATA[AND to_char(creationDate, 'YYYYMMdd')>= to_char(#{startDate}, 'YYYYMMdd')]]>
+		</if>
+		<if test="endDate != null">
+			AND ( to_char(#{endDate}, 'YYYYMMdd') >= to_char(creationDate, 'YYYYMMdd'))
+		</if>
+		<if test="queryType == 'invvice' "><!-- 关联票号查询 -->
+			AND exists
+			(select 1
+			from fnd_lookup_values p
+			where p.lookup_id =
+			settledStatus
+			and p.lookup_code in
+			('APPROVALED','AUDITED','APPROVALING','RELATE_REJECT'))
+		</if>
+		<if test="queryType == 'auditInvvice' "><!-- 复核关联票号查询 -->
+			AND exists
+			(select 1
+			from fnd_lookup_values p
+			where p.lookup_id =
+			settledStatus
+			and p.lookup_code = 'RELATED'
+			and exists (select 1
+			from fnd_lookup_types p1
+			where p1.lookup_type_id = p.lookup_type_id
+			and p1.lookup_type = 'SETTLE_STATUS'))
+		</if>
+		<if test="logisticsId != null">
+			and logisticsId = #{logisticsId}
+		</if>
+		<if test="transportMethod != null">
+			and transportMethod = #{transportMethod}
+		</if>
+		<if test="orgId != null">
+			and orgId = #{orgId}
+		</if>
+		order by creationDate desc
+		<if test="orderBy != null and orderBy != ''">
+			,${orderBy}
+		</if>
+	</select>
+
+	<select id="queryFmsExpenseContractDetailByExpenseAccountId" parameterType="java.lang.Long" resultType="com.foreveross.vds.dto.fms.FmsExpenseContractDetail">
+		select expense_contract_detail_id  expenseContractDetailId,
+			   expense_account_id expenseAccountId,
+			   expense_contract_no     expenseContractNo,
+			   expense_contract_name      expenseContractName,
+			   remarks            remarks,
+			   created_by         createdBy,
+			   creation_date      creationDate,
+			   last_updated_by    lastUpdatedBy,
+			   last_update_date   lastUpdateDate,
+			   last_update_login  lastUpdateLogin,
+			   attribute1         attribute1,
+			   attribute2         attribute2,
+			   attribute3         attribute3,
+			   attribute4         attribute4,
+			   attribute5         attribute5,
+			   attribute6         attribute6,
+			   attribute7         attribute7,
+			   attribute8         attribute8,
+			   attribute9         attribute9,
+			   attribute10        attribute10
+		from FMS_EXPENSE_CONTRACT_DETAIL t
+		where t.expense_account_id = #{expenseAccountId}
+	</select>
+	
+	<select id="queryFmsExpenseDetailByExpenseAccountId" parameterType="java.lang.Long" resultType="com.foreveross.vds.dto.fms.FmsExpenseDetail">
+		select expense_detail_id  expenseDetailId,
+		       expense_account_id expenseAccountId,
+		       expense_detail     expenseDetail,
+		       finesh_status      fineshStatus,
+		       invoice_quantity   invoiceQuantity,
+		       remarks            remarks,
+		       created_by         createdBy,
+		       creation_date      creationDate,
+		       last_updated_by    lastUpdatedBy,
+		       last_update_date   lastUpdateDate,
+		       last_update_login  lastUpdateLogin,
+		       attribute1         attribute1,
+		       attribute2         attribute2,
+		       attribute3         attribute3,
+		       attribute4         attribute4,
+		       attribute5         attribute5,
+		       attribute6         attribute6,
+		       attribute7         attribute7,
+		       attribute8         attribute8,
+		       attribute9         attribute9,
+		       attribute10        attribute10
+		  from FMS_EXPENSE_DETAIL t
+		  where t.expense_account_id = #{expenseAccountId}
+	</select>
+	<select id="getFeeInfo" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount"
+			resultType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+		select sum(imvm.INV_SUM) invoiceFee, fea.TOTAL_FEE totalFee
+            from FMS_EXPENSE_INVOICE_RELATE feir, INV_MID_VAT_MAIN imvm, FMS_EXPENSE_ACCOUNT fea
+            where feir.INVOICE_ID = imvm.ID
+            and feir.EXPENSE_ACCOUNT_ID = fea.EXPENSE_ACCOUNT_ID
+            and feir.EXPENSE_ACCOUNT_ID = #{expenseAccountId}
+            group by fea.EXPENSE_ACCOUNT_ID,fea.TOTAL_FEE
+	</select>
+	
+	<select id="getFmsExpenseAccountByProInstId" parameterType="java.lang.String" resultType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+		select 
+		  expense_account_id     expenseAccountId    ,
+		  fee_type               feeType             ,
+		  expense_account_number expenseAccountNumber,
+		  settled_status         settledStatus       ,
+		  total_fee              totalFee            ,
+		  pro_inst_id            proInstId           ,
+		  pro_status             proStatus           ,
+		  pro_start_date         proStartDate        ,
+		  pro_end_date           proEndDate          ,
+		  start_date             startDate           ,
+		  end_date               endDate             ,
+		  enabled_flag           enabledFlag         ,
+		  reject_reason          rejectReason        ,
+		  remarks                remarks             ,
+		  created_by             createdBy           ,
+		  creation_date          creationDate        ,
+		  last_updated_by        lastUpdatedBy       ,
+		  last_update_date       lastUpdateDate      ,
+		  last_update_login      lastUpdateLogin     ,
+		  attribute1             attribute1          ,
+		  attribute2             attribute2          ,
+		  attribute3             attribute3          ,
+		  attribute4             attribute4          ,
+		  attribute5             attribute5          ,
+		  attribute6             attribute6          ,
+		  attribute7             attribute7          ,
+		  attribute8             attribute8          ,
+		  attribute9             attribute9          ,
+		  attribute10            attribute10         ,
+		  INVOICE_QUANTITY invoiceQuantity,
+   		  BUSINESS_SCOPE businessScope,
+  		  DEAD_LINE deadLine,
+  		  PROJECT_NUMBER projectNumber,
+  		  PROJECT_NAME projectName,
+  		  title title,
+		  fee_type contractType,
+		       CONTRACT_HEADER_ID contractHeaderId
+		 from FMS_EXPENSE_ACCOUNT
+		 where 1=1
+		 AND ( pro_inst_id = #{proInstId}) 
+	</select>
+	
+	<select id="getFmsExpenseAccountById" parameterType="java.lang.Long" resultType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+		select 
+		  expense_account_id     expenseAccountId    ,
+		  fee_type               feeType             ,
+		  expense_account_number expenseAccountNumber,
+		  settled_status         settledStatus       ,
+		  total_fee              totalFee            ,
+		  pro_inst_id            proInstId           ,
+		  pro_status             proStatus           ,
+		  pro_start_date         proStartDate        ,
+		  pro_end_date           proEndDate          ,
+		  start_date             startDate           ,
+		  end_date               endDate             ,
+		  enabled_flag           enabledFlag         ,
+		  reject_reason          rejectReason        ,
+		  remarks                remarks             ,
+		  created_by             createdBy           ,
+		  creation_date          creationDate        ,
+		  last_updated_by        lastUpdatedBy       ,
+		  last_update_date       lastUpdateDate      ,
+		  last_update_login      lastUpdateLogin     ,
+		  attribute1             attribute1          ,
+		  attribute2             attribute2          ,
+		  attribute3             attribute3          ,
+		  attribute4             attribute4          ,
+		  attribute5             attribute5          ,
+		  attribute6             attribute6          ,
+		  attribute7             attribute7          ,
+		  attribute8             attribute8          ,
+		  attribute9             attribute9          ,
+		  attribute10            attribute10         ,
+		  INVOICE_QUANTITY invoiceQuantity,
+   		  BUSINESS_SCOPE businessScope,
+  		  DEAD_LINE deadLine,
+  		  PROJECT_NUMBER projectNumber,
+  		  PROJECT_NAME projectName,
+  		  title title,
+  		  contract_Type contractType,
+		       CONTRACT_HEADER_ID contractHeaderId
+		 from FMS_EXPENSE_ACCOUNT
+		 where 1=1
+		 AND ( expense_account_id = #{expenseAccountId}) 
+	</select>
+	
+	<select id="getContByIdAndLookupId" parameterType="java.util.Map" resultType="com.foreveross.vds.dto.fms.Contarct">
+		select contId,contractNumber,contractName,accountBank,accountBank,receivingUnit,receivingAcount,lookupId from (select t.storage_contract_id contId,
+		       t.contract_number contractNumber,
+		       t.contract_name contractName,
+		       t.account_bank accountBank,
+		       t.receiving_unit receivingUnit,
+		       t.receiving_acount receivingAcount,
+		       t3.lookup_id lookupId
+		  from FMS_STORAGE_CONTRACT t,
+		       (select *
+		          from fnd_lookup_values t1
+		         where exists (select 1
+		                  from fnd_lookup_types t2
+		                 where t1.lookup_type_id = t2.lookup_type_id
+		                   and t2.lookup_type = 'FEE_TYPE')
+		           and t1.lookup_code = 'STORAGE_FEE') t3
+		UNION ALL
+		select t4.transport_contract_header_id contId ,
+		       t4.contract_number contractNumber,
+		       t4.contract_name contractName,
+		       t4.account_bank accountBank,
+		       t4.receiving_unit receivingUnit,
+		       t4.receiving_acount receivingAcount,
+		       t5.lookup_id lookupId
+		  from FMS_TRANSPORT_CONTRACT_HEADER t4,
+		       (select *
+		          from fnd_lookup_values t1
+		         where exists (select 1
+		                  from fnd_lookup_types t2
+		                 where t1.lookup_type_id = t2.lookup_type_id
+		                   and t2.lookup_type = 'FEE_TYPE')
+		           and t1.lookup_code = 'TRANSPORT_FEE') t5)
+		  where lookupId = #{lookupId}
+		  and contId = #{contId}
+	</select>
+	
+	<insert id="addFmsExpenseAccount" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+	     <selectKey resultType="java.lang.Long" keyProperty="expenseAccountId" order="BEFORE">
+              select FMS_EXPENSE_ACCOUNT_S.nextval as expenseAccountId from dual
+          </selectKey>
+		insert into FMS_EXPENSE_ACCOUNT (expense_account_id,
+		fee_type,
+		expense_account_number,
+		settled_status,
+		total_fee,
+		pro_inst_id,
+		pro_status,
+		pro_start_date,
+		pro_end_date,
+		start_date,
+		end_date,
+		enabled_flag,
+		reject_reason,
+		remarks,
+		created_by,
+		creation_date,
+		last_updated_by,
+		last_update_date,
+		last_update_login,
+		attribute1,
+		attribute2,
+		attribute3,
+		attribute4,
+		attribute5,
+		attribute6,
+		attribute7,
+		attribute8,
+		attribute9,
+		attribute10,
+		INVOICE_QUANTITY,
+		BUSINESS_SCOPE,
+		DEAD_LINE,
+		PROJECT_NUMBER,
+		PROJECT_NAME,
+		title,
+		contract_Type,
+		CONTRACT_HEADER_ID,
+		LOGISTICS_ID,
+		TRANSPORT_METHOD,
+		DEPARTURE_ID,
+		ORG_ID)
+		values (#{expenseAccountId, jdbcType = VARCHAR},
+		#{feeType, jdbcType = VARCHAR},
+		#{expenseAccountNumber, jdbcType = VARCHAR},
+		#{settledStatus, jdbcType = VARCHAR},
+		#{totalFee, jdbcType = VARCHAR},
+		#{proInstId, jdbcType = VARCHAR},
+		#{proStatus, jdbcType = VARCHAR},
+		#{proStartDate, jdbcType = VARCHAR},
+		#{proEndDate, jdbcType = VARCHAR},
+		#{startDate, jdbcType = VARCHAR},
+		#{endDate, jdbcType = VARCHAR},
+		#{enabledFlag, jdbcType = VARCHAR},
+		#{rejectReason, jdbcType = VARCHAR},
+		#{remarks, jdbcType = VARCHAR},
+		#{createdBy, jdbcType = VARCHAR},
+		#{creationDate, jdbcType = VARCHAR},
+		#{lastUpdatedBy, jdbcType = VARCHAR},
+		#{lastUpdateDate, jdbcType = VARCHAR},
+		#{lastUpdateLogin, jdbcType = VARCHAR},
+		#{attribute1, jdbcType = VARCHAR},
+		#{attribute2, jdbcType = VARCHAR},
+		#{attribute3, jdbcType = VARCHAR},
+		#{attribute4, jdbcType = VARCHAR},
+		#{attribute5, jdbcType = VARCHAR},
+		#{attribute6, jdbcType = VARCHAR},
+		#{attribute7, jdbcType = VARCHAR},
+		#{attribute8, jdbcType = VARCHAR},
+		#{attribute9, jdbcType = VARCHAR},
+		#{attribute10, jdbcType = VARCHAR},
+		#{invoiceQuantity, jdbcType = VARCHAR},
+		#{businessScope, jdbcType = VARCHAR},
+		#{deadLine, jdbcType = VARCHAR},
+		#{projectNumber, jdbcType = VARCHAR},
+		#{projectName, jdbcType = VARCHAR},
+		#{title, jdbcType = VARCHAR},
+		#{contractType, jdbcType = VARCHAR},
+		#{contractHeaderId, jdbcType = VARCHAR},
+		#{logisticsId, jdbcType = VARCHAR},
+		#{transportMethod, jdbcType = VARCHAR},
+		#{departureId, jdbcType = VARCHAR},
+		#{orgId, jdbcType = VARCHAR}
+		)
+    </insert>
+    
+    <insert id="addFmsExpenseDetail" parameterType="com.foreveross.vds.dto.fms.FmsExpenseDetail">
+	     <selectKey resultType="java.lang.Long" keyProperty="expenseDetailId" order="BEFORE">
+              select FMS_EXPENSE_DETAIL_S.nextval as expenseDetailId from dual
+          </selectKey>
+          insert into FMS_EXPENSE_DETAIL
+		  (expense_detail_id,
+		   expense_account_id,
+		   expense_detail,
+		   finesh_status,
+		   invoice_quantity,
+		   remarks,
+		   created_by,
+		   creation_date,
+		   last_updated_by,
+		   last_update_date,
+		   last_update_login,
+		   attribute1,
+		   attribute2,
+		   attribute3,
+		   attribute4,
+		   attribute5,
+		   attribute6,
+		   attribute7,
+		   attribute8,
+		   attribute9,
+		   attribute10)
+		values
+		  (#{expenseDetailId,
+		   jdbcType = VARCHAR},
+		  #{expenseAccountId,
+		   jdbcType = VARCHAR},
+		   #{expenseDetail,
+		   jdbcType = VARCHAR},
+		   #{fineshStatus,
+		   jdbcType = VARCHAR},
+		   #{invoiceQuantity,
+		   jdbcType = VARCHAR},
+		   #{remarks,
+		   jdbcType = VARCHAR},
+		   #{createdBy,
+		   jdbcType = VARCHAR},
+		   #{creationDate,
+		   jdbcType = VARCHAR},
+		   #{lastUpdatedBy,
+		   jdbcType = VARCHAR},
+		   #{lastUpdateDate,
+		   jdbcType = VARCHAR},
+		   #{lastUpdateLogin,
+		   jdbcType = VARCHAR},
+		   #{attribute1,
+		   jdbcType = VARCHAR},
+		   #{attribute2,
+		   jdbcType = VARCHAR},
+		   #{attribute3,
+		   jdbcType = VARCHAR},
+		   #{attribute4,
+		   jdbcType = VARCHAR},
+		   #{attribute5,
+		   jdbcType = VARCHAR},
+		   #{attribute6,
+		   jdbcType = VARCHAR},
+		   #{attribute7,
+		   jdbcType = VARCHAR},
+		   #{attribute8,
+		   jdbcType = VARCHAR},
+		   #{attribute9,
+		   jdbcType = VARCHAR},
+		   #{attribute10,
+		   jdbcType = VARCHAR})
+    </insert>
+
+	<insert id="addFmsExpenseContractDetail" parameterType="com.foreveross.vds.dto.fms.FmsExpenseContractDetail">
+		<selectKey resultType="java.lang.Long" keyProperty="expenseContractDetailId" order="BEFORE">
+			select FMS_EXPENSE_DETAIL_S.nextval as expenseDetailId from dual
+		</selectKey>
+		insert into FMS_EXPENSE_CONTRACT_DETAIL
+		(expense_contract_detail_id,
+		expense_account_id,
+      	EXPENSE_CONTRACT_NO,
+      	EXPENSE_CONTRACT_NAME,
+		remarks,
+		created_by,
+		creation_date,
+		last_updated_by,
+		last_update_date,
+		last_update_login,
+		attribute1,
+		attribute2,
+		attribute3,
+		attribute4,
+		attribute5,
+		attribute6,
+		attribute7,
+		attribute8,
+		attribute9,
+		attribute10)
+		values
+		(#{expenseContractDetailId,
+         jdbcType = VARCHAR},
+		#{expenseAccountId,
+         jdbcType = VARCHAR},
+		#{expenseContractNo,
+        jdbcType = VARCHAR},
+		#{expenseContractName,
+        jdbcType = VARCHAR},
+		#{remarks,
+        jdbcType = VARCHAR},
+		#{createdBy,
+        jdbcType = VARCHAR},
+		#{creationDate,
+        jdbcType = VARCHAR},
+		#{lastUpdatedBy,
+        jdbcType = VARCHAR},
+		#{lastUpdateDate,
+        jdbcType = VARCHAR},
+		#{lastUpdateLogin,
+        jdbcType = VARCHAR},
+		#{attribute1,
+        jdbcType = VARCHAR},
+		#{attribute2,
+        jdbcType = VARCHAR},
+		#{attribute3,
+        jdbcType = VARCHAR},
+		#{attribute4,
+        jdbcType = VARCHAR},
+		#{attribute5,
+        jdbcType = VARCHAR},
+		#{attribute6,
+        jdbcType = VARCHAR},
+		#{attribute7,
+        jdbcType = VARCHAR},
+		#{attribute8,
+        jdbcType = VARCHAR},
+		#{attribute9,
+        jdbcType = VARCHAR},
+		#{attribute10,
+        jdbcType = VARCHAR})
+	</insert>
+    
+    <update id="updateFmsExpenseAccountRejectReason" parameterType="com.foreveross.vds.dto.fms.FmsExpenseAccount">
+			UPDATE FMS_EXPENSE_ACCOUNT T SET 
+			    T.REJECT_REASON = #{rejectReason},
+			    T.PRO_END_DATE = sysdate,
+			    t.last_updated_by = #{lastUpdatedBy},
+			    t.last_update_date = sysdate,
+			    t.last_update_login = #{lastUpdateLogin}
+			WHERE t.expense_account_id = #{expenseAccountId}
+	</update>
+
+	<delete id="delRelateInvoice" parameterType="com.foreveross.vds.dto.fms.InvMidVatMain">
+		delete FMS_EXPENSE_INVOICE_RELATE
+		where INVOICE_ID = #{id}
+	</delete>
+
+	<update id="unBindInvoice" parameterType="com.foreveross.vds.dto.fms.InvMidVatMain">
+		update INV_MID_VAT_MAIN
+		set BIND_FLAG = 'N'
+		where ID = #{id}
+	</update>
+</mapper>

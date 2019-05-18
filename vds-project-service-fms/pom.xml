@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<project
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+		xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.foreveross.vds</groupId>
+		<artifactId>vds-project</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>vds-project-service-fms</artifactId>
+
+	<properties>
+		<project.name>vds-fms</project.name>
+		<projectDir>${project.basedir}</projectDir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.foreveross.vds</groupId>
+			<artifactId>vds-project-service-common</artifactId>
+		</dependency>
+		<!-- 引入client包 -->
+		<dependency>
+			<groupId>com.foreveross.vds</groupId>
+			<artifactId>vds-project-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!--如果你需要热部署请解开我-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-devtools</artifactId>-->
+			<!--<optional>true</optional>-->
+		<!--</dependency>-->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.6.RELEASE</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<fork>true</fork>
+					<addResources>true</addResources>
+				</configuration>
+			</plugin>
+			<plugin>
+			    <groupId>org.mybatis.generator</groupId>
+			    <artifactId>mybatis-generator-maven-plugin</artifactId>
+			    <version>1.3.5</version>
+			    <configuration>
+			    	<configurationFile>src/main/resources/tool/generatorConfig.xml</configurationFile>
+			        <verbose>true</verbose>
+			        <overwrite>true</overwrite>
+			    </configuration>
+			    <dependencies>
+			    	<dependency>
+			    		<groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.3.5</version>
+			    	</dependency>
+			    	<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>ojdbc6</artifactId>
+						<version>11.2.0</version>
+					</dependency>
+					<dependency>
+						<groupId>com.foreveross.vds</groupId>
+						<artifactId>vds-project-util</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+			    </dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

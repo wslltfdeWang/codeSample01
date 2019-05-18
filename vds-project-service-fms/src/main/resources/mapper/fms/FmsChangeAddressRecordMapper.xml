@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.foreveross.vds.service.fms.mapper.FmsChangeAddressRecordMapper">
+
+	<insert id="insertApply"
+		parameterType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest">
+
+		insert into FMS.FMS_CHANGE_ADDRESS_RECORD (
+		CHANGE_ADDRESS_ID,
+		APPROVE_STATUS,
+		LAST_ADDRESS_ID,
+		LAST_ADDRESS,
+		LAST_PROVINCE_ID,
+		LAST_CITY_ID,
+		LAST_COUNTY_ID,
+		NOW_ADDRESS_ID,
+		NOW_ADDRESS,
+		NOW_PROVINCE_ID,
+		NOW_CITY_ID,
+		NOW_COUNTY_ID,
+		APPLY_BY,
+		APPLY_DATE,
+		APPROVE_BY,
+		APPROVE_DATE,
+		APPROVE_REASON,
+		CREATED_BY,
+		CREATION_DATE,
+		LAST_UPDATED_BY,
+		LAST_UPDATE_DATE,
+		LAST_UPDATE_LOGIN,
+		ATTRIBUTE1,
+		ATTRIBUTE2,
+		ATTRIBUTE3,
+		ATTRIBUTE4,
+		ATTRIBUTE5,
+		ATTRIBUTE6,
+		ATTRIBUTE7,
+		ATTRIBUTE8,
+		ATTRIBUTE9,
+		ATTRIBUTE10,
+		SENDCAR_HEADER_ID
+		)
+		values
+		(FMS_CHANGE_ADDRESS_RECORD_S.NEXTVAL,
+		#{approveStatus,jdbcType=DECIMAL},
+		#{lastAddressId,jdbcType=DECIMAL},
+		#{lastAddress,jdbcType=VARCHAR},
+		#{lastProvinceId,jdbcType=DECIMAL},
+		#{lastCityId,jdbcType=DECIMAL},
+		#{lastCountyId,jdbcType=DECIMAL},
+		#{nowAddressId,jdbcType=DECIMAL},
+		#{nowAddress,jdbcType=VARCHAR},
+		#{nowProvinceId,jdbcType=DECIMAL},
+		#{nowCityId,jdbcType=DECIMAL},
+		#{nowCountyId,jdbcType=DECIMAL},
+		#{applyBy,jdbcType=DECIMAL},
+		#{applyDate,jdbcType=TIMESTAMP},
+		#{approveBy,jdbcType=DECIMAL},
+		#{approveDate,jdbcType=TIMESTAMP},
+		#{approveReason,jdbcType=VARCHAR},
+		#{createdBy,jdbcType=DECIMAL},
+		#{creationDate,jdbcType=TIMESTAMP},
+		#{lastUpdatedBy,jdbcType=DECIMAL},
+		#{lastUpdateDate,jdbcType=TIMESTAMP},
+		#{lastUpdateLogin,jdbcType=VARCHAR},
+		#{attribute1,jdbcType=VARCHAR},
+		#{attribute2,jdbcType=VARCHAR},
+		#{attribute3,jdbcType=VARCHAR},
+		#{attribute4,jdbcType=VARCHAR},
+		#{attribute5,jdbcType=VARCHAR},
+		#{attribute6,jdbcType=VARCHAR},
+		#{attribute7,jdbcType=VARCHAR},
+		#{attribute8,jdbcType=VARCHAR},
+		#{attribute9,jdbcType=VARCHAR},
+		#{attribute10,jdbcType=VARCHAR},
+		#{sendcarHeaderId,jdbcType=DECIMAL}
+		)
+	</insert>
+
+	<insert id="insertUploadDir" 
+		parameterType="com.foreveross.vds.vo.fms.FmsUploadDir">
+		<selectKey resultType="java.lang.Long" order="BEFORE"
+			keyProperty="uploadDirId">
+			SELECT FMS.FMS_UPLOAD_DIR_S.Nextval as uploadDirId from DUAL
+		</selectKey>
+		insert into FMS.FMS_UPLOAD_DIR (
+		upload_dir_id,
+		dir,
+		created_by,
+		creation_date,
+		last_updated_by,
+		last_update_date,
+		last_update_login,
+		attribute1,
+		attribute2,
+		attribute3,
+		attribute4,
+		attribute5,
+		attribute6,
+		attribute7,
+		attribute8,
+		attribute9,
+		attribute10
+		)
+		values (
+		#{uploadDirId,jdbcType=DECIMAL},
+		#{dir,jdbcType=VARCHAR},
+		#{createdBy,jdbcType=DECIMAL},
+		#{creationDate,jdbcType=TIMESTAMP},
+		#{lastUpdatedBy,jdbcType=DECIMAL},
+		#{lastUpdateDate,jdbcType=TIMESTAMP},
+		#{lastUpdateLogin,jdbcType=VARCHAR},
+		#{attribute1,jdbcType=VARCHAR},
+		#{attribute2,jdbcType=VARCHAR},
+		#{attribute3,jdbcType=VARCHAR},
+		#{attribute4,jdbcType=VARCHAR},
+		#{attribute5,jdbcType=VARCHAR},
+		#{attribute6,jdbcType=VARCHAR},
+		#{attribute7,jdbcType=VARCHAR},
+		#{attribute8,jdbcType=VARCHAR},
+		#{attribute9,jdbcType=VARCHAR},
+		#{attribute10,jdbcType=VARCHAR}
+		)
+	</insert>
+
+<insert id="insertUploadFiles"
+	parameterType="com.foreveross.vds.vo.fms.FmsUploadFiles">
+
+	insert into FMS.FMS_UPLOAD_FILES (
+	UPLOAD_FILE_ID,
+	UPLOAD_DIR_ID,
+	DIR,
+	FILE_NAME,
+	UPLOADED_BY,
+	UPLOAD_DATE,
+	CREATED_BY,
+	CREATION_DATE,
+	LAST_UPDATED_BY,
+	LAST_UPDATE_DATE,
+	LAST_UPDATE_LOGIN,
+	ATTRIBUTE1,
+	ATTRIBUTE2,
+	ATTRIBUTE3,
+	ATTRIBUTE4,
+	ATTRIBUTE5,
+	ATTRIBUTE6,
+	ATTRIBUTE7,
+	ATTRIBUTE8,
+	ATTRIBUTE9,
+	ATTRIBUTE10
+	)
+	values
+	(FMS.FMS_UPLOAD_FILES_S.NEXTVAL,
+	#{uploadDirId,jdbcType=DECIMAL},
+	#{dir,jdbcType=VARCHAR},
+	#{fileName,jdbcType=VARCHAR},
+	#{uploadedBy,jdbcType=DECIMAL},
+	#{uploadDate,jdbcType=TIMESTAMP},
+	#{createdBy,jdbcType=DECIMAL},
+	#{creationDate,jdbcType=TIMESTAMP},
+	#{lastUpdatedBy,jdbcType=DECIMAL},
+	#{lastUpdateDate,jdbcType=TIMESTAMP},
+	#{lastUpdateLogin,jdbcType=VARCHAR},
+	#{attribute1,jdbcType=VARCHAR},
+	#{attribute2,jdbcType=VARCHAR},
+	#{attribute3,jdbcType=VARCHAR},
+	#{attribute4,jdbcType=VARCHAR},
+	#{attribute5,jdbcType=VARCHAR},
+	#{attribute6,jdbcType=VARCHAR},
+	#{attribute7,jdbcType=VARCHAR},
+	#{attribute8,jdbcType=VARCHAR},
+	#{attribute9,jdbcType=VARCHAR},
+	#{attribute10,jdbcType=VARCHAR}
+	)
+</insert>
+
+	<update id="updateSettleFlag"
+		parameterType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest">
+
+		update TMS.TMS_SENDCAR_HEADER
+		set SETTLED_FLAG = 'Y',
+		last_updated_by = #{lastUpdatedBy,jdbcType=DECIMAL},
+		last_update_date =
+		#{lastUpdateDate,jdbcType=TIMESTAMP},
+		last_update_login =
+		#{lastUpdateLogin,jdbcType=VARCHAR}
+		where SENDCAR_HEADER_ID =
+		#{sendcarHeaderId,jdbcType=DECIMAL}
+	</update>
+	
+		<update id="updateUploadDirId"
+		parameterType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest">
+
+		update FMS.FMS_CHANGE_ADDRESS_RECORD
+		set
+		upload_dir_id = #{uploadDirId,jdbcType=DECIMAL},
+		last_updated_by = #{lastUpdatedBy,jdbcType=DECIMAL},
+		last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+		last_update_login = #{lastUpdateLogin,jdbcType=VARCHAR}
+		where SENDCAR_HEADER_ID = #{sendcarHeaderId,jdbcType=DECIMAL}
+	</update>
+
+	<select id="selectNames"
+		resultType="com.foreveross.vds.dto.fms.DealerRecieveAddressVRequest"
+		parameterType="com.foreveross.vds.dto.fms.DealerRecieveAddressVRequest">
+		select
+		DEALER_RECIEVE_ADDRESS_ID,
+		DEALER_NAME,
+		RECIEVE_ADDRESS,
+		PROVINCE_ID,
+		CITY_ID,
+		COUNTY_ID,
+		LONGITUDE,
+		DIMENSION
+		from
+		DEALER_RECIEVE_ADDRESS_V
+		where 1=1
+		<if test="provinceId != null and provinceId != ''">
+			and PROVINCE_ID = #{provinceId}
+		</if>
+		<if test="cityId != null and cityId != ''">
+			and CITY_ID = #{cityId}
+		</if>
+		<if test="countyId != null and countyId != ''">
+			and COUNTY_ID = #{countyId}
+		</if>
+		<if test="recieveAddress != null and recieveAddress != ''">
+			and RECIEVE_ADDRESS like '%${recieveAddress}%'
+		</if>
+	</select>
+
+	<select id="selectIdByName"
+		resultType="com.foreveross.vds.dto.fms.DealerRecieveAddressVRequest"
+		parameterType="com.foreveross.vds.dto.fms.DealerRecieveAddressVRequest">
+		select max(DEALER_RECIEVE_ADDRESS_ID)
+		DEALER_RECIEVE_ADDRESS_ID,
+		PROVINCE_ID,
+		CITY_ID,
+		COUNTY_ID,
+		RECIEVE_ADDRESS
+		from VDS.DEALER_RECIEVE_ADDRESS_V
+		where ENABLED_FLAG =
+		'Y'
+		and RECIEVE_ADDRESS = #{recieveAddress}
+		group by PROVINCE_ID,
+		CITY_ID,COUNTY_ID,RECIEVE_ADDRESS
+	</select>
+
+	<select id="selectByWhereClause"
+		resultType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest"
+		parameterType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest">
+		select t1.*,t2.SENDCAR_ORDER_NUMBER from
+		FMS_CHANGE_ADDRESS_RECORD t1
+		left join FMS_SETTLETRANSPORT_CHARGE_V t2
+		on t1.sendcar_header_id = t2.SENDCAR_HEADER_ID
+		where 1=1
+	</select>
+	
+	<select id="selectById"
+		resultType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest"
+		parameterType="java.lang.Long">
+		select t1.* from
+		FMS_CHANGE_ADDRESS_RECORD t1
+		where
+		t1.CHANGE_ADDRESS_ID = #{changeAddressId}
+	</select>
+
+	<update id="approve"
+		parameterType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest">
+
+		update FMS.FMS_CHANGE_ADDRESS_RECORD
+		set
+		APPROVE_BY = #{approveBy,jdbcType=DECIMAL},
+		APPROVE_DATE = #{approveDate,jdbcType=TIMESTAMP},
+		APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
+		last_updated_by = #{lastUpdatedBy,jdbcType=DECIMAL},
+		last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+		last_update_login = #{lastUpdateLogin,jdbcType=VARCHAR}
+		where 
+		CHANGE_ADDRESS_ID = #{changeAddressId,jdbcType=DECIMAL}
+	</update>
+	
+	<update id="approveSendcar"
+		parameterType="com.foreveross.vds.dto.fms.FmsChangeAddressRecordRequest">
+
+		update TMS.TMS_SENDCAR_HEADER
+		set
+		SETTLED_FLAG = 'N',
+		end_province_id = #{nowProvinceId,jdbcType=DECIMAL},
+		end_city_id = #{nowCityId,jdbcType=DECIMAL},
+		end_county_id = #{nowCountyId,jdbcType=DECIMAL},
+		last_updated_by = #{lastUpdatedBy,jdbcType=DECIMAL},
+		last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+		last_update_login = #{lastUpdateLogin,jdbcType=VARCHAR}
+		where
+		SENDCAR_HEADER_ID = #{sendcarHeaderId,jdbcType=DECIMAL}
+	</update>
+	
+	<select id="selectExportById"
+	resultType="com.foreveross.vds.dto.fms.FmsExportChangeAddressAttachments"
+	parameterType="com.foreveross.vds.dto.fms.FmsExportChangeAddressAttachments">
+	select
+	T3.SENDCAR_HEADER_ID,T3.CHANGE_ADDRESS_ID,T1.UPLOAD_DIR_ID,T1.UPLOAD_FILE_ID,T1.DIR,T1.FILE_NAME
+	from fms.fms_upload_files T1
+	LEFT JOIN fms.fms_upload_dir T2
+	ON T2.UPLOAD_DIR_ID = T1.UPLOAD_DIR_ID
+	LEFT JOIN FMS.FMS_CHANGE_ADDRESS_RECORD T3
+	ON T3.UPLOAD_DIR_ID = T2.UPLOAD_DIR_ID
+	where 1=1
+	and T3.CHANGE_ADDRESS_ID = #{changeAddressId}
+	</select>
+
+</mapper>

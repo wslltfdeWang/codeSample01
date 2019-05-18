@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.storagecontract.FmsStorageSettledHeaderVMapper">
+	<select id="queryFmsStorageSettledHeaderV" parameterType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettledHeaderV" resultType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettledHeaderV">
+			select * from   FMS_STORAGE_SETTLED_HEADER_V
+			 where 1 = 1 
+			<if test="orgId != null and orgId != ''"> 
+            	AND ( orgId = #{orgId} ) 
+            </if>
+            <if test="orgId != null and orgId != ''"> 
+            	AND ( orgId = #{orgId} ) 
+            </if>
+            <if test="startPointId != null and startPointId != ''"> 
+            	AND ( logisticsId = #{logisticsId} ) 
+            </if>
+            <if test="creationDate != null and creationDate != ''"> 
+            	AND (to_char(creationDate,'yyyy-MM-dd')  <![CDATA[ <= ]]>   to_char(#{creationDate},'yyyy-MM-dd')) 
+            </if>
+            <if test="orderBy != null and orderBy != ''">  
+            	order by ${orderBy}
+            </if>
+	</select>
+	
+	
+	<!--<select id="chckLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders" resultType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			select logistics_id logisticsId,
+		       logistics_code logisticsCode,
+		       logistics_name logisticsName,
+		       logistics_short_name logisticsShortName,
+		       book_date bookDate,
+		       enabled_flag enabledFlag,
+		       start_date startDate,
+		       end_date endDate,
+		       created_by createdBy,
+		       creation_date creationDate,
+		       last_updated_by lastUpdatedBy,
+		       last_update_date lastUpdateDate,
+		       last_update_login lastUpdateLogin,
+		       attribute1 attribute1,
+		       attribute2 attribute2,
+		       attribute3 attribute3,
+		       attribute4 attribute4,
+		       attribute5 attribute5,
+		       attribute6 attribute6,
+		       attribute7 attribute7,
+		       attribute8 attribute8,
+		       attribute9 attribute9,
+		       attribute10 attribute10
+		  from TMS_LOGISTICS_PROVIDERS
+			 where 1 = 1 
+			<if test="logisticsCode != null and logisticsCode != ''"> 
+            	and (logistics_code = #{logisticsCode}
+            </if>
+			<if test="logisticsName != null and logisticsName != ''"> 
+            	or logistics_name = #{logisticsName}
+            </if>
+            
+            <if test="logisticsShortName != null and logisticsShortName != ''"> 
+            	or logistics_short_name = #{logisticsShortName})
+            </if>
+            <if test="logisticsId != null and logisticsId != ''"> 
+            	and logistics_id <![CDATA[ <> ]]> #{logisticsId}
+            </if>
+	</select>
+	
+	<delete id="delLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			delete from TMS_LOGISTICS_PROVIDERS where LOGISTICS_ID =#{logisticsId}
+	</delete>
+	
+	<update id="updateLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			update TMS_LOGISTICS_PROVIDERS t
+			   set t.logistics_code   = #{logisticsCode},
+			       t.logistics_name   = #{logisticsName},
+			       t.enabled_flag     = #{enabledFlag},
+			       <if test="startDate != null"> 
+			       t.start_date       = #{startDate},
+			       </if>
+			       <if test="endDate != null"> 
+			       t.end_date         = #{endDate},
+			       </if>
+			       <if test="lastUpdatedBy != null and lastUpdatedBy != ''"> 
+			       t.last_updated_by  = #{lastUpdatedBy},
+			       </if>
+			       <if test="lastUpdateDate != null"> 
+			       t.last_update_date = #{lastUpdateDate},
+			       </if>
+			       t.logistics_short_name = #{logisticsShortName}
+			 where t.logistics_id = #{logisticsId}
+	</update> -->
+</mapper>

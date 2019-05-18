@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsExpenseSettledRelateMapper">
+	<select id="queryFmsExpenseSettledRelateList" parameterType="com.foreveross.vds.dto.fms.FmsExpenseSettledRelate" resultType="com.foreveross.vds.dto.fms.FmsExpenseSettledRelate">
+		select 
+		  transport_expense_relate_id transportExpenseRelateId,
+		  expense_account_id          expenseAccountId        ,
+		  settled_header_id           settledHeaderId         ,
+		  start_date                  startDate               ,
+		  end_date                    endDate                 ,
+		  enabled_flag                enabledFlag             ,
+		  created_by                  createdBy               ,
+		  creation_date               creationDate            ,
+		  last_updated_by             lastUpdatedBy           ,
+		  last_update_date            lastUpdateDate          ,
+		  last_update_login           lastUpdateLogin         ,
+		  attribute1                  attribute1              ,
+		  attribute2                  attribute2              ,
+		  attribute3                  attribute3              ,
+		  attribute4                  attribute4              ,
+		  attribute5                  attribute5              ,
+		  attribute6                  attribute6              ,
+		  attribute7                  attribute7              ,
+		  attribute8                  attribute8              ,
+		  attribute9                  attribute9              ,
+		  attribute10                 attribute10             
+		 from FMS_EXPENSE_SETTLED_RELATE
+		 where 1=1
+		 <if test="expenseAccountId != null">
+		 	and expense_account_id = #{expenseAccountId}
+		 </if>
+            <if test="orderBy != null and orderBy != ''">  
+            	order by ${orderBy}
+            </if>
+	</select>
+	
+	
+	<insert id="addFmsExpenseSettledRelateByList" parameterType="java.util.List">
+          insert into FMS_EXPENSE_SETTLED_RELATE( 
+			  transport_expense_relate_id ,
+			  expense_account_id          ,
+			  settled_header_id           ,
+			  start_date                  ,
+			  end_date                    ,
+			  enabled_flag                ,
+			  created_by                  ,
+			  creation_date               ,
+			  last_updated_by             ,
+			  last_update_date            ,
+			  last_update_login           ,
+			  attribute1                  ,
+			  attribute2                  ,
+			  attribute3                  ,
+			  attribute4                  ,
+			  attribute5                  ,
+			  attribute6                  ,
+			  attribute7                  ,
+			  attribute8                  ,
+			  attribute9                  ,
+			  attribute10) 
+			  select FMS_EXPENSE_SETTLED_RELATE_S.nextval,A.*
+			from (
+			<foreach collection="list"  index="index" item="emp" separator="UNION ALL">
+			SELECT 
+				#{emp.expenseAccountId,jdbcType = NUMERIC},
+				#{emp.settledHeaderId,jdbcType = NUMERIC},
+				#{emp.startDate,jdbcType = VARCHAR},
+				#{emp.endDate,jdbcType = TIMESTAMP},
+				#{emp.enabledFlag,jdbcType = TIMESTAMP},
+				#{emp.createdBy,jdbcType = NUMERIC},
+				#{emp.creationDate,jdbcType = TIMESTAMP},
+				#{emp.lastUpdatedBy,jdbcType = NUMERIC},
+				#{emp.lastUpdateDate,jdbcType = TIMESTAMP},
+				#{emp.lastUpdateLogin,jdbcType = VARCHAR},
+				#{emp.attribute1,jdbcType = VARCHAR},
+				#{emp.attribute2,jdbcType = VARCHAR},
+				#{emp.attribute3,jdbcType = VARCHAR},
+				#{emp.attribute4,jdbcType = VARCHAR},
+				#{emp.attribute5,jdbcType = VARCHAR},
+				#{emp.attribute6,jdbcType = VARCHAR},
+				#{emp.attribute7,jdbcType = VARCHAR},
+				#{emp.attribute8,jdbcType = VARCHAR},
+				#{emp.attribute9,jdbcType = VARCHAR},
+				#{emp.attribute10,jdbcType = VARCHAR}
+			FROM dual
+			</foreach>
+			) A
+    </insert>
+</mapper>

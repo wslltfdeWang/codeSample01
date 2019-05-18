@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.manualclearing.AuditManualSettledMapper">
+	<select id="queryFmsManualSettledHeader" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledHeader" resultType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledHeader">
+			select manual_settled_header_id manualSettledHeaderId,
+		       batch_code               batchCode,
+		       settled_status           settledStatus,
+		       batch_fee                batchFee,
+		       reject_reason            rejectReason,
+		       reject_flag              rejectFlag,
+		       remarks                  remarks,
+		       created_by               createdBy,
+		       creation_date            creationDate,
+		       last_updated_by          lastUpdatedBy,
+		       last_update_date         lastUpdateDate,
+		       last_update_login        lastUpdateLogin,
+		       attribute1               attribute1,
+		       attribute2               attribute2,
+		       attribute3               attribute3,
+		       attribute4               attribute4,
+		       attribute5               attribute5,
+		       attribute6               attribute6,
+		       attribute7               attribute7,
+		       attribute8               attribute8,
+		       attribute9               attribute9,
+		       attribute10              attribute10
+		  from FMS_MANUAL_SETTLED_HEADER 
+			 where 1 = 1 
+            <if test="batchCode != null and batchCode != ''"> 
+            	AND ( batch_code LIKE   '%'|| #{batchCode} ||'%') 
+            </if>
+			<if test="rejectFlag != null and rejectFlag != ''"> 
+            	AND ( reject_flag = #{rejectFlag}) 
+            </if>
+            <if test="manualSettledHeaderId != null and manualSettledHeaderId != ''"> 
+            	AND ( manual_settled_header_id = #{manualSettledHeaderId}) 
+            </if>
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	
+	<update id="updateFmsManualSettledHeader" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledHeader">
+			update FMS_MANUAL_SETTLED_HEADER
+			   set manual_settled_header_id = #{manualSettledHeaderId,
+			       jdbcType                 = VARCHAR},
+			       batch_code               = #{batchCode,
+			       jdbcType                 = VARCHAR},
+			       settled_status           = #{settledStatus,
+			       jdbcType                 = VARCHAR},
+			       batch_fee                = #{batchFee,
+			       jdbcType                 = VARCHAR},
+			       reject_reason            = #{rejectReason,
+			       jdbcType                 = VARCHAR},
+			       reject_flag              = #{rejectFlag,
+			       jdbcType                 = VARCHAR},
+			       remarks                  = #{remarks,
+			       jdbcType                 = VARCHAR},
+			       created_by               = #{createdBy,
+			       jdbcType                 = VARCHAR},
+			       creation_date            = #{creationDate,
+			       jdbcType                 = VARCHAR},
+			       last_updated_by          = #{lastUpdatedBy,
+			       jdbcType                 = VARCHAR},
+			       last_update_date         = #{lastUpdateDate,
+			       jdbcType                 = VARCHAR},
+			       last_update_login        = #{lastUpdateLogin,
+			       jdbcType                 = VARCHAR},
+			       attribute1               = #{attribute1,
+			       jdbcType                 = VARCHAR},
+			       attribute2               = #{attribute2,
+			       jdbcType                 = VARCHAR},
+			       attribute3               = #{attribute3,
+			       jdbcType                 = VARCHAR},
+			       attribute4               = #{attribute4,
+			       jdbcType                 = VARCHAR},
+			       attribute5               = #{attribute5,
+			       jdbcType                 = VARCHAR},
+			       attribute6               = #{attribute6,
+			       jdbcType                 = VARCHAR},
+			       attribute7               = #{attribute7,
+			       jdbcType                 = VARCHAR},
+			       attribute8               = #{attribute8,
+			       jdbcType                 = VARCHAR},
+			       attribute9               = #{attribute9,
+			       jdbcType                 = VARCHAR},
+			       attribute10              = #{attribute10,
+			       jdbcType                 = VARCHAR}
+			 where manual_settled_header_id = #{manualSettledHeaderId}
+	</update>
+	
+	<select id="queryFmsManualSettledLine" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledLine" resultType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledLine">
+			select manual_settled_line_id   manualSettledLineId,
+			       manual_settled_header_id manualSettledHeaderId,
+			       order_number             orderNumber,
+			       manual_settled_id        manualSettledId,
+			       reject_reason            rejectReason,
+			       reject_flag              rejectFlag,
+			       created_by               createdBy,
+			       creation_date            creationDate,
+			       last_updated_by          lastUpdatedBy,
+			       last_update_date         lastUpdateDate,
+			       last_update_login        lastUpdateLogin,
+			       attribute1               attribute1,
+			       attribute2               attribute2,
+			       attribute3               attribute3,
+			       attribute4               attribute4,
+			       attribute5               attribute5,
+			       attribute6               attribute6,
+			       attribute7               attribute7,
+			       attribute8               attribute8,
+			       attribute9               attribute9,
+			       attribute10              attribute10
+			  from FMS_MANUAL_SETTLED_LINE
+			 where 1 = 1 
+			<if test="manualSettledHeaderId != null and manualSettledHeaderId != ''"> 
+            	AND ( manual_settled_header_id = #{manualSettledHeaderId}) 
+            </if>
+            <if test="manualSettledLineId != null and manualSettledLineId != ''"> 
+            	AND ( manual_settled_line_id = #{manualSettledLineId}) 
+            </if>
+            <if test="rejectFlag != null and rejectFlag != ''"> 
+            	AND ( reject_flag = #{rejectFlag}) 
+            </if>
+	</select>
+	<!-- 查询手工结算行视图 -->
+	<select id="queryFmsManualSettledLineV" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledLineV" resultType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledLineV">
+			select manual_settled_id        manualSettledId,
+			       manual_settled_name      manualSettledName,
+			       contract_category        contractCategory,
+			       contract_category_name   contractCategoryName,
+			       contract_id              contractId,
+			       contract_name            contractName,
+			       start_point_id           startPointId,
+			       start_point_name         startPointName,
+			       amount                   amount,
+			       quantity                 quantity,
+			       province_id              provinceId,
+			       province_name            provinceName,
+			       city_id                  cityId,
+			       city_name                cityName,
+			       county_id                countyId,
+			       county_name              countyName,
+			       settled_flag             settledFlag,
+			       contract_number          contractNumber,
+			       manual_settled_line_id   manualSettledLineId,
+			       manual_settled_header_id manualSettledHeaderId,
+			       reject_flag              rejectFlag,
+			       reject_reason            rejectReason,
+			       order_number             orderNumber
+			  from FMS_MANUAL_SETTLED_LINE_V
+			 where 1 = 1 
+			<if test="manualSettledHeaderId != null and manualSettledHeaderId != ''"> 
+            	AND ( manual_settled_header_id = #{manualSettledHeaderId}) 
+            </if>
+            <if test="manualSettledLineId != null and manualSettledLineId != ''"> 
+            	AND ( manual_settled_line_id = #{manualSettledLineId}) 
+            </if>
+            <if test="rejectFlag != null and rejectFlag != ''"> 
+            	AND ( reject_flag = #{rejectFlag}) 
+            </if>
+            order by order_number asc
+	</select>
+	
+	<update id="updateFmsManualSettledLine" parameterType="com.foreveross.vds.dto.fms.manualclearing.FmsManualSettledLine">
+			UPDATE FMS_MANUAL_SETTLED_LINE
+			   SET manual_settled_line_id   = #{manualSettledLineId,
+			       jdbcType                 = VARCHAR},
+			       manual_settled_header_id = #{manualSettledHeaderId,
+			       jdbcType                 = VARCHAR},
+			       order_number             = #{orderNumber,
+			       jdbcType                 = VARCHAR},
+			       manual_settled_id        = #{manualSettledId,
+			       jdbcType                 = VARCHAR},
+			       reject_reason            = #{rejectReason,
+			       jdbcType                 = VARCHAR},
+			       reject_flag              = #{rejectFlag,
+			       jdbcType                 = VARCHAR},
+			       created_by               = #{createdBy,
+			       jdbcType                 = VARCHAR},
+			       creation_date            = #{creationDate,
+			       jdbcType                 = VARCHAR},
+			       last_updated_by          = #{lastUpdatedBy,
+			       jdbcType                 = VARCHAR},
+			       last_update_date         = #{lastUpdateDate,
+			       jdbcType                 = VARCHAR},
+			       last_update_login        = #{lastUpdateLogin,
+			       jdbcType                 = VARCHAR},
+			       attribute1               = #{attribute1,
+			       jdbcType                 = VARCHAR},
+			       attribute2               = #{attribute2,
+			       jdbcType                 = VARCHAR},
+			       attribute3               = #{attribute3,
+			       jdbcType                 = VARCHAR},
+			       attribute4               = #{attribute4,
+			       jdbcType                 = VARCHAR},
+			       attribute5               = #{attribute5,
+			       jdbcType                 = VARCHAR},
+			       attribute6               = #{attribute6,
+			       jdbcType                 = VARCHAR},
+			       attribute7               = #{attribute7,
+			       jdbcType                 = VARCHAR},
+			       attribute8               = #{attribute8,
+			       jdbcType                 = VARCHAR},
+			       attribute9               = #{attribute9,
+			       jdbcType                 = VARCHAR},
+			       attribute10              = #{attribute10,
+			       jdbcType                 = VARCHAR}
+			 WHERE manual_settled_line_id = #{manualSettledLineId}
+	</update>
+</mapper>

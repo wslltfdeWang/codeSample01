@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreveross.vds.service.fms.mapper.storagecontract.CreateSettlementStorageMapper">
+	<select id="queryFmsStorageSettled" parameterType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettled" resultType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettled">
+			select storage_settled_id   storageSettledId,
+			       contract_id          contractId,
+			       contract_category_id contractCategoryId,
+			       amount               amount,
+			       start_point_id       startPointId,
+			       storage_room_id      storageRoomId,
+			       start_date           startDate,
+			       end_date             endDate,
+			       settled_flag         settledFlag,
+			       created_by           createdBy,
+			       creation_date        creationDate,
+			       last_updated_by      lastUpdatedBy,
+			       last_update_date     lastUpdateDate,
+			       last_update_login    lastUpdateLogin,
+			       attribute1           attribute1,
+			       attribute2           attribute2,
+			       attribute3           attribute3,
+			       attribute4           attribute4,
+			       attribute5           attribute5,
+			       attribute6           attribute6,
+			       attribute7           attribute7,
+			       attribute8           attribute8,
+			       attribute9           attribute9,
+			       attribute10          attribute10
+			  from FMS_STORAGE_SETTLED t
+			 where 1 = 1 
+			<if test="contractId != null and contractId != ''"> 
+            	AND ( contract_id = #{contractId}) 
+            </if>
+            <if test="startDate != null"> 
+            	AND to_char(t.start_date, 'yyyy-MM')  =  to_char(#{startDate},'yyyy-MM')
+            </if>
+            <if test="endDate != null"> 
+            	AND to_char(t.end_date, 'yyyy-MM') = to_char(#{endDate},'yyyy-MM')
+            </if>
+            <if test="orderBy != null and orderBy != ''"> 
+            	order by ${orderBy}
+            </if>
+	</select>
+	<insert id="addFmsStorageSettled" parameterType="com.foreveross.vds.dto.fms.storagecontract.FmsStorageSettled">
+	     <selectKey resultType="java.lang.Long" keyProperty="storageSettledId" order="BEFORE">
+              select FMS_STORAGE_SETTLED_S.nextval as storageSettledId from dual
+          </selectKey>
+			insert into FMS_STORAGE_SETTLED
+			  (storage_settled_id,
+			   contract_id,
+			   contract_category_id,
+			   amount,
+			   start_point_id,
+			   storage_room_id,
+			   start_date,
+			   end_date,
+			   settled_flag,
+			   created_by,
+			   creation_date,
+			   last_updated_by,
+			   last_update_date,
+			   last_update_login,
+			   attribute1,
+			   attribute2,
+			   attribute3,
+			   attribute4,
+			   attribute5,
+			   attribute6,
+			   attribute7,
+			   attribute8,
+			   attribute9,
+			   attribute10)
+			values
+			  (#{storageSettledId,
+			   jdbcType = VARCHAR},
+			   #{contractId,
+			   jdbcType = VARCHAR},
+			   #{contractCategoryId,
+			   jdbcType = VARCHAR},
+			   #{amount,
+			   jdbcType = VARCHAR},
+			   #{startPointId,
+			   jdbcType = VARCHAR},
+			   #{storageRoomId,
+			   jdbcType = VARCHAR},
+			   #{startDate,
+			   jdbcType = VARCHAR},
+			   #{endDate,
+			   jdbcType = VARCHAR},
+			   #{settledFlag,
+			   jdbcType = VARCHAR},
+			   #{createdBy,
+			   jdbcType = VARCHAR},
+			   #{creationDate,
+			   jdbcType = VARCHAR},
+			   #{lastUpdatedBy,
+			   jdbcType = VARCHAR},
+			   #{lastUpdateDate,
+			   jdbcType = VARCHAR},
+			   #{lastUpdateLogin,
+			   jdbcType = VARCHAR},
+			   #{attribute1,
+			   jdbcType = VARCHAR},
+			   #{attribute2,
+			   jdbcType = VARCHAR},
+			   #{attribute3,
+			   jdbcType = VARCHAR},
+			   #{attribute4,
+			   jdbcType = VARCHAR},
+			   #{attribute5,
+			   jdbcType = VARCHAR},
+			   #{attribute6,
+			   jdbcType = VARCHAR},
+			   #{attribute7,
+			   jdbcType = VARCHAR},
+			   #{attribute8,
+			   jdbcType = VARCHAR},
+			   #{attribute9,
+			   jdbcType = VARCHAR},
+			   #{attribute10,
+			   jdbcType = VARCHAR})
+	</insert>
+	
+	<!-- <select id="chckLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders" resultType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			select logistics_id logisticsId,
+		       logistics_code logisticsCode,
+		       logistics_name logisticsName,
+		       logistics_short_name logisticsShortName,
+		       book_date bookDate,
+		       enabled_flag enabledFlag,
+		       start_date startDate,
+		       end_date endDate,
+		       created_by createdBy,
+		       creation_date creationDate,
+		       last_updated_by lastUpdatedBy,
+		       last_update_date lastUpdateDate,
+		       last_update_login lastUpdateLogin,
+		       attribute1 attribute1,
+		       attribute2 attribute2,
+		       attribute3 attribute3,
+		       attribute4 attribute4,
+		       attribute5 attribute5,
+		       attribute6 attribute6,
+		       attribute7 attribute7,
+		       attribute8 attribute8,
+		       attribute9 attribute9,
+		       attribute10 attribute10
+		  from TMS_LOGISTICS_PROVIDERS
+			 where 1 = 1 
+			<if test="logisticsCode != null and logisticsCode != ''"> 
+            	and (logistics_code = #{logisticsCode}
+            </if>
+			<if test="logisticsName != null and logisticsName != ''"> 
+            	or logistics_name = #{logisticsName}
+            </if>
+            
+            <if test="logisticsShortName != null and logisticsShortName != ''"> 
+            	or logistics_short_name = #{logisticsShortName})
+            </if>
+            <if test="logisticsId != null and logisticsId != ''"> 
+            	and logistics_id <![CDATA[ <> ]]> #{logisticsId}
+            </if>
+	</select>
+	
+	<delete id="delLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			delete from TMS_LOGISTICS_PROVIDERS where LOGISTICS_ID =#{logisticsId}
+	</delete>
+	
+	<update id="updateLogisticsProvides" parameterType="com.foreveross.vds.dto.pms.TmsLogisticsProviders">
+			update TMS_LOGISTICS_PROVIDERS t
+			   set t.logistics_code   = #{logisticsCode},
+			       t.logistics_name   = #{logisticsName},
+			       t.enabled_flag     = #{enabledFlag},
+			       <if test="startDate != null"> 
+			       t.start_date       = #{startDate},
+			       </if>
+			       <if test="endDate != null"> 
+			       t.end_date         = #{endDate},
+			       </if>
+			       <if test="lastUpdatedBy != null and lastUpdatedBy != ''"> 
+			       t.last_updated_by  = #{lastUpdatedBy},
+			       </if>
+			       <if test="lastUpdateDate != null"> 
+			       t.last_update_date = #{lastUpdateDate},
+			       </if>
+			       t.logistics_short_name = #{logisticsShortName}
+			 where t.logistics_id = #{logisticsId}
+	</update> -->
+</mapper>

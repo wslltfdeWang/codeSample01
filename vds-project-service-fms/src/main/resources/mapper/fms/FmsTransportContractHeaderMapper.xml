@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foreveross.vds.service.fms.mapper.FmsTransportContractHeaderMapper">
+    <resultMap id="BaseResultMap" type="com.foreveross.vds.vo.fms.FmsTransportContractHeader">
+        <id column="TRANSPORT_CONTRACT_HEADER_ID" property="transportContractHeaderId" jdbcType="DECIMAL" />
+        <id column="OVERRIDE_CONTRACT_HEADER_ID" property="overrideContractHeaderId" jdbcType="DECIMAL" />
+        <result column="CONTRACT_NUMBER" property="contractNumber" jdbcType="VARCHAR" />
+        <result column="CONTRACT_NAME" property="contractName" jdbcType="VARCHAR" />
+        <result column="LOGISTICS_ID" property="logisticsId" jdbcType="DECIMAL" />
+        <result column="DISTANCE_HEADER_ID" property="distanceHeaderId" jdbcType="DECIMAL" />
+        <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+        <result column="ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="CONFIRM_FLAG" property="confirmFlag" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR" />
+        <result column="ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR" />
+        <result column="RECEIVING_UNIT" property="receivingUnit" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_BANK" property="accountBank" jdbcType="VARCHAR" />
+        <result column="RECEIVING_ACOUNT" property="receivingAcount" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="selectOldTransportContractMap" type="com.foreveross.vds.dto.fms.TransportContract">
+        <association property="fmsTransportContractHeader" resultMap="fmsTransportContractHeaderMap" />
+        <association property="fmsTransportContractLine" resultMap="fmsTransportContractLineMap" />
+    </resultMap>
+
+    <resultMap id="fmsTransportContractHeaderMap" type="com.foreveross.vds.vo.fms.FmsTransportContractHeader">
+        <id column="H_TRANSPORT_CONTRACT_HEADER_ID" property="transportContractHeaderId" jdbcType="DECIMAL" />
+        <result column="H_CONTRACT_NUMBER" property="contractNumber" jdbcType="VARCHAR" />
+        <result column="H_CONTRACT_NAME" property="contractName" jdbcType="VARCHAR" />
+        <result column="H_LOGISTICS_ID" property="logisticsId" jdbcType="DECIMAL" />
+        <result column="H_DISTANCE_HEADER_ID" property="distanceHeaderId" jdbcType="DECIMAL" />
+        <result column="H_START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+        <result column="H_END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+        <result column="H_ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="H_CONFIRM_FLAG" property="confirmFlag" jdbcType="VARCHAR" />
+        <result column="H_CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="H_CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="H_LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="H_LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="H_LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR" />
+        <result column="H_ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR" />
+        <result column="H_RECEIVING_UNIT" property="receivingUnit" jdbcType="VARCHAR" />
+        <result column="H_ACCOUNT_BANK" property="accountBank" jdbcType="VARCHAR" />
+        <result column="H_RECEIVING_ACOUNT" property="receivingAcount" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="fmsTransportContractLineMap" type="com.foreveross.vds.vo.fms.FmsTransportContractLine">
+        <id column="L_TRANSPORT_CONTRACT_LINE_ID" property="transportContractLineId" jdbcType="DECIMAL" />
+        <result column="L_TRANSPORT_CONTRACT_HEADER_ID" property="transportContractHeaderId" jdbcType="DECIMAL" />
+        <result column="L_TRANSPORT_METHOD" property="transportMethod" jdbcType="DECIMAL" />
+        <result column="L_CAR_CATEGORY_ID" property="carCategoryId" jdbcType="DECIMAL" />
+        <result column="L_CAR_SERIES_ID" property="carSeriesId" jdbcType="DECIMAL" />
+        <result column="L_START_POINT_ID" property="startPointId" jdbcType="DECIMAL" />
+        <result column="L_START_PROVINCE_ID" property="startProvinceId" jdbcType="DECIMAL" />
+        <result column="L_START_CITY_ID" property="startCityId" jdbcType="DECIMAL" />
+        <result column="L_START_COUNTY_ID" property="startCountyId" jdbcType="DECIMAL" />
+        <result column="L_END_PROVINCE_ID" property="endProvinceId" jdbcType="DECIMAL" />
+        <result column="L_END_CITY_ID" property="endCityId" jdbcType="DECIMAL" />
+        <result column="L_END_COUNTY_ID" property="endCountyId" jdbcType="DECIMAL" />
+        <result column="L_DISTANCE_LINE_ID" property="distanceLineId" jdbcType="DECIMAL" />
+        <result column="L_UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+        <result column="L_OVER_SEA_FEE" property="overSeaFee" jdbcType="DECIMAL" />
+        <result column="L_RAILWAY_PREPARE_FEE" property="railwayPrepareFee" jdbcType="DECIMAL" />
+        <result column="L_UNIT_FEE" property="unitFee" jdbcType="DECIMAL" />
+        <result column="L_ENABLED_FLAG" property="enabledFlag" jdbcType="VARCHAR" />
+        <result column="L_CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="L_CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="L_LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="L_LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+        <result column="L_LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE6" property="attribute6" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE7" property="attribute7" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE8" property="attribute8" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE9" property="attribute9" jdbcType="VARCHAR" />
+        <result column="L_ATTRIBUTE10" property="attribute10" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        TRANSPORT_CONTRACT_HEADER_ID, CONTRACT_NUMBER, OVERRIDE_CONTRACT_HEADER_ID, CONTRACT_NAME, LOGISTICS_ID, DISTANCE_HEADER_ID,
+        START_DATE, END_DATE, ENABLED_FLAG, CONFIRM_FLAG, CREATED_BY, CREATION_DATE, LAST_UPDATED_BY,
+        LAST_UPDATE_DATE, LAST_UPDATE_LOGIN, ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3, ATTRIBUTE4,
+        ATTRIBUTE5, ATTRIBUTE6, ATTRIBUTE7, ATTRIBUTE8, ATTRIBUTE9, ATTRIBUTE10,RECEIVING_UNIT,ACCOUNT_BANK,RECEIVING_ACOUNT
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from FMS.FMS_TRANSPORT_CONTRACT_HEADER
+        where TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId,jdbcType=DECIMAL}
+    </select>
+    <select id="selectLineByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select CONFIRM_FLAG
+        from FMS.FMS_TRANSPORT_CONTRACT_LINE
+        where TRANSPORT_CONTRACT_LINE_ID = #{transportContractLineId,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from FMS.FMS_TRANSPORT_CONTRACT_HEADER
+        where TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.foreveross.vds.vo.fms.FmsTransportContractHeader">
+        <selectKey resultType="java.lang.Long" keyProperty="transportContractHeaderId" order="BEFORE">
+            select FMS_TRANSPORTCONTRACTHEADER_S.NEXTVAL transportContractHeaderId from dual
+        </selectKey>
+        insert into FMS.FMS_TRANSPORT_CONTRACT_HEADER (TRANSPORT_CONTRACT_HEADER_ID,
+        CONTRACT_NUMBER,OVERRIDE_CONTRACT_HEADER_ID,
+        CONTRACT_NAME,CONTRACT_TYPE, LOGISTICS_ID, DISTANCE_HEADER_ID,
+        START_DATE, END_DATE, ENABLED_FLAG,
+        CONFIRM_FLAG, CREATED_BY, CREATION_DATE,
+        LAST_UPDATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_LOGIN,
+        ATTRIBUTE1, ATTRIBUTE2, ATTRIBUTE3,
+        ATTRIBUTE4, ATTRIBUTE5, ATTRIBUTE6,
+        ATTRIBUTE7, ATTRIBUTE8, ATTRIBUTE9,
+        ATTRIBUTE10, RECEIVING_UNIT, ACCOUNT_BANK, RECEIVING_ACOUNT)
+        values (#{transportContractHeaderId,jdbcType=DECIMAL}, #{contractNumber,jdbcType=VARCHAR},
+        #{overrideContractHeaderId,jdbcType=DECIMAL},
+        #{contractName,jdbcType=VARCHAR}, #{contractType,jdbcType=DECIMAL}, #{logisticsId,jdbcType=DECIMAL},
+        #{distanceHeaderId,jdbcType=DECIMAL},
+        #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{enabledFlag,jdbcType=VARCHAR},
+        #{confirmFlag,jdbcType=VARCHAR}, #{createdBy,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP},
+        #{lastUpdatedBy,jdbcType=DECIMAL}, #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdateLogin,jdbcType=VARCHAR},
+        #{attribute1,jdbcType=VARCHAR}, #{attribute2,jdbcType=VARCHAR}, #{attribute3,jdbcType=VARCHAR},
+        #{attribute4,jdbcType=VARCHAR}, #{attribute5,jdbcType=VARCHAR}, #{attribute6,jdbcType=VARCHAR},
+        #{attribute7,jdbcType=VARCHAR}, #{attribute8,jdbcType=VARCHAR}, #{attribute9,jdbcType=VARCHAR},
+        #{attribute10,jdbcType=VARCHAR}, #{receivingUnit,jdbcType=VARCHAR}, #{accountBank,jdbcType=VARCHAR}, #{receivingAcount,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.foreveross.vds.vo.fms.FmsTransportContractHeader">
+        insert into FMS.FMS_TRANSPORT_CONTRACT_HEADER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transportContractHeaderId != null">
+                TRANSPORT_CONTRACT_HEADER_ID,
+            </if>
+            <if test="contractNumber != null">
+                CONTRACT_NUMBER,
+            </if>
+            <if test="contractName != null">
+                CONTRACT_NAME,
+            </if>
+            <if test="logisticsId != null">
+                LOGISTICS_ID,
+            </if>
+            <if test="distanceHeaderId != null">
+                DISTANCE_HEADER_ID,
+            </if>
+            <if test="startDate != null">
+                START_DATE,
+            </if>
+            <if test="endDate != null">
+                END_DATE,
+            </if>
+            <if test="enabledFlag != null">
+                ENABLED_FLAG,
+            </if>
+            <if test="confirmFlag != null">
+                CONFIRM_FLAG,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY,
+            </if>
+            <if test="lastUpdateDate != null">
+                LAST_UPDATE_DATE,
+            </if>
+            <if test="lastUpdateLogin != null">
+                LAST_UPDATE_LOGIN,
+            </if>
+            <if test="attribute1 != null">
+                ATTRIBUTE1,
+            </if>
+            <if test="attribute2 != null">
+                ATTRIBUTE2,
+            </if>
+            <if test="attribute3 != null">
+                ATTRIBUTE3,
+            </if>
+            <if test="attribute4 != null">
+                ATTRIBUTE4,
+            </if>
+            <if test="attribute5 != null">
+                ATTRIBUTE5,
+            </if>
+            <if test="attribute6 != null">
+                ATTRIBUTE6,
+            </if>
+            <if test="attribute7 != null">
+                ATTRIBUTE7,
+            </if>
+            <if test="attribute8 != null">
+                ATTRIBUTE8,
+            </if>
+            <if test="attribute9 != null">
+                ATTRIBUTE9,
+            </if>
+            <if test="attribute10 != null">
+                ATTRIBUTE10,
+            </if>
+            <if test="receivingUnit != null">
+                RECEIVING_UNIT,
+            </if>
+            <if test="accountBank != null">
+                ACCOUNT_BANK,
+            </if>
+            <if test="receivingAcount != null">
+                RECEIVING_ACOUNT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transportContractHeaderId != null">
+                #{transportContractHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="contractNumber != null">
+                #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="contractName != null">
+                #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsId != null">
+                #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="distanceHeaderId != null">
+                #{distanceHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null">
+                #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmFlag != null">
+                #{confirmFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null">
+                #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null">
+                #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null">
+                #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null">
+                #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null">
+                #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null">
+                #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="receivingUnit != null">
+                #{RECEIVING_UNIT,jdbcType=VARCHAR},
+            </if>
+            <if test="accountBank != null">
+                #{ACCOUNT_BANK,jdbcType=VARCHAR},
+            </if>
+            <if test="receivingAcount != null">
+                #{RECEIVING_ACOUNT,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteTransportContractHeader" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        delete from fms_transport_contract_header
+        where transport_contract_header_id = #{fmsTransportContractHeader.transportContractHeaderId}
+              and confirm_flag = 'N'
+    </delete>
+    <delete id="deleteTransportContractLine" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        delete from fms_transport_contract_line
+        where 1 = 1
+        <if test="fmsTransportContractHeader.transportContractHeaderId != null">
+            and transport_contract_header_id = #{fmsTransportContractHeader.transportContractHeaderId}
+        </if>
+        <if test="fmsTransportContractLine.transportContractLineId != null">
+            and transport_contract_line_id = #{fmsTransportContractLine.transportContractLineId}
+        </if>
+    </delete>
+    <update id="updateByPrimaryKeySelective" parameterType="com.foreveross.vds.vo.fms.FmsTransportContractHeader">
+        update FMS.FMS_TRANSPORT_CONTRACT_HEADER
+        <set>
+            <if test="contractNumber != null">
+                CONTRACT_NUMBER = #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="contractName != null">
+                CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+            </if>
+            <if test="logisticsId != null">
+                LOGISTICS_ID = #{logisticsId,jdbcType=DECIMAL},
+            </if>
+            <if test="distanceHeaderId != null">
+                DISTANCE_HEADER_ID = #{distanceHeaderId,jdbcType=DECIMAL},
+            </if>
+            <if test="startDate != null">
+                START_DATE = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                END_DATE = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="enabledFlag != null">
+                ENABLED_FLAG = #{enabledFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmFlag != null">
+                CONFIRM_FLAG = #{confirmFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                LAST_UPDATED_BY = #{lastUpdatedBy,jdbcType=DECIMAL},
+            </if>
+            <if test="lastUpdateDate != null">
+                LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateLogin != null">
+                LAST_UPDATE_LOGIN = #{lastUpdateLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                ATTRIBUTE1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                ATTRIBUTE2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                ATTRIBUTE3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                ATTRIBUTE4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                ATTRIBUTE5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute6 != null">
+                ATTRIBUTE6 = #{attribute6,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute7 != null">
+                ATTRIBUTE7 = #{attribute7,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute8 != null">
+                ATTRIBUTE8 = #{attribute8,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute9 != null">
+                ATTRIBUTE9 = #{attribute9,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute10 != null">
+                ATTRIBUTE10 = #{attribute10,jdbcType=VARCHAR},
+            </if>
+            <if test="receivingUnit != null">
+                RECEIVING_UNIT = #{receivingUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="accountBank != null">
+                ACCOUNT_BANK = #{accountBank,jdbcType=VARCHAR},
+            </if>
+            <if test="receivingAcount != null">
+                RECEIVING_ACOUNT = #{receivingAcount,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.foreveross.vds.vo.fms.FmsTransportContractHeader">
+        update FMS.FMS_TRANSPORT_CONTRACT_HEADER
+        set CONTRACT_NUMBER    = #{contractNumber,jdbcType=VARCHAR},
+            CONTRACT_NAME      = #{contractName,jdbcType=VARCHAR},
+            LOGISTICS_ID       = #{logisticsId,jdbcType=DECIMAL},
+            DISTANCE_HEADER_ID = #{distanceHeaderId,jdbcType=DECIMAL},
+            START_DATE         = #{startDate,jdbcType=TIMESTAMP},
+            END_DATE           = #{endDate,jdbcType=TIMESTAMP},
+            ENABLED_FLAG       = #{enabledFlag,jdbcType=VARCHAR},
+            CONFIRM_FLAG       = #{confirmFlag,jdbcType=VARCHAR},
+            CREATED_BY         = #{createdBy,jdbcType=DECIMAL},
+            CREATION_DATE      = #{creationDate,jdbcType=TIMESTAMP},
+            LAST_UPDATED_BY    = #{lastUpdatedBy,jdbcType=DECIMAL},
+            LAST_UPDATE_DATE   = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            LAST_UPDATE_LOGIN  = #{lastUpdateLogin,jdbcType=VARCHAR},
+            ATTRIBUTE1         = #{attribute1,jdbcType=VARCHAR},
+            ATTRIBUTE2         = #{attribute2,jdbcType=VARCHAR},
+            ATTRIBUTE3         = #{attribute3,jdbcType=VARCHAR},
+            ATTRIBUTE4         = #{attribute4,jdbcType=VARCHAR},
+            ATTRIBUTE5         = #{attribute5,jdbcType=VARCHAR},
+            ATTRIBUTE6         = #{attribute6,jdbcType=VARCHAR},
+            ATTRIBUTE7         = #{attribute7,jdbcType=VARCHAR},
+            ATTRIBUTE8         = #{attribute8,jdbcType=VARCHAR},
+            ATTRIBUTE9         = #{attribute9,jdbcType=VARCHAR},
+            ATTRIBUTE10        = #{attribute10,jdbcType=VARCHAR},
+            RECEIVING_UNIT     = #{receivingUnit,jdbcType=VARCHAR},
+            ACCOUNT_BANK       = #{accountBank,jdbcType=VARCHAR},
+            RECEIVING_ACOUNT   = #{receivingAcount,jdbcType=VARCHAR}
+        where TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId,jdbcType=DECIMAL}
+    </update>
+
+    <select id="selectTransportContract" parameterType="com.foreveross.vds.dto.fms.TransportContractRequest"
+            resultType="com.foreveross.vds.dto.fms.TransportContractResponse">
+        SELECT
+        T1.CONTRACT_NUMBER,-- 合同号
+        T1.CONTRACT_NAME,-- 合同名称
+        T1.LOGISTICS_ID,-- 物流商
+        t1.START_DATE,-- 合同起始时间
+        T1.END_DATE,-- 合同终止时间
+        t1.CONFIRM_FLAG, -- 是否复核
+        t1.ENABLED_FLAG, -- 有效标识
+        t1.CONTRACT_TYPE,
+        t1.OVERRIDE_CONTRACT_HEADER_ID overrideContractHeaderId,
+        t1.RECEIVING_UNIT,
+        t1.ACCOUNT_BANK,
+        t1.RECEIVING_ACOUNT,
+        --一下字段为隐藏
+        t1.TRANSPORT_CONTRACT_HEADER_ID
+        FROM
+        FMS_TRANSPORT_CONTRACT_HEADER t1
+        WHERE 1=1
+        <!-- 复核标识 -->
+        <if test="confirmFlag != null and confirmFlag != ''">
+            AND t1.CONFIRM_FLAG = #{confirmFlag}
+        </if>
+
+        <!-- 合同起始时间 -->
+        <if test="startDate != null">
+            <![CDATA[  AND t1.START_DATE >= TO_DATE (#{startDate}, 'yyyy-mm-dd') ]]>
+        </if>
+
+        <!-- 合同终止时间 -->
+        <if test="endDate != null">
+            <![CDATA[  AND t1.END_DATE <= TO_DATE (#{endDate}, 'yyyy-mm-dd') ]]>
+        </if>
+
+        <!-- 物流商 -->
+        <if test="logisticsId != null">
+            AND t1.LOGISTICS_ID = #{logisticsId}
+        </if>
+
+        <!-- 合同号 -->
+        <if test="contractNumber != null and contractNumber != ''">
+            AND t1.CONTRACT_NUMBER like '%${contractNumber}%'
+        </if>
+        <!-- 有效标识 -->
+        <if test="enabledFlag != null and enabledFlag != ''">
+            AND t1.ENABLED_FLAG = #{enabledFlag}
+        </if>
+        order by t1.LOGISTICS_ID,t1.START_DATE desc,t1.END_DATE desc
+    </select>
+
+    <select id="getReginInfoByDeparture" parameterType="com.foreveross.vds.vo.tms.TmsDeparture"
+            resultType="com.foreveross.vds.vo.tms.TmsDeparture">
+        select
+            t.departure_id,
+            t.departure_code,
+            t.departure_name,
+            t.province_id,
+            t.city_id,
+            t.county_id
+        from tms_departure t
+        where t.enabled_flag = 'Y'
+              and t.departure_id = #{departureId}
+    </select>
+    <select id="selectTransportContractLine" parameterType="com.foreveross.vds.dto.fms.TransportContractRequest"
+            resultType="com.foreveross.vds.dto.fms.TransportContractResponse">
+        SELECT
+        t3.DEPARTURE_NAME startPointName,-- 所属基地
+        T2.TRANSPORT_METHOD,-- 发运方式
+        t4.CAR_CATEGORY_NAME,-- 车型大类
+        t2.CONFIRM_FLAG, -- 复核标识
+        t2.START_PROVINCE_ID,-- 起点省
+        t2.START_CITY_ID,-- 起点市
+        T2.START_COUNTY_ID,-- 起点县
+        T2.END_PROVINCE_ID,-- 终点省
+        T2.END_CITY_ID,-- 终点市
+        T2.END_COUNTY_ID,-- 终点县
+        t5.TRANSPORT_DISTANCE,-- 运距
+        t2.UNIT_PRICE,-- 单价
+        t2.OVER_SEA_FEE,-- 过海费
+        t2.UNIT_FEE,-- 单车运费
+        --一下字段为隐藏
+        t2.TRANSPORT_CONTRACT_LINE_ID,
+        t4.CAR_CATEGORY_ID,
+        t3.DEPARTURE_ID startPointId,
+        t2.RAILWAY_PREPARE_FEE,
+        t5.DISTANCE_HEADER_ID,
+        t2.DISTANCE_LINE_ID
+        FROM
+        FMS_TRANSPORT_CONTRACT_LINE t2
+        LEFT JOIN TMS_DEPARTURE t3 ON t2.START_POINT_ID = t3.DEPARTURE_ID
+        LEFT JOIN FMS_CAR_CATEGORY t4 ON t2.CAR_CATEGORY_ID = t4.CAR_CATEGORY_ID
+        LEFT JOIN FMS_DISTANCE_LINE t5 ON t2.DISTANCE_LINE_ID = t5.DISTANCE_LINE_ID
+        WHERE 1=1
+        <if test="transportContractHeaderId != null">
+            AND t2.TRANSPORT_CONTRACT_HEADER_ID = #{transportContractHeaderId}
+        </if>
+        <!-- 所属基地 -->
+        <if test="startPointId != null">
+            AND t2.START_POINT_ID = #{startPointId}
+        </if>
+
+        <!-- 发运方式 -->
+        <if test="transportMethod != null">
+            AND t2.TRANSPORT_METHOD = #{transportMethod}
+        </if>
+
+        <!-- 车型大类 -->
+        <if test="carCategoryId != null">
+            AND t2.CAR_CATEGORY_ID = #{carCategoryId}
+        </if>
+
+        <!-- 终点省 -->
+        <if test="endProvinceId != null">
+            AND t2.END_PROVINCE_ID = #{endProvinceId}
+        </if>
+
+        <!-- 终点市 -->
+        <if test="endCityId != null">
+            AND t2.end_city_id = #{endCityId}
+        </if>
+
+        <!-- 终点县 -->
+        <if test="endCountyId != null">
+            AND t2.end_county_id = #{endCountyId}
+        </if>
+        
+        <!-- 复核标识 -->
+        <if test="confirmFlag != null">
+            AND t2.CONFIRM_FLAG = #{confirmFlag}
+        </if>
+        
+        <!-- 有效标识 -->
+        <if test="enabledFlag != null and enabledFlag != ''">
+            AND t2.ENABLED_FLAG = #{enabledFlag}
+        </if>
+        order by
+        t3.DEPARTURE_NAME,T2.TRANSPORT_METHOD,t4.CAR_CATEGORY_NAME,T2.END_PROVINCE_ID,T2.END_CITY_ID,T2.END_COUNTY_ID,t5.TRANSPORT_DISTANCE,t2.UNIT_PRICE,t2.OVER_SEA_FEE,t2.UNIT_FEE
+    </select>
+    <select id="selectOldTransportContract" parameterType="com.foreveross.vds.dto.fms.TransportContract"
+            resultMap="selectOldTransportContractMap">
+        SELECT
+        T1.TRANSPORT_CONTRACT_HEADER_ID AS H_TRANSPORT_CONTRACT_HEADER_ID,
+        T1.CONTRACT_NUMBER AS H_CONTRACT_NUMBER,
+        T1.CONTRACT_NAME AS H_CONTRACT_NAME,
+        T1.LOGISTICS_ID AS H_LOGISTICS_ID,
+        T1.DISTANCE_HEADER_ID AS H_DISTANCE_HEADER_ID,
+        T1.START_DATE AS H_START_DATE,
+        T1.END_DATE AS H_END_DATE,
+        T1.ENABLED_FLAG AS H_ENABLED_FLAG,
+        T1.CONFIRM_FLAG AS H_CONFIRM_FLAG,
+        T1.CREATED_BY AS H_CREATED_BY,
+        T1.CREATION_DATE AS H_CREATION_DATE,
+        T1.LAST_UPDATED_BY AS H_LAST_UPDATED_BY,
+        T1.LAST_UPDATE_DATE AS H_LAST_UPDATE_DATE,
+        T1.LAST_UPDATE_LOGIN AS H_LAST_UPDATE_LOGIN,
+        T1.ATTRIBUTE1 AS H_ATTRIBUTE1,
+        T1.ATTRIBUTE2 AS H_ATTRIBUTE2,
+        T1.ATTRIBUTE3 AS H_ATTRIBUTE3,
+        T1.ATTRIBUTE4 AS H_ATTRIBUTE4,
+        T1.ATTRIBUTE5 AS H_ATTRIBUTE5,
+        T1.ATTRIBUTE6 AS H_ATTRIBUTE6,
+        T1.ATTRIBUTE7 AS H_ATTRIBUTE7,
+        T1.ATTRIBUTE8 AS H_ATTRIBUTE8,
+        T1.ATTRIBUTE9 AS H_ATTRIBUTE9,
+        T1.ATTRIBUTE10 AS H_ATTRIBUTE10,
+        T1.RECEIVING_UNIT AS H_RECEIVING_UNIT,
+        T1.ACCOUNT_BANK AS H_ACCOUNT_BANK,
+        T1.RECEIVING_ACOUNT AS H_RECEIVING_ACOUNT,
+        T2.TRANSPORT_CONTRACT_LINE_ID AS L_TRANSPORT_CONTRACT_LINE_ID,
+        T2.TRANSPORT_CONTRACT_HEADER_ID AS L_TRANSPORT_CONTRACT_HEADER_ID,
+        T2.TRANSPORT_METHOD AS L_TRANSPORT_METHOD,
+        T2.CAR_CATEGORY_ID AS L_CAR_CATEGORY_ID,
+        T2.CAR_SERIES_ID AS L_CAR_SERIES_ID,
+        T2.START_POINT_ID AS L_START_POINT_ID,
+        T2.START_PROVINCE_ID AS L_START_PROVINCE_ID,
+        T2.START_CITY_ID AS L_START_CITY_ID,
+        T2.START_COUNTY_ID AS L_START_COUNTY_ID,
+        T2.END_PROVINCE_ID AS L_END_PROVINCE_ID,
+        T2.END_CITY_ID AS L_END_CITY_ID,
+        T2.END_COUNTY_ID AS L_END_COUNTY_ID,
+        T2.DISTANCE_LINE_ID AS L_DISTANCE_LINE_ID,
+        T2.UNIT_PRICE AS L_UNIT_PRICE,
+        T2.OVER_SEA_FEE AS L_OVER_SEA_FEE,
+        T2.RAILWAY_PREPARE_FEE AS L_RAILWAY_PREPARE_FEE,
+        T2.UNIT_FEE AS L_UNIT_FEE,
+        T2.ENABLED_FLAG AS L_ENABLED_FLAG,
+        T2.CREATED_BY AS L_CREATED_BY,
+        T2.CREATION_DATE AS L_CREATION_DATE,
+        T2.LAST_UPDATED_BY AS L_LAST_UPDATED_BY,
+        T2.LAST_UPDATE_DATE AS L_LAST_UPDATE_DATE,
+        T2.LAST_UPDATE_LOGIN AS L_LAST_UPDATE_LOGIN,
+        T2.ATTRIBUTE1 AS L_ATTRIBUTE1,
+        T2.ATTRIBUTE2 AS L_ATTRIBUTE2,
+        T2.ATTRIBUTE3 AS L_ATTRIBUTE3,
+        T2.ATTRIBUTE4 AS L_ATTRIBUTE4,
+        T2.ATTRIBUTE5 AS L_ATTRIBUTE5,
+        T2.ATTRIBUTE6 AS L_ATTRIBUTE6,
+        T2.ATTRIBUTE7 AS L_ATTRIBUTE7,
+        T2.ATTRIBUTE8 AS L_ATTRIBUTE8,
+        T2.ATTRIBUTE9 AS L_ATTRIBUTE9,
+        T2.ATTRIBUTE10 AS L_ATTRIBUTE10
+        FROM
+        FMS_TRANSPORT_CONTRACT_HEADER t1
+        LEFT JOIN FMS_TRANSPORT_CONTRACT_LINE t2 ON t1.TRANSPORT_CONTRACT_HEADER_ID = t2.TRANSPORT_CONTRACT_HEADER_ID
+        WHERE
+        1 = 1
+        AND T1.ENABLED_FLAG = 'Y'
+        AND T2.ENABLED_FLAG = 'Y'
+        --物流商
+        <if test="fmsTransportContractHeader.logisticsId != null">
+            AND t1.LOGISTICS_ID = #{fmsTransportContractHeader.logisticsId}
+        </if>
+        --所属基地
+        <if test="fmsTransportContractLine.startPointId != null">
+            AND t2.START_POINT_ID = #{fmsTransportContractLine.startPointId}
+        </if>
+        --发运方式
+        <if test="fmsTransportContractLine.transportMethod != null">
+            AND t2.TRANSPORT_METHOD = #{fmsTransportContractLine.transportMethod}
+        </if>
+        --车型大类
+        <if test="fmsTransportContractLine.carCategoryId != null">
+            AND t2.CAR_CATEGORY_ID = #{fmsTransportContractLine.carCategoryId}
+        </if>
+        --起点省
+        <if test="fmsTransportContractLine.startProvinceId != null">
+            AND t2.START_PROVINCE_ID = #{fmsTransportContractLine.startProvinceId}
+        </if>
+        --起点市
+        <if test="fmsTransportContractLine.startCityId != null">
+            AND t2.START_CITY_ID = #{fmsTransportContractLine.startCityId}
+        </if>
+        --起点区
+        <if test="fmsTransportContractLine.startCountyId != null">
+            AND t2.START_COUNTY_ID = #{fmsTransportContractLine.startCountyId}
+        </if>
+        --终点省
+        <if test="fmsTransportContractLine.endProvinceId != null">
+            AND t2.END_PROVINCE_ID = #{fmsTransportContractLine.endProvinceId}
+        </if>
+        --终点市
+        <if test="fmsTransportContractLine.endCityId != null">
+            AND t2.END_CITY_ID = #{fmsTransportContractLine.endCityId}
+        </if>
+        --终点区
+        <if test="fmsTransportContractLine.endCountyId != null">
+            AND t2.END_COUNTY_ID = #{fmsTransportContractLine.endCountyId}
+        </if>
+
+        <if test="fmsTransportContractHeader.startDateStr != null">
+            <![CDATA[  AND t1.START_DATE < TO_DATE (#{fmsTransportContractHeader.startDateStr}, 'yyyy-mm-dd') ]]>
+        </if>
+        <if test="orderBy != null and orderBy != ''">
+            ORDER BY #{orderBy}
+        </if>
+
+
+    </select>
+
+    <select id="isContractNumberAndNameRepeat" resultType="int"
+            parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        SELECT
+        nvl(TRANSPORT_CONTRACT_HEADER_ID, 0) as TRANSPORT_CONTRACT_HEADER_ID
+        FROM
+        FMS_TRANSPORT_CONTRACT_HEADER
+        WHERE 1=1
+        <if test="fmsTransportContractHeader.contractNumber != null or fmsTransportContractHeader.contractNumber != ''">
+            AND CONTRACT_NUMBER = #{fmsTransportContractHeader.contractNumber}
+        </if>
+        <if test="fmsTransportContractHeader.contractName != null or fmsTransportContractHeader.contractName != ''">
+            AND CONTRACT_NAME = #{fmsTransportContractHeader.contractName}
+        </if>
+    </select>
+
+    <select id="isContractNumberRepeat" resultType="int" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        SELECT
+        count(*)
+        FROM
+        FMS_TRANSPORT_CONTRACT_HEADER
+        WHERE 1=1
+        <if test="fmsTransportContractHeader.contractNumber != null or fmsTransportContractHeader.contractNumber != ''">
+            AND CONTRACT_NUMBER = #{fmsTransportContractHeader.contractNumber}
+        </if>
+        <if test="fmsTransportContractHeader.transportContractHeaderId != null">
+            AND TRANSPORT_CONTRACT_HEADER_ID != #{fmsTransportContractHeader.transportContractHeaderId}
+        </if>
+    </select>
+    <select id="isContractNameRepeat" resultType="int" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        SELECT
+        count(*)
+        FROM
+        FMS_TRANSPORT_CONTRACT_HEADER
+        WHERE 1=1
+        <if test="fmsTransportContractHeader.contractName != null or fmsTransportContractHeader.contractName != ''">
+            AND CONTRACT_NAME = #{fmsTransportContractHeader.contractName}
+        </if>
+        <if test="fmsTransportContractHeader.transportContractHeaderId != null">
+            AND TRANSPORT_CONTRACT_HEADER_ID != #{fmsTransportContractHeader.transportContractHeaderId}
+        </if>
+    </select>
+
+    <select id="isContractLineRepeat" resultType="int" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        select count(*)
+        from fms_transport_contract_header a, fms_transport_contract_line b
+        where a.transport_contract_header_id = b.transport_contract_header_id
+              and a.transport_contract_header_id = #{fmsTransportContractHeader.transportContractHeaderId}
+              and a.logistics_id = #{fmsTransportContractHeader.logisticsId}
+              and b.car_category_id = #{fmsTransportContractLine.carCategoryId}
+              and b.transport_method = #{fmsTransportContractLine.transportMethod}
+              and b.start_point_id = #{fmsTransportContractLine.startPointId}
+              and b.end_province_id = #{fmsTransportContractLine.endProvinceId}
+              and b.end_city_id = #{fmsTransportContractLine.endCityId}
+              and b.end_county_id = #{fmsTransportContractLine.endCountyId}
+              and a.start_date <![CDATA[ <= ]]> #{fmsTransportContractHeader.endDate}
+              and a.end_date <![CDATA[ >= ]]> #{fmsTransportContractHeader.startDate}
+              and nvl(b.enabled_flag, 'Y') = 'Y'
+              and nvl(a.enabled_flag, 'Y') = 'Y'
+    </select>
+
+    <select id="isContractExists" resultType="int" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        select count(*)
+        from fms_transport_contract_header a, fms_transport_contract_line b
+        where a.transport_contract_header_id = b.transport_contract_header_id
+              and a.logistics_id = #{fmsTransportContractHeader.logisticsId}
+              and b.car_category_id = #{fmsTransportContractLine.carCategoryId}
+              and b.transport_method = #{fmsTransportContractLine.transportMethod}
+              and b.start_point_id = #{fmsTransportContractLine.startPointId}
+              and b.end_province_id = #{fmsTransportContractLine.endProvinceId}
+              and b.end_city_id = #{fmsTransportContractLine.endCityId}
+              and b.end_county_id = #{fmsTransportContractLine.endCountyId}
+              and a.start_date <![CDATA[ <= ]]> #{fmsTransportContractHeader.endDate}
+              and a.end_date <![CDATA[ >= ]]> #{fmsTransportContractHeader.startDate}
+              and nvl(b.enabled_flag, 'Y') = 'Y'
+              and nvl(a.enabled_flag, 'Y') = 'Y'
+    </select>
+
+    <select id="selectContractLineSame" resultMap="selectOldTransportContractMap"
+            parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        select
+            a.transport_contract_header_id AS H_TRANSPORT_CONTRACT_HEADER_ID,
+            b.TRANSPORT_CONTRACT_LINE_ID   AS L_TRANSPORT_CONTRACT_LINE_ID
+        from fms_transport_contract_header a, fms_transport_contract_line b
+        where a.transport_contract_header_id = b.transport_contract_header_id
+              and a.logistics_id = #{fmsTransportContractHeader.logisticsId}
+              and b.car_category_id = #{fmsTransportContractLine.carCategoryId}
+              and b.transport_method = #{fmsTransportContractLine.transportMethod}
+              and b.start_point_id = #{fmsTransportContractLine.startPointId}
+              and b.end_province_id = #{fmsTransportContractLine.endProvinceId}
+              and b.end_city_id = #{fmsTransportContractLine.endCityId}
+              and b.end_county_id = #{fmsTransportContractLine.endCountyId}
+              and a.end_date <![CDATA[ >= ]]> #{fmsTransportContractHeader.startDate}
+              and nvl(b.enabled_flag, 'Y') = 'Y'
+              and nvl(a.enabled_flag, 'Y') = 'Y'
+    </select>
+
+    <select id="isContractDateMatch" resultType="int" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        select count(*)
+        from fms_transport_contract_header a, fms_transport_contract_line b
+        where a.transport_contract_header_id = b.transport_contract_header_id
+              and a.logistics_id = #{fmsTransportContractHeader.logisticsId}
+              and a.contract_type = #{fmsTransportContractHeader.contractType}
+              and a.end_date + 1 != #{fmsTransportContractHeader.startDate}
+              and b.car_category_id = #{fmsTransportContractLine.carCategoryId}
+              and b.transport_method = #{fmsTransportContractLine.transportMethod}
+              and b.start_point_id = #{fmsTransportContractLine.startPointId}
+              and b.end_province_id = #{fmsTransportContractLine.endProvinceId}
+              and b.end_city_id = #{fmsTransportContractLine.endCityId}
+              and b.end_county_id = #{fmsTransportContractLine.endCountyId}
+              and nvl(b.enabled_flag, 'Y') = 'Y'
+              and nvl(a.enabled_flag, 'Y') = 'Y'
+    </select>
+
+    <update id="doSetContractPriority" parameterType="com.foreveross.vds.dto.fms.TransportContract">
+        update
+            fms_transport_contract_line
+        set contract_priority = 1
+        where TRANSPORT_CONTRACT_LINE_ID = #{fmsTransportContractLine.transportContractLineId}
+    </update>
+</mapper>
